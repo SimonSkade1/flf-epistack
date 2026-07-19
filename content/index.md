@@ -1,0 +1,28 @@
+---
+title: FLF EpiStack
+---
+
+A browsable knowledge base for the **FLF epistemic-stack pipeline**: turning one contested empirical question into a Bayesian, navigable Obsidian-style graph — sources, observations, hypotheses, evidence links with runnable likelihood/prior code, per-cluster reviews, and one final report that answers the question.
+
+This site is the reading surface. The [runnable pipeline](https://github.com/SimonSkade1/flf-epistack) that produces these knowledge bases lives in the same repository under `pipeline/`.
+
+## Start here
+
+1. [[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sample analysis — the final report]] — read one analysis top-to-bottom in ten minutes, then follow the backlinks down into the graph.
+2. [[manifest|Sample analysis — manifest]] and [[structuring-manifest|its cluster map]] — how an analysis is scoped and decomposed.
+3. [[docs/index|Documentation]] — what the pipeline does, and how to read the node types.
+
+## What an analysis looks like
+
+Every box in the debate is one markdown note with typed frontmatter, linked to the others:
+
+1. **sources** (`S-N`) and **data-bases** (`D-N`) — the evidence base and the shared datasets it rests on.
+2. **observations** (`O-N`) — findings that follow ~with certainty from a source's data.
+3. **hypotheses** (`H-N`), grouped into mutually-exclusive **hypothesis-clusters** (`HC-N`).
+4. **evidence-links** (`E-N`) — observation → cluster edges, each carrying a runnable `## Likelihood` code block.
+5. **arguments** (`A-N`), **cluster-reviews** (`CR-N`), and the **main-report** (`MR-1`) that answers the question.
+
+The current sample ([[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sahul megafauna extinction]]) is a hand-written **structural demo** — illustrative numbers, but every node type, folder, wikilink, embed, and code block a real run produces. Real analyses replace it as they finish.
+
+> [!warning] Entering late, deadline soon
+> This is a fast working end-to-end build for the [Future of Life Foundation](https://futureoflife.org/) epistemics competition, not a polished product. Content is being generated; expect dummies to be swapped for real runs.
