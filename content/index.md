@@ -1,28 +1,21 @@
 ---
-title: FLF EpiStack
+title: EpiStack
 ---
 
-A browsable knowledge base for the **FLF epistemic-stack pipeline**: turning one contested empirical question into a Bayesian, navigable Obsidian-style graph — sources, observations, hypotheses, evidence links with runnable likelihood/prior code, per-cluster reviews, and one final report that answers the question.
+**EpiStack** takes one contested empirical question and turns the debate about it into a Bayesian, navigable knowledge graph: every source, observation, hypothesis and inferential step is its own note with typed frontmatter, and the numbers that connect them are runnable code rather than prose. The output is a wiki you can read top-down (one report that answers the question) or bottom-up (follow any number to the datum it came from).
 
-This site is the reading surface. The [runnable pipeline](https://github.com/SimonSkade1/flf-epistack) that produces these knowledge bases lives in the same repository under `pipeline/`.
+Two pieces, and they are versioned separately:
 
-## Start here
+1. **The shell — general, reusable, lives at this root.** An Obsidian-style reading surface (wikilinks, transclusions, backlinks, interactive graph, full-text search) plus the [runnable pipeline](https://github.com/SimonSkade1/flf-epistack) that produces the notes. Neither is tied to any particular question.
+2. **The content — one iteration per question set, versioned under `/vN/`.** An iteration is a run of the pipeline plus the docs describing that run's conventions. Its URLs are frozen, so a link into it keeps pointing at what it pointed at.
 
-1. [[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sample analysis — the final report]] — read one analysis top-to-bottom in ten minutes, then follow the backlinks down into the graph.
-2. [[manifest|Sample analysis — manifest]] and [[structuring-manifest|its cluster map]] — how an analysis is scoped and decomposed.
-3. [[docs/index|Documentation]] — what the pipeline does, and how to read the node types.
+## Iterations
 
-## What an analysis looks like
+1. **[[v1/index|v1 — Future of Life Foundation epistemics competition]]** (current) — the analyses and docs built for the [FLF](https://futureoflife.org/) epistemics competition entry.
 
-Every box in the debate is one markdown note with typed frontmatter, linked to the others:
+Later iterations that change the method or the question set will appear as `/v2/`, `/v3/`, … alongside v1, not in place of it.
 
-1. **sources** (`S-N`) and **data-bases** (`D-N`) — the evidence base and the shared datasets it rests on.
-2. **observations** (`O-N`) — findings that follow ~with certainty from a source's data.
-3. **hypotheses** (`H-N`), grouped into mutually-exclusive **hypothesis-clusters** (`HC-N`).
-4. **evidence-links** (`E-N`) — observation → cluster edges, each carrying a runnable `## Likelihood` code block.
-5. **arguments** (`A-N`), **cluster-reviews** (`CR-N`), and the **main-report** (`MR-1`) that answers the question.
+## Elsewhere
 
-The current sample ([[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sahul megafauna extinction]]) is a hand-written **structural demo** — illustrative numbers, but every node type, folder, wikilink, embed, and code block a real run produces. Real analyses replace it as they finish.
-
-> [!warning] Entering late, deadline soon
-> This is a fast working end-to-end build for the [Future of Life Foundation](https://futureoflife.org/) epistemics competition, not a polished product. Content is being generated; expect dummies to be swapped for real runs.
+1. [github.com/SimonSkade1/flf-epistack](https://github.com/SimonSkade1/flf-epistack) — site, content, and the pipeline (`pipeline/`: the 10 step specs and a runner that recomputes every posterior on the site).
+2. [The competition prompt](https://www.lesswrong.com/posts/frizRHnA6AZpJSDqw/lab-leaks-black-holes-and-eggs-epistemic-case-study) that v1 answers.

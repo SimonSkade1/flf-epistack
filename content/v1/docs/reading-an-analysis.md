@@ -30,4 +30,4 @@ Plain files (`manifest.md`, `orientation.md`, `structuring-manifest.md`) are map
 
 1. **Nothing is deleted, only moved.** A merged hypothesis, an orphaned observation, a non-curated source all keep their links in a sub-folder — the record stays auditable.
 2. **Correlation matters.** Two observations resting on the same `D-N` are one witness; the site shows this as a shared backlink and a joint likelihood block.
-3. **Every number is overridable.** See [[docs/running-the-model|Running the model]].
+3. **Every number is overridable.** See [[running-the-model|Running the model]].

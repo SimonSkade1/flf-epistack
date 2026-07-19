@@ -7,9 +7,9 @@ title: Documentation
 
 ## Pages
 
-1. [[docs/pipeline-overview|The 10-step pipeline]] — what each step consumes and produces.
-2. [[docs/reading-an-analysis|Reading an analysis]] — the node types and folder layout, and how to follow the graph.
-3. [[docs/running-the-model|Running the model]] — how the `## Prior` / `## Likelihood` code blocks compose into a posterior.
+1. [[pipeline-overview|The 10-step pipeline]] — what each step consumes and produces.
+2. [[reading-an-analysis|Reading an analysis]] — the node types and folder layout, and how to follow the graph.
+3. [[running-the-model|Running the model]] — how the `## Prior` / `## Likelihood` code blocks compose into a posterior.
 
 ## What this is
 
