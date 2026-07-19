@@ -65,5 +65,11 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.Explorer(),
   ],
-  right: [],
+  // Folder/tag pages get the same right rail as content pages, so /v1/ (the
+  // likely submission entry point) shows the graph view the site is selling.
+  right: [
+    Component.Graph(),
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.Backlinks(),
+  ],
 }
