@@ -1,3 +1,110 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// ─── EpiStack node-type colours ──────────────────────────────────────────────
+//
+// Single source of truth for "what colour is a hypothesis?". These `--node-*`
+// variables are consumed in two places:
+//
+//   1. the link rules below, which colour filenames wherever they appear
+//      (body wikilinks, folder listings, backlinks, the explorer sidebar);
+//   2. quartz/components/scripts/graph.inline.ts, which reads the same
+//      variables via getComputedStyle to colour graph nodes.
+//
+// So the graph and the text always agree, and re-theming means editing one block.
+//
+// The link rules key off the *folder segment* of the URL rather than the `type:`
+// frontmatter, because a link's target frontmatter isn't available at the point
+// Quartz renders that link. This is sound as long as the pipeline keeps writing
+// each node type into its own folder (it does — see docs/website.md). The graph,
+// which has the whole content index available, keys off `type:` directly.
+
+:root {
+  --node-source: #1d4ed8;
+  --node-data-basis: #0e7490;
+  --node-observation: #15803d;
+  --node-hypothesis: #6d28d9;
+  --node-hypothesis-cluster: #a21caf;
+  --node-evidence-link: #b45309;
+  --node-argument: #be123c;
+  --node-cluster-review: #475569;
+  --node-main-report: #0f172a;
+}
+
+:root[saved-theme="dark"] {
+  --node-source: #7aa2f7;
+  --node-data-basis: #22d3ee;
+  --node-observation: #4ade80;
+  --node-hypothesis: #b39dfa;
+  --node-hypothesis-cluster: #e879f9;
+  --node-evidence-link: #fbbf24;
+  --node-argument: #fb7185;
+  --node-cluster-review: #94a3b8;
+  --node-main-report: #e2e8f0;
+}
+
+// type slug → the folder the pipeline writes that node type into
+$node-folders: (
+  "source": "sources",
+  "data-basis": "data-bases",
+  "observation": "observations",
+  "hypothesis": "hypotheses",
+  "hypothesis-cluster": "hypothesis-clusters",
+  "evidence-link": "evidence-links",
+  "argument": "arguments",
+  "cluster-review": "cluster-reviews",
+);
+
+@each $type, $folder in $node-folders {
+  // body wikilinks carry data-slug; listing pages and backlinks only have href;
+  // the explorer builds its links client-side and tags them with data-for
+  a[data-slug*="/#{$folder}/"],
+  a.internal[href*="/#{$folder}/"],
+  .explorer a[data-for*="/#{$folder}/"] {
+    &,
+    &:hover,
+    &:visited {
+      color: var(--node-#{$type});
+    }
+  }
+}
+
+// ─── Legend ──────────────────────────────────────────────────────────────────
+// Used on the "reading an analysis" doc page. Swatches pull from the same
+// variables, so the legend cannot drift from the actual colours.
+
+.node-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin: 1rem 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  li::before {
+    content: "";
+    display: inline-block;
+    width: 0.7em;
+    height: 0.7em;
+    border-radius: 50%;
+    background: var(--swatch, var(--gray));
+    flex: none;
+  }
+
+  @each $type, $folder in $node-folders {
+    li.node-#{$type} {
+      --swatch: var(--node-#{$type});
+    }
+  }
+
+  li.node-main-report {
+    --swatch: var(--node-main-report);
+  }
+}

@@ -31,7 +31,24 @@ type NodeData = {
   id: SimpleSlug
   text: string
   tags: string[]
+  nodeType?: string
 } & SimulationNodeDatum
+
+/**
+ * EpiStack node types. Each gets a `--node-<type>` CSS variable (quartz/styles/custom.scss)
+ * so the graph and the in-text link colours stay in sync from one definition.
+ */
+const NODE_TYPES = [
+  "source",
+  "data-basis",
+  "observation",
+  "hypothesis",
+  "hypothesis-cluster",
+  "evidence-link",
+  "argument",
+  "cluster-review",
+  "main-report",
+] as const
 
 type SimpleLinkData = {
   source: SimpleSlug
@@ -149,6 +166,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
       id: url,
       text,
       tags: data.get(url)?.tags ?? [],
+      nodeType: data.get(url)?.nodeType,
     }
   })
   const graphData: { nodes: NodeData[]; links: LinkData[] } = {
@@ -193,12 +211,25 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     {} as Record<(typeof cssVars)[number], string>,
   )
 
+  // EpiStack node-type palette, read from the same CSS variables the link colours use
+  const typeColorMap: Record<string, string> = {}
+  for (const t of NODE_TYPES) {
+    const v = getComputedStyle(document.documentElement).getPropertyValue(`--node-${t}`).trim()
+    if (v) typeColorMap[t] = v
+  }
+
   // calculate color
   const color = (d: NodeData) => {
     const isCurrent = d.id === slug
     if (isCurrent) {
       return computedStyleMap["--secondary"]
-    } else if (visited.has(d.id) || d.id.startsWith("tags/")) {
+    } else if (d.id.startsWith("tags/")) {
+      return computedStyleMap["--tertiary"]
+    } else if (d.nodeType && typeColorMap[d.nodeType]) {
+      // type colour wins over the visited/unvisited distinction: which kind of node
+      // something is matters more here than whether you happen to have opened it
+      return typeColorMap[d.nodeType]
+    } else if (visited.has(d.id)) {
       return computedStyleMap["--tertiary"]
     } else {
       return computedStyleMap["--gray"]
@@ -212,6 +243,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     return 2 + Math.sqrt(numLinks)
   }
 
+  // declared up here (rather than next to the zoom setup) because renderLabels reads it
+  let currentTransform = zoomIdentity
   let hoveredNodeId: string | null = null
   let hoveredNeighbours: Set<string> = new Set()
   const linkRenderData: LinkRenderData[] = []
@@ -281,30 +314,35 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
     const defaultScale = 1 / scale
     const activeScale = defaultScale * 1.1
+
+    // The zoom handler fades labels in as you zoom in; this is the alpha a label
+    // returns to once nothing is hovered. Mirrors the formula in the zoom handler.
+    const baselineAlpha = Math.max((currentTransform.k * opacityScale - 1) / 3.75, 0)
+
     for (const n of nodeRenderData) {
       const nodeId = n.simulationData.id
+      const isHovered = hoveredNodeId === nodeId
+      // show the titles of adjacent nodes too, so hovering reads the neighbourhood
+      const isNeighbour = hoveredNodeId !== null && hoveredNeighbours.has(nodeId)
 
-      if (hoveredNodeId === nodeId) {
-        tweenGroup.add(
-          new Tweened<Text>(n.label).to(
-            {
-              alpha: 1,
-              scale: { x: activeScale, y: activeScale },
-            },
-            100,
-          ),
-        )
-      } else {
-        tweenGroup.add(
-          new Tweened<Text>(n.label).to(
-            {
-              alpha: n.label.alpha,
-              scale: { x: defaultScale, y: defaultScale },
-            },
-            100,
-          ),
-        )
+      let targetAlpha = baselineAlpha
+      let targetScale = defaultScale
+      if (isHovered) {
+        targetAlpha = 1
+        targetScale = activeScale
+      } else if (isNeighbour) {
+        targetAlpha = 1
       }
+
+      tweenGroup.add(
+        new Tweened<Text>(n.label).to(
+          {
+            alpha: targetAlpha,
+            scale: { x: targetScale, y: targetScale },
+          },
+          100,
+        ),
+      )
     }
 
     tweenGroup.getAll().forEach((tw) => tw.start())
@@ -449,7 +487,6 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     linkRenderData.push(linkRenderDatum)
   }
 
-  let currentTransform = zoomIdentity
   if (enableDrag) {
     select<HTMLCanvasElement, NodeData | undefined>(app.canvas).call(
       drag<HTMLCanvasElement, NodeData | undefined>()

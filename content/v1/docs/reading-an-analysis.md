@@ -12,6 +12,25 @@ An analysis is one folder of markdown notes. Read it top-down:
 
 ## Node types and where they live
 
+Every node type has its own colour. Links are tinted by the type of the note they
+point at — in the body text, in the sidebar, in backlinks, and in the graph — so
+you can see what kind of thing a link leads to before clicking it:
+
+<ul class="node-legend">
+<li class="node-source">source</li>
+<li class="node-data-basis">data-basis</li>
+<li class="node-observation">observation</li>
+<li class="node-hypothesis">hypothesis</li>
+<li class="node-hypothesis-cluster">hypothesis-cluster</li>
+<li class="node-evidence-link">evidence-link</li>
+<li class="node-argument">argument</li>
+<li class="node-cluster-review">cluster-review</li>
+<li class="node-main-report">main-report</li>
+</ul>
+
+In the graph, hovering a node reveals its own title **and the titles of every node
+it links to**, so you can read a neighbourhood without clicking through.
+
 | prefix | type | folder | what it is |
 |---|---|---|---|
 | `S-N` | source | `sources/` (dropped → `sources/non-curated/`) | a paper/dataset/book; carries `trust_score` |

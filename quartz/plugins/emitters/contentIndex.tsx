@@ -19,6 +19,8 @@ export type ContentDetails = {
   richContent?: string
   date?: Date
   description?: string
+  /** EpiStack node type, from the `type:` frontmatter field (hypothesis, observation, …). */
+  nodeType?: string
 }
 
 interface Options {
@@ -115,6 +117,10 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               : undefined,
             date: date,
             description: file.data.description ?? "",
+            nodeType:
+              typeof file.data.frontmatter?.type === "string"
+                ? file.data.frontmatter.type
+                : undefined,
           })
         }
       }

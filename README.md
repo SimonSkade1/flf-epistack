@@ -4,6 +4,8 @@ A browsable knowledge base and the runnable pipeline behind it. The pipeline tur
 
 Live site: **https://epistack.simonskade.org** (Let's Encrypt TLS via Caddy; also reachable at http://91.98.229.7, kept as a DNS-independent fallback).
 
+**Full website documentation: [`docs/website.md`](docs/website.md)** — layout, versioning, node-type colours, graph customisations, the build/deploy recipe, Caddy + DNS setup, and the wikilink gotchas. Start there for anything about the site itself.
+
 ## Content versioning
 
 The **site shell** — the Quartz reading surface and the pipeline — is version-agnostic and lives at the root. **Project content is versioned**: everything for one iteration sits under `content/vN/` and is served at `epistack.simonskade.org/vN/…`. Quartz maps content folders straight to URL paths, so no path-prefix config is involved; `baseUrl` stays the bare domain.
@@ -19,8 +21,9 @@ The **site shell** — the Quartz reading surface and the pipeline — is versio
       2. `content/v1/docs/` — documentation (draft).
       3. `content/v1/index.md` — v1 landing page; doubles as the `/v1/` folder page.
 2. `pipeline/` — the runnable EpiStack pipeline (a copy of the `flf-epistack` skill): `SKILL.md`, `steps/step-01…10`, and `runner/`. Not versioned by folder — use git tags.
-3. `quartz/`, `quartz.config.ts`, `quartz.layout.ts` — the Quartz static-site generator and its config.
+3. `quartz/`, `quartz.config.ts`, `quartz.layout.ts` — the Quartz static-site generator and its config. Patched in two places: node-type colours and hover-reveals-neighbours in the graph (`quartz/components/scripts/graph.inline.ts`), and the colour definitions in `quartz/styles/custom.scss`.
 4. `scripts/check-internal-links.mjs` — post-build link check (see below).
+5. `docs/website.md` — developer documentation for the website itself (not published to the site).
 
 ## Build the site
 
