@@ -2,7 +2,7 @@
 
 A browsable knowledge base and the runnable pipeline behind it. The pipeline turns one contested empirical question into a Bayesian, navigable graph of typed Obsidian-style notes; this repo also serves that graph as a static website via [Quartz](https://quartz.jzhao.xyz/). Built for the **Future of Life Foundation epistemics competition** (that entry is `v1`).
 
-Live site: **https://epistack.simonskade.org** (also reachable at http://91.98.229.7 until DNS is pointed at the VPS).
+Live site: **https://epistack.simonskade.org** (Let's Encrypt TLS via Caddy; also reachable at http://91.98.229.7, kept as a DNS-independent fallback).
 
 ## Content versioning
 
