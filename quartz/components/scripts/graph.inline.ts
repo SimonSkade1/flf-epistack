@@ -69,6 +69,27 @@ type NodeRenderData = GraphicsInfo & {
   label: Text
 }
 
+/** Label shown on a filter chip for nodes with no `type:` frontmatter. */
+const UNTYPED = "other"
+
+const graphFilterKey = "graph-hidden-types"
+function getHiddenTypes(): Set<string> {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(graphFilterKey) ?? "[]"))
+  } catch {
+    return new Set()
+  }
+}
+function setHiddenTypes(hidden: Set<string>) {
+  localStorage.setItem(graphFilterKey, JSON.stringify([...hidden]))
+}
+
+/** Tag nodes aren't EpiStack nodes, so they're never filtered. */
+function nodeTypeOf(url: SimpleSlug, data: Map<SimpleSlug, ContentDetails>): string | null {
+  if (url.startsWith("tags/")) return null
+  return data.get(url)?.nodeType ?? UNTYPED
+}
+
 const localStorageKey = "graph-visited"
 function getVisited(): Set<SimpleSlug> {
   return new Set(JSON.parse(localStorage.getItem(localStorageKey) ?? "[]"))
@@ -158,6 +179,17 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   } else {
     validLinks.forEach((id) => neighbourhood.add(id))
     if (showTags) tags.forEach((tag) => neighbourhood.add(tag))
+  }
+
+  // Drop node types the user has filtered out. Done on the neighbourhood set
+  // (not on `nodes`) so the link filter below stays consistent — filtering
+  // `nodes` alone would leave links pointing at nodes that no longer exist.
+  const hiddenTypes = getHiddenTypes()
+  if (hiddenTypes.size > 0) {
+    for (const url of [...neighbourhood]) {
+      const t = nodeTypeOf(url, data)
+      if (t && hiddenTypes.has(t)) neighbourhood.delete(url)
+    }
   }
 
   const nodes = [...neighbourhood].map((url) => {
@@ -593,6 +625,90 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   }
 }
 
+/**
+ * Node-type filter chips for the global graph.
+ *
+ * Lives in `.global-graph-outer` rather than `.global-graph-container`, because
+ * renderGraph() calls removeAllChildren() on its own container — anything put
+ * inside it would be wiped on every re-render.
+ *
+ * The filter applies to the local sidebar graph too, so "show me only
+ * hypotheses and evidence" holds while you browse. The chips are the only place
+ * to undo that, but the global graph is always one click away in the sidebar.
+ */
+async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<void>) {
+  const data = await fetchData
+  const counts = new Map<string, number>()
+  for (const [slug, details] of Object.entries(data) as [FullSlug, ContentDetails][]) {
+    if (simplifySlug(slug).startsWith("tags/")) continue
+    const t = details.nodeType ?? UNTYPED
+    counts.set(t, (counts.get(t) ?? 0) + 1)
+  }
+
+  // known types first, in pipeline order, then anything unexpected, then "other"
+  const present = [...counts.keys()]
+  const ordered = [
+    ...NODE_TYPES.filter((t) => present.includes(t)),
+    ...present.filter((t) => !NODE_TYPES.includes(t as never) && t !== UNTYPED).sort(),
+    ...(present.includes(UNTYPED) ? [UNTYPED] : []),
+  ]
+
+  let container = outer.querySelector(".graph-filters") as HTMLElement | null
+  if (!container) {
+    container = document.createElement("div")
+    container.className = "graph-filters"
+    outer.prepend(container)
+  }
+  removeAllChildren(container)
+
+  const hidden = getHiddenTypes()
+
+  const label = document.createElement("span")
+  label.className = "graph-filters-label"
+  label.textContent = "Show"
+  container.appendChild(label)
+
+  for (const type of ordered) {
+    const chip = document.createElement("button")
+    chip.className = "graph-filter"
+    chip.dataset.nodeType = type
+    chip.setAttribute("aria-pressed", String(!hidden.has(type)))
+    chip.title = hidden.has(type) ? `Show ${type} nodes` : `Hide ${type} nodes`
+
+    const swatch = document.createElement("span")
+    swatch.className = "graph-filter-swatch"
+    chip.appendChild(swatch)
+    chip.appendChild(document.createTextNode(type))
+
+    const count = document.createElement("span")
+    count.className = "graph-filter-count"
+    count.textContent = String(counts.get(type) ?? 0)
+    chip.appendChild(count)
+
+    chip.addEventListener("click", async () => {
+      const cur = getHiddenTypes()
+      cur.has(type) ? cur.delete(type) : cur.add(type)
+      setHiddenTypes(cur)
+      await onChange()
+      await buildGraphFilters(outer, onChange)
+    })
+
+    container.appendChild(chip)
+  }
+
+  if (hidden.size > 0) {
+    const reset = document.createElement("button")
+    reset.className = "graph-filter-reset"
+    reset.textContent = "reset"
+    reset.addEventListener("click", async () => {
+      setHiddenTypes(new Set())
+      await onChange()
+      await buildGraphFilters(outer, onChange)
+    })
+    container.appendChild(reset)
+  }
+}
+
 let localGraphCleanups: (() => void)[] = []
 let globalGraphCleanups: (() => void)[] = []
 
@@ -646,6 +762,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       registerEscapeHandler(container, hideGlobalGraph)
       if (graphContainer) {
         globalGraphCleanups.push(await renderGraph(graphContainer, slug))
+
+        // toggling a type re-renders the global graph in place, and the local
+        // sidebar graph too so both agree on what's shown
+        await buildGraphFilters(container, async () => {
+          cleanupGlobalGraphs()
+          globalGraphCleanups.push(await renderGraph(graphContainer, slug))
+          await renderLocalGraph()
+        })
       }
     }
   }

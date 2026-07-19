@@ -99,6 +99,26 @@ Two customisations on top of stock Quartz (`graph.inline.ts`):
    node's label. Here, hovering also shows the labels of all adjacent nodes, so
    you can read a neighbourhood without clicking. Labels return to the
    zoom-determined baseline opacity when the hover ends.
+3. **Node-type filters.** The full-screen graph carries a chip bar — one chip
+   per node type, with its colour swatch and a count, plus `other` for pages
+   with no `type:` (docs, indexes, manifests). Clicking a chip hides that type;
+   `reset` clears all filters.
+
+### How the filter is wired
+
+- State is a `Set` of hidden types in `localStorage` under `graph-hidden-types`,
+  so a filter survives navigation and reloads.
+- Filtering happens on the *neighbourhood set* inside `renderGraph`, before
+  nodes and links are built. Filtering the node list alone would leave links
+  pointing at nodes that no longer exist.
+- Toggling a chip tears the graph down and re-renders it, so the force
+  simulation re-lays-out the remaining nodes rather than leaving holes.
+- The filter applies to the **local sidebar graph too**, so "only hypotheses and
+  evidence" holds while you browse. The chips in the full-screen graph are the
+  only place to undo it — that graph is one click away in the sidebar header.
+- The chip bar is built into `.global-graph-outer`, *not*
+  `.global-graph-container`: `renderGraph` calls `removeAllChildren()` on its own
+  container, so anything placed inside would be destroyed on every re-render.
 
 ## Build, deploy, verify
 

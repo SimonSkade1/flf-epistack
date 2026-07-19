@@ -42,6 +42,11 @@
   --node-main-report: #e2e8f0;
 }
 
+// every node type, in pipeline order (used for legend + graph filter swatches).
+// superset of $node-folders: main-report has no folder of its own.
+$node-types: source, data-basis, observation, hypothesis, hypothesis-cluster, evidence-link,
+  argument, cluster-review, main-report;
+
 // type slug → the folder the pipeline writes that node type into
 $node-folders: (
   "source": "sources",
@@ -98,13 +103,96 @@ $node-folders: (
     flex: none;
   }
 
-  @each $type, $folder in $node-folders {
+  @each $type in $node-types {
     li.node-#{$type} {
       --swatch: var(--node-#{$type});
     }
   }
+}
 
-  li.node-main-report {
-    --swatch: var(--node-main-report);
+// ─── Global-graph node-type filters ──────────────────────────────────────────
+// Chips live in .global-graph-outer (not the graph container, which renderGraph
+// clears on every render) and overlay the top of the full-screen graph.
+
+.graph-filters {
+  position: fixed;
+  top: calc(10vh + 0.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  max-width: min(78vw, 900px);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  background: var(--light);
+}
+
+.graph-filters-label {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-right: 0.15rem;
+}
+
+.graph-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 999px;
+  background: var(--light);
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--lightgray);
+  }
+
+  // filtered-out types stay readable but clearly off
+  &[aria-pressed="false"] {
+    opacity: 0.45;
+    text-decoration: line-through;
+  }
+
+  .graph-filter-swatch {
+    width: 0.65em;
+    height: 0.65em;
+    border-radius: 50%;
+    background: var(--gray);
+    flex: none;
+  }
+
+  .graph-filter-count {
+    opacity: 0.6;
+    font-size: 0.9em;
+  }
+
+  @each $type in $node-types {
+    &[data-node-type="#{$type}"] .graph-filter-swatch {
+      background: var(--node-#{$type});
+    }
+  }
+}
+
+.graph-filter-reset {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--secondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--lightgray);
   }
 }

@@ -31,6 +31,12 @@ you can see what kind of thing a link leads to before clicking it:
 In the graph, hovering a node reveals its own title **and the titles of every node
 it links to**, so you can read a neighbourhood without clicking through.
 
+Open the full-screen graph (the icon at the top-right of the graph panel, or
+`Ctrl`/`Cmd`+`G`) to **filter by node type** — click a type to hide it. Hiding
+`source` and `other`, for instance, leaves just the reasoning structure:
+observations, hypotheses, evidence-links and arguments. Filters persist while you
+browse and also apply to the small sidebar graph; `reset` clears them.
+
 | prefix | type | folder | what it is |
 |---|---|---|---|
 | `S-N` | source | `sources/` (dropped → `sources/non-curated/`) | a paper/dataset/book; carries `trust_score` |
