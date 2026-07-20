@@ -43,11 +43,11 @@ Extraction is not reproducible run-to-run: steps 1–5 are model calls, and two 
 
 ### Provenance
 
-Every file in each analysis folder is generated fully autonomously from that folder's `initial_prompt.md` by the single per-case command in §7, with no hand-editing; all intermediate agent notes and every retired node are kept, so what was discarded is auditable. Worked analyses: [RESULTS-SLOT: analysis links].
+Every file in each analysis folder is generated fully autonomously from that folder's `initial_prompt.md` by the single per-case command in §7, with no hand-editing; all intermediate agent notes and every retired node are kept, so what was discarded is auditable. Worked analyses: [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes]] · [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|eggs]] · [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|covid]].
 
-**Status at submission, stated plainly:** the pipeline is implemented end to end and the runner is exercised by a passing self-check, but **no case run has yet reached step 10**. black-holes has reached step 3 of 10; eggs and covid are queued. Every place a case posterior belongs is marked `[RESULTS-SLOT: …]` rather than filled with a plausible number.
+**Status at submission, stated plainly:** the pipeline is implemented end to end, the runner is exercised by a passing self-check, and **all three cases have run the whole way through step 10** — as preliminary shakedown runs at 5–10 curated sources each, drawn from much larger scored pools. The posteriors in §5.1 are real and recompute from the notes; they are also small-N, and I would rather you read them as a demonstration of the method than as settled answers. Defects these runs exposed are named in the failure-modes appendix rather than quietly patched.
 
-The one analysis that *does* run the whole way through is the worked `sample-sahul-megafauna` demo shipped in the repo. Its numbers are illustrative and uncalibrated, but the schema, the runner and the override machinery it exercises are the real thing — **§7 turns it into a three-command demo, including re-running the model with one assumption overridden.** If you have a terminal open, start there.
+A fourth analysis, the worked `sample-sahul-megafauna` demo, ships in the repo as a structurally different question run on the same schema. Its numbers are illustrative and uncalibrated, but the schema, the runner and the override machinery it exercises are the real thing — **§7 turns it into a three-command demo, including re-running the model with one assumption overridden.** If you have a terminal open, start there.
 
 ---
 
@@ -279,7 +279,7 @@ python3 .claude/skills/flf-epistack/runner/test_run.py
 
 It rebuilds the step 7 and step 8 specs' two micro-examples as throwaway notes and asserts the runner reproduces every number those specs publish, plus determinism, edge-order commutativity, and that the sandbox guard rejects `import` inside a block. If a spec and the runner ever disagree, this fails.
 
-**Curated entry points.** Six links, in reading order, walking from the answer down to the dataset it rests on. These are the worked `sample-sahul-megafauna` analysis, so they resolve today; the three contest cases fill this same skeleton, and their equivalents are `[RESULTS-SLOT: per-case entry points]`.
+**Curated entry points.** Six links, in reading order, walking from the answer down to the dataset it rests on. These point at the worked `sample-sahul-megafauna` analysis, whose numbers are illustrative; the three contest cases fill this identical skeleton, and each of their reports (§5.1) opens with its own curated entry-point list into its own graph. If you only have ten minutes, read the [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes report]] instead — it is the run where the pipeline's dependency-tracing does the most visible work.
 
 1. [The main report](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/MR-1---What-drove-the-extinction-of-Sahul's-megafauna-around-45-40-ka) — the answer, its two or three reasons, and what sits outside the number.
 2. [The cluster review](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/cluster-reviews/CR-1---Review-of-HC-1,-dominant-driver-of-the-extinction-pulse) — prose over the arithmetic: what moved the posterior, what the model cannot express, and whether the true answer is on the list at all.
