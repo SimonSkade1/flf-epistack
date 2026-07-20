@@ -152,6 +152,12 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
   const startScale = initialScale ?? 1
   const maxLabelChars = labelMaxChars ?? 0
   const collidePad = collidePadding ?? 0
+  // On hover the label swaps to its full (untruncated) title; wrap it past this
+  // width (local text px) so a long EpiStack name breaks into a few centred lines
+  // instead of one box that spans the graph. Set a few characters wider than a
+  // truncated resting label (~0.5em/char) so resting labels never wrap but any
+  // title longer than the truncation does.
+  const labelWrapWidth = ((maxLabelChars || 34) + 6) * fontSize * 15 * 0.5
 
   // Labels fade in as you zoom. Tuned so a bounded neighbourhood (which fits at
   // k≳1) shows near-solid labels, while the ~290-node whole-vault view (fits at
@@ -527,6 +533,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
         fontSize: fontSize * 15,
         fill: computedStyleMap["--dark"],
         fontFamily: computedStyleMap["--bodyFont"],
+        align: "center",
+        wordWrap: true,
+        wordWrapWidth: labelWrapWidth,
       },
       resolution: window.devicePixelRatio * 4,
     })

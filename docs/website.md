@@ -138,7 +138,10 @@ configured via extra `D3Config` fields in `Graph.tsx` (`initialScale`,
    `H-1 -` id prefix), and the **full title returns on hover** — where the label
    also scales up 1.45×, is lifted above every other label, and gets a `--light`
    backdrop plate (`labelBackdrop`, drawn each frame in the animate loop) so you
-   can actually read it over a dense hairball.
+   can actually read it over a dense hairball. The full title **word-wraps** past
+   `labelWrapWidth` (a few chars wider than a truncated label) so a long name
+   breaks into centred lines instead of one box spanning the graph; the plate
+   tracks the wrapped box because it reads `label.width/height` live.
 4. **Label opacity is zoom-gated** (`labelAlphaAt`): near-solid for a bounded
    neighbourhood (fits at k≳1), hidden for the whole-vault view (fits at k≈0.3–0.5)
    so it doesn't become an unreadable wall. Stock divided by 3.75, leaving labels
