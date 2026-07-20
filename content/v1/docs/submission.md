@@ -186,15 +186,15 @@ The composition the runner implements: normalise the prior, then each edge multi
 
 ## 5 — Case studies
 
-I picked three questions with deliberately contrasting difficulty profiles — near-closed technical physics, a vague open-ended nutrition question, and a live politicized one — and pointed the **same command and the same case-agnostic schema** at all three, differing only in the question and `curated_target_N`. **Where they actually stand: black-holes has reached step 3 of 10; eggs and covid are queued.** The results below are therefore unfilled.
+I picked three questions with deliberately contrasting difficulty profiles — near-closed technical physics, a vague open-ended nutrition question, and a live politicized one — and pointed the **same command and the same case-agnostic schema** at all three, differing only in the question and `curated_target_N`. **All three have now run end-to-end through all ten steps, as preliminary shakedown runs at N=5–10 curated sources** (§5.1). Larger runs are queued.
 
 The generalization claim does not depend on those runs finishing, and it is checkable in about thirty seconds rather than taken on trust: across the pipeline's 3053 lines of specification and code, the *only* occurrence of "black hole", "egg" or "COVID" is a single illustrative parenthetical in the skill's one-line description. There is no case-specific machinery to overfit with — the schema takes a question and an integer. A fourth, structurally different question (a Quaternary-extinction case, shipped as `sample-sahul-megafauna`) already runs the whole pipeline end to end on that same schema without a line of it changing.
 
 The worked analyses are the real output; this section is the map, not the territory.
 
-- black-holes: [RESULTS-SLOT: link to published black-holes analysis]
-- eggs: [RESULTS-SLOT: link to published eggs analysis]
-- covid: [RESULTS-SLOT: link to published covid analysis]
+1. black-holes — [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|final report]]
+2. eggs — [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|final report]]
+3. covid — [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|final report]]
 
 **black-holes** (primary). *"Was the risk that LHC collisions destroy the Earth truly put to rest, and what does that conclusion hinge on?"* The consensus is not in dispute; the interesting question is what it *rests on*. That is what dependency-probing is for, and the graph makes the safety case's dependency structure explicit. The shared-data-basis machinery earns its keep immediately, collapsing two apparently independent reassurances onto the single cosmic-ray dataset `D-1` (§4). Where it strains: much of the case is specialist theoretical physics, so a large share of arguments take `reason_if_not_false: trusted` rather than `checked`. The pipeline records that honestly and step 9 flags it, but recording an unchecked derivation is not checking it.
 
@@ -202,11 +202,22 @@ The worked analyses are the real output; this section is the map, not the territ
 
 **covid** (deliberately lower effort). The hardest of the three: live, high-stakes, deliberate information sabotage, heavily motivated sources on both sides, and model refusals around biorisk detail truncating what can be extracted at all. I gave it less effort by choice — it would have eaten the budget the other two needed. The `trust ≠ truth` separation is designed for exactly this shape. But motivated sources cut twice: they lower data-trust *and* bias which arguments were ever advanced, and a graph can only assess arguments that reached it. Step 9's review names that gap; it cannot fill it.
 
-[RESULTS-SLOT: black-holes — per-cluster posterior + top drivers]
-[RESULTS-SLOT: eggs — per-cluster posterior + top drivers]
-[RESULTS-SLOT: covid — per-cluster posterior + top drivers, conditional on the lower-effort run]
+### 5.1 — Preliminary results
 
-These land when the runs finish; at submission time no case has computed posteriors, and I would rather ship the placeholders than a number I made up.
+**Read these as shakedown runs, not as answers.** Each case was run at `curated_target_N` = 5 (black-holes, covid) or 10 (eggs) — that is **five or ten papers, selected from a much larger scored pool**. Black-holes is representative: 23 sources scored, 18 cleared the trust baseline, the top 5 were curated. So every number below rests on a deliberately thin evidence base, and the honest reading of a small-N run is *what the pipeline does with evidence*, not *what is true about the world*. The numbers are nonetheless genuine — all ten steps ran, and every posterior recomputes from the notes via `run.py` (§7).
+
+1. **black-holes** — HC-3 (does a hole form at all): H-8 **0.94**. HC-2 (does it evaporate): H-4 **0.956** vs non-evaporation 0.044. HC-1 (is a trapped stable hole dangerous): catastrophic H-1 **0.035**, harmless H-2 0.888, residual 0.076. Chaining the danger legs gives order **1e-4** — *my* composition, not a model output, and a loose upper shape rather than a computed probability, since the legs share `S-1` and `D-1` and are not independent. The finding that matters is not the number but the dependency structure: nearly every empirical likelihood routes through **one paper** (Giddings–Mangano, trust-capped 0.74) and its shared cosmic-ray premise `D-1`. Re-running with that trust dropped 0.74 → 0.3 moves HC-1's danger mass ×4.7.
+2. **eggs** — HC-2 (net direction on hard endpoints), read by branch: **null 0.639**, direction-varies 0.308, protective 0.039, harmful 0.014. HC-1 (lipid mechanism): a real-but-saturating dietary-cholesterol effect at **0.810**. HC-3 (heterogeneity): ~0.659 on "not uniform across people". The mechanism and endpoint layers agree — a saturating lipid effect at Western baseline intake is what predicts a hard-endpoint null.
+3. **covid** — one cluster only: zoonotic spillover at Huanan **0.495**, research-related incident **0.081**, neither-listed residual **0.424**.
+
+**Where they are weak — the parts I would not defend.**
+
+4. **Small-N curation can delete an evidence class.** Curation ranks by score with no constraint that each *class* of evidence survives the cut. In covid this removed case geolocation and epidemiology entirely — including a source sitting at the pool's **top** usefulness rating — which is a large part of why the residual is 42.4%. That residual is *structural*: every curated market-side observation was sampled at Huanan and every research-side one concerns the WIV, so no likelihood in the graph can discriminate against either residual leg. It is a fact about the observation set, not about the world, and the report says so rather than allocating it.
+5. **covid produced a single cluster**, so the cross-cluster weighing machinery got no exercise there at all; black-holes (4 clusters) and eggs (3) are the only demonstrations of it. covid's lab-leak 0.081 is also not a finding — it is one step-7 Fermi factor with no reference class behind it surviving weak evidence, and defensible re-settings move it between 0.018 and 0.173.
+6. **eggs' HC-2 is not a clean partition.** Three members assert a null under different scope riders, so they can hold simultaneously and member-level ranking is semantically undefined — the report ranks by branch and says why. HC-1's 0.810 is also partly circular: the hypothesis's strongest edge comes from the same source the hypothesis was extracted from, and nothing in the pipeline detects that shape.
+7. **black-holes covers one mechanism.** Strangelet conversion and vacuum decay — both named in the question — never became clusters at N=5; the curation cut kept the black-hole literature and dropped theirs. The LSAG report itself, i.e. the document that publicly put the risk to rest, scored **below the cut** as a synthesis, so the analysis reconstructs the case from LSAG's primary inputs rather than ingesting it.
+
+**One thing the small run got right, worth stating because it is the obvious failure mode.** The empirical core of the real safety case is the cosmic-ray argument, and its non-obvious repair: cosmic-ray-produced black holes are relativistic and escape, so Earth's survival alone does not cover the *slow, trapped* holes the LHC would make — which is why white-dwarf and neutron-star survival is load-bearing. The graph represents both halves explicitly and separately: `O-3` (cosmic rays far above LHC-equivalent energy bombard Earth, white dwarfs and neutron stars), `O-1`/`O-2` (old white dwarfs and neutron stars observed intact), `O-4` (Earth–Sun 4.5 Gyr survival), and the arguments that connect them — `A-1` closing the relativistic-escape loophole via white-dwarf and neutron-star stopping power, `A-2` excluding fast accretion, `A-3` excluding charged holes. `A-6` then *inerts* the naive Earth/Sun leg on observer-selection grounds, leaving neutron-star survival to carry the weight. Curation also caught itself about to drop the hinge: the script flagged `D-1` as shut out of the top-5 cut, and the cut was adjusted to admit the one source resting on it.
 
 ---
 
