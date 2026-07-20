@@ -68,6 +68,10 @@ const config: QuartzConfig = {
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
+      // must sit AFTER CrawlLinks (which assigns file.data.links wholesale).
+      // Counts frontmatter wikilinks — cluster/from/to/group/arguments/source —
+      // as graph edges and backlinks. Drop this line to go back to body-only links.
+      Plugin.FrontmatterLinks(),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
     ],

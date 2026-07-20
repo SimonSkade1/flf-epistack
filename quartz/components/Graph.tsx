@@ -19,6 +19,21 @@ export interface D3Config {
   showTags: boolean
   focusOnHover?: boolean
   enableRadial?: boolean
+  /**
+   * Zoom the view starts at, and the ceiling for the auto-fit that runs once the
+   * force layout settles. Stock Quartz always starts at k=1, which for a small
+   * neighbourhood means a few nodes lost in the middle of an empty box and
+   * labels at ~0 alpha (label opacity is derived from the zoom level).
+   */
+  initialScale?: number
+  /**
+   * Truncate labels longer than this many characters (0 = never). The full title
+   * comes back on hover. EpiStack filenames run to 80+ characters, which is what
+   * makes neighbouring labels collide.
+   */
+  labelMaxChars?: number
+  /** extra world-space radius in the collision force, to keep labels apart */
+  collidePadding?: number
 }
 
 interface GraphOptions {
@@ -32,30 +47,38 @@ const defaultOptions: GraphOptions = {
     zoom: true,
     depth: 1,
     scale: 1.1,
-    repelForce: 0.5,
+    repelForce: 0.8,
     centerForce: 0.3,
-    linkDistance: 30,
-    fontSize: 0.6,
+    linkDistance: 50,
+    fontSize: 0.55,
     opacityScale: 1,
     showTags: true,
     removeTags: [],
     focusOnHover: false,
     enableRadial: false,
+    initialScale: 1.5,
+    labelMaxChars: 20,
+    collidePadding: 8,
   },
   globalGraph: {
     drag: true,
     zoom: true,
     depth: -1,
     scale: 0.9,
-    repelForce: 0.5,
+    repelForce: 1.0,
     centerForce: 0.2,
-    linkDistance: 30,
+    linkDistance: 85,
     fontSize: 0.6,
     opacityScale: 1,
     showTags: true,
     removeTags: [],
     focusOnHover: true,
     enableRadial: true,
+    // zoom in hard on the current page's neighbourhood; the fit-to-content pass
+    // only pulls back below this when the neighbourhood is genuinely large
+    initialScale: 2.4,
+    labelMaxChars: 30,
+    collidePadding: 16,
   },
 }
 

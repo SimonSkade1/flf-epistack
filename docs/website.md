@@ -112,6 +112,43 @@ Customisations on top of stock Quartz (`graph.inline.ts`):
    `depthOverride` third argument to `renderGraph`; the sidebar mini-graph is
    untouched by it.
 
+### Readability tuning (why the labels don't collide)
+
+EpiStack filenames run to 80+ characters, so stock Quartz's graph is a wall of
+overlapping titles at a near-invisible opacity. Four coupled changes fix it,
+configured via extra `D3Config` fields in `Graph.tsx` (`initialScale`,
+`labelMaxChars`, `collidePadding`):
+
+1. **Starts zoomed in.** `renderGraph` installs the d3-zoom behaviour with an
+   initial transform at `initialScale` (2.4× expanded, 1.5× sidebar) centred on
+   the page, instead of stock's k=1 — at k=1 a small neighbourhood is a few dots
+   lost in an empty box.
+2. **Fits to content once the layout settles.** A `fitToContent` pass (on every
+   4th sim tick and on `end`) frames the actual node bounding box, but never
+   zooms *past* `initialScale`. So a 2-node neighbourhood ends up nicely zoomed
+   and a 290-node whole-vault view pulls back to an overview. It stops the moment
+   the reader pans/zooms/drags (`userAdjustedView`).
+3. **Labels truncate to `labelMaxChars`** (cut at a word boundary, keeping the
+   `H-1 -` id prefix), and the **full title returns on hover** — where the label
+   also scales up 1.45×, is lifted above every other label, and gets a `--light`
+   backdrop plate (`labelBackdrop`, drawn each frame in the animate loop) so you
+   can actually read it over a dense hairball.
+4. **Label opacity is zoom-gated** (`labelAlphaAt`): near-solid for a bounded
+   neighbourhood (fits at k≳1), hidden for the whole-vault view (fits at k≈0.3–0.5)
+   so it doesn't become an unreadable wall. Stock divided by 3.75, leaving labels
+   at ~0.2 even at 2×.
+
+A 40-node hub (e.g. HC-1, which everything links to) still overlaps *at rest* —
+that's unavoidable when readable labels are ~150px wide — but truncation plus the
+hover plate make any single node legible on demand.
+
+**Ambiguous-wikilink resolution** (`util/path.ts`, `findNearestSlug`). The
+analyses reuse formulaic filenames across runs (`CG-1 - HC-1 joint over O-1+O-2`
+exists in both covid1 and eggs1). Stock Quartz's `shortest` strategy gives up on
+any non-unique filename and falls back to an absolute-from-root path that 404s.
+We instead pick the candidate nearest the linking file in the folder tree —
+Obsidian's rule — so a within-analysis `[[CG-1 …]]` resolves to its own run.
+
 ### How the filter is wired
 
 - State is a `Set` of hidden types in `localStorage` under `graph-hidden-types`,
@@ -127,6 +164,34 @@ Customisations on top of stock Quartz (`graph.inline.ts`):
 - The chip bar is built into `.global-graph-outer`, *not*
   `.global-graph-container`: `renderGraph` calls `removeAllChildren()` on its own
   container, so anything placed inside would be destroyed on every re-render.
+
+## Frontmatter is rendered, and its wikilinks are real links
+
+Stock Quartz parses YAML frontmatter into `file.data.frontmatter` and then
+**never shows it and never follows its links** — it only ever walks the note
+body. In EpiStack that throws away most of the structure: an evidence-link's
+`from:`/`to:`/`group:`/`arguments:`, a hypothesis's `cluster:`, a source's
+`trust_score`/`motivatedness`, etc. all live in frontmatter. Three pieces fix
+this, all sharing one resolver in `util/frontmatterLinks.ts`:
+
+1. **`Frontmatter` component** (`components/Frontmatter.tsx`, in the `beforeBody`
+   layout) renders a collapsible "Properties" table above the article — an
+   Obsidian-style properties view. `[[wikilinks]]` in values become real,
+   popover-able `internal` links (so they also pick up the node-type link
+   colour); bare URLs become links; the `type:` value gets its node-type colour
+   as a pill. Quartz-machinery keys (title, tags, dates, `draft`, …) are hidden.
+2. **`FrontmatterLinks` transformer** (`plugins/transformers/frontmatterLinks.ts`)
+   adds those same wikilinks to `file.data.links`, so they count as **graph edges
+   and backlinks**. It roughly doubles the edge count (~530 frontmatter wikilinks
+   vs ~559 body ones in v1) and is what connects evidence-links to their cluster.
+   It **must run after `CrawlLinks`** in `quartz.config.ts`, because CrawlLinks
+   assigns `file.data.links` wholesale and would clobber earlier additions.
+3. **The resolver** handles three cases in order: exact full slug, exact filename
+   (nearest-wins for cross-run duplicates, as above), then an **EpiStack id
+   prefix** — several runs write a bare `source: "[[S-12]]"` instead of the full
+   filename, and inside one analysis an id is unique, so `S-12` resolves to
+   `S-12 - …` rather than dangling. Anything genuinely unresolvable renders as
+   plain dotted-underline text, never a 404 link.
 
 ## Explorer & layout
 

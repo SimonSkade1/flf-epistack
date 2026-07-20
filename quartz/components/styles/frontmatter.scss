@@ -1,0 +1,178 @@
+@use "../../styles/variables.scss" as *;
+
+// Frontmatter ("properties") block, rendered above the article body — the
+// EpiStack node types carry most of their meaning in frontmatter (`from`, `to`,
+// `cluster`, `group`, `arguments`, the python variables' provenance), so hiding
+// it the way stock Quartz does loses the point of a node.
+
+.frontmatter {
+  margin: 0.75rem 0 1.25rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 5px;
+  background: var(--light);
+  font-size: 0.85rem;
+
+  & > summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 0.4rem 0.7rem;
+    color: var(--darkgray);
+    font-family: var(--headerFont);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    // custom disclosure triangle, so the row reads as a header rather than a widget
+    &::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border: 0.3em solid transparent;
+      border-left-color: var(--gray);
+      transition: transform 0.15s ease;
+      transform-origin: 0.15em 50%;
+    }
+
+    &:hover {
+      color: var(--dark);
+    }
+  }
+
+  &[open] > summary::before {
+    transform: rotate(90deg);
+  }
+
+  .fm-count {
+    margin-left: auto;
+    opacity: 0.5;
+    font-size: 0.9em;
+  }
+
+  & > dl {
+    margin: 0;
+    padding: 0.1rem 0.7rem 0.6rem;
+    border-top: 1px solid var(--lightgray);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: minmax(4.5rem, max-content) 1fr;
+    column-gap: 0.9rem;
+    row-gap: 0.15rem;
+  }
+
+  .fm-row {
+    display: contents;
+  }
+
+  dt {
+    grid-column: 1;
+    padding: 0.22rem 0;
+    color: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+  }
+
+  dd {
+    grid-column: 2;
+    margin: 0;
+    padding: 0.22rem 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+  }
+
+  .fm-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      margin: 0;
+
+      & + li {
+        margin-top: 0.15rem;
+      }
+    }
+  }
+
+  .fm-nested {
+    padding: 0;
+    row-gap: 0;
+  }
+
+  .fm-empty {
+    color: var(--gray);
+  }
+
+  .fm-scalar {
+    font-family: var(--codeFont);
+    font-size: 0.9em;
+  }
+
+  // a wikilink whose target doesn't exist: shown, but not as a link
+  .fm-unresolved {
+    color: var(--gray);
+    text-decoration: underline dotted;
+    cursor: help;
+  }
+
+  // the `type:` value gets the node-type colour it has everywhere else
+  .fm-type {
+    display: inline-block;
+    padding: 0.05em 0.5em;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    font-size: 0.85em;
+    line-height: 1.5;
+    color: var(--gray);
+  }
+
+  a {
+    background-color: transparent;
+  }
+}
+
+// mirror the folder-based node-type link colouring in custom.scss, but keyed off
+// the `type:` value itself (which we have here, unlike at link-render time)
+.frontmatter .fm-type {
+  &[data-node-type="source"] {
+    color: var(--node-source);
+  }
+  &[data-node-type="data-basis"] {
+    color: var(--node-data-basis);
+  }
+  &[data-node-type="observation"] {
+    color: var(--node-observation);
+  }
+  &[data-node-type="hypothesis"] {
+    color: var(--node-hypothesis);
+  }
+  &[data-node-type="hypothesis-cluster"] {
+    color: var(--node-hypothesis-cluster);
+  }
+  &[data-node-type="correlation-group"] {
+    color: var(--node-correlation-group);
+  }
+  &[data-node-type="evidence-link"] {
+    color: var(--node-evidence-link);
+  }
+  &[data-node-type="argument"] {
+    color: var(--node-argument);
+  }
+  &[data-node-type="cluster-review"] {
+    color: var(--node-cluster-review);
+  }
+  &[data-node-type="main-report"] {
+    color: var(--node-main-report);
+  }
+}

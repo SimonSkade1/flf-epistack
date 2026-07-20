@@ -68,6 +68,24 @@ type LinkRenderData = GraphicsInfo & {
 type NodeRenderData = GraphicsInfo & {
   simulationData: NodeData
   label: Text
+  /** untruncated title, swapped in while the node is hovered */
+  fullText: string
+  /** what the label shows when nothing is hovered */
+  shortText: string
+}
+
+/**
+ * EpiStack filenames are long ("H-1 - SARS-CoV-2 first infected humans via
+ * zoonotic spillover at the Huanan market"), so full labels collide with their
+ * neighbours' and the graph becomes unreadable. Cut at a word boundary when
+ * there's one near the limit, keeping the `H-1 -` style id prefix intact.
+ */
+function truncateLabel(text: string, max: number): string {
+  if (!max || text.length <= max) return text
+  const slice = text.slice(0, max)
+  const lastSpace = slice.lastIndexOf(" ")
+  const cut = lastSpace > max * 0.6 ? slice.slice(0, lastSpace) : slice
+  return cut.trimEnd() + "…"
 }
 
 /** Label shown on a filter chip for nodes with no `type:` frontmatter. */
@@ -126,7 +144,20 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     showTags,
     focusOnHover,
     enableRadial,
+    initialScale,
+    labelMaxChars,
+    collidePadding,
   } = JSON.parse(graph.dataset["cfg"]!) as D3Config
+
+  const startScale = initialScale ?? 1
+  const maxLabelChars = labelMaxChars ?? 0
+  const collidePad = collidePadding ?? 0
+
+  // Labels fade in as you zoom. Tuned so a bounded neighbourhood (which fits at
+  // k≳1) shows near-solid labels, while the ~290-node whole-vault view (fits at
+  // k≈0.3–0.5) keeps them hidden — otherwise it's an unreadable wall of text.
+  // Stock Quartz divides by 3.75, leaving labels at ~0.2 even at 2×.
+  const labelAlphaAt = (k: number) => Math.min(Math.max((k * opacityScale - 0.5) / 0.5, 0), 1)
 
   if (depthOverride !== undefined) {
     depth = depthOverride
@@ -227,7 +258,10 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     .force("charge", forceManyBody().strength(-100 * repelForce))
     .force("center", forceCenter().strength(centerForce))
     .force("link", forceLink(graphData.links).distance(linkDistance))
-    .force("collide", forceCollide<NodeData>((n) => nodeRadius(n)).iterations(3))
+    // the collider is a circle around the dot, so it can't model a label's width;
+    // the padding is a blunt "keep some air between nodes" that, together with the
+    // raised linkDistance, is what actually stops titles overlapping
+    .force("collide", forceCollide<NodeData>((n) => nodeRadius(n) + collidePad).iterations(3))
 
   const radius = (Math.min(width, height) / 2) * 0.8
   if (enableRadial) simulation.force("radial", forceRadial(radius).strength(0.2))
@@ -285,6 +319,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
   // declared up here (rather than next to the zoom setup) because renderLabels reads it
   let currentTransform = zoomIdentity
+  // set as soon as the reader pans/zooms/drags, so the settle-time auto-fit never
+  // yanks the view out from under them
+  let userAdjustedView = false
   let hoveredNodeId: string | null = null
   let hoveredNeighbours: Set<string> = new Set()
   const linkRenderData: LinkRenderData[] = []
@@ -353,17 +390,26 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     const tweenGroup = new TweenGroup()
 
     const defaultScale = 1 / scale
-    const activeScale = defaultScale * 1.1
+    const activeScale = defaultScale * 1.45
 
     // The zoom handler fades labels in as you zoom in; this is the alpha a label
     // returns to once nothing is hovered. Mirrors the formula in the zoom handler.
-    const baselineAlpha = Math.max((currentTransform.k * opacityScale - 1) / 3.75, 0)
+    const baselineAlpha = labelAlphaAt(currentTransform.k)
 
     for (const n of nodeRenderData) {
       const nodeId = n.simulationData.id
       const isHovered = hoveredNodeId === nodeId
       // show the titles of adjacent nodes too, so hovering reads the neighbourhood
       const isNeighbour = hoveredNodeId !== null && hoveredNeighbours.has(nodeId)
+
+      // the hovered node is the one you're trying to read, so it gets its full
+      // title back, is scaled up, and is lifted above every other label
+      const wantedText = isHovered ? n.fullText : n.shortText
+      if (n.label.text !== wantedText) n.label.text = wantedText
+      if (isHovered) {
+        labelsContainer.setChildIndex(labelBackdrop, labelsContainer.children.length - 1)
+        labelsContainer.setChildIndex(n.label, labelsContainer.children.length - 1)
+      }
 
       let targetAlpha = baselineAlpha
       let targetScale = defaultScale
@@ -444,18 +490,27 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
   const stage = app.stage
   stage.interactive = false
 
-  const labelsContainer = new Container<Text>({ zIndex: 3, isRenderGroup: true })
+  const labelsContainer = new Container<Text | Graphics>({ zIndex: 3, isRenderGroup: true })
   const nodesContainer = new Container<Graphics>({ zIndex: 2, isRenderGroup: true })
   const linkContainer = new Container<Graphics>({ zIndex: 1, isRenderGroup: true })
   stage.addChild(nodesContainer, labelsContainer, linkContainer)
 
+  // Plate drawn behind the hovered label only. Lives inside labelsContainer (not
+  // its own layer) so z-order against the other labels is exact: on hover it is
+  // pushed to the top, then the hovered label is pushed above it — so the name
+  // you're reading sits on a clean background instead of on top of links, dots
+  // and half a dozen other titles.
+  const labelBackdrop = new Graphics({ interactive: false, eventMode: "none" })
+  labelsContainer.addChild(labelBackdrop)
+
   for (const n of graphData.nodes) {
     const nodeId = n.id
+    const shortText = truncateLabel(n.text, maxLabelChars)
 
     const label = new Text({
       interactive: false,
       eventMode: "none",
-      text: n.text,
+      text: shortText,
       alpha: 0,
       anchor: { x: 0.5, y: 1.2 },
       style: {
@@ -504,6 +559,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
       simulationData: n,
       gfx,
       label,
+      fullText: n.text,
+      shortText,
       color: color(n),
       alpha: 1,
       active: false,
@@ -544,6 +601,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
           }
           dragStartTime = Date.now()
           dragging = true
+          userAdjustedView = true
         })
         .on("drag", function dragged(event) {
           const initPos = event.subject.__initialDragPos
@@ -573,31 +631,113 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     }
   }
 
-  if (enableZoom) {
-    select<HTMLCanvasElement, NodeData>(app.canvas).call(
-      zoom<HTMLCanvasElement, NodeData>()
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
-        .scaleExtent([0.25, 4])
-        .on("zoom", ({ transform }) => {
-          currentTransform = transform
-          stage.scale.set(transform.k, transform.k)
-          stage.position.set(transform.x, transform.y)
+  const minZoom = 0.15
+  const maxZoom = 4
+  const canvasSelection = select<HTMLCanvasElement, NodeData>(app.canvas)
+  const zoomBehaviour = zoom<HTMLCanvasElement, NodeData>()
+    .extent([
+      [0, 0],
+      [width, height],
+    ])
+    .scaleExtent([minZoom, maxZoom])
+    // enableZoom === false still needs the behaviour installed so we can set the
+    // initial transform through it; just refuse every user-driven gesture
+    .filter(() => enableZoom)
+    .on("zoom", ({ transform, sourceEvent }) => {
+      // a real gesture means the reader has taken over — stop auto-fitting
+      if (sourceEvent) userAdjustedView = true
+      currentTransform = transform
+      stage.scale.set(transform.k, transform.k)
+      stage.position.set(transform.x, transform.y)
 
-          // zoom adjusts opacity of labels too
-          const scale = transform.k * opacityScale
-          let scaleOpacity = Math.max((scale - 1) / 3.75, 0)
-          const activeNodes = nodeRenderData.filter((n) => n.active).flatMap((n) => n.label)
+      // zoom adjusts opacity of labels too
+      const scaleOpacity = labelAlphaAt(transform.k)
+      const activeNodes = nodeRenderData.filter((n) => n.active).flatMap((n) => n.label)
 
-          for (const label of labelsContainer.children) {
-            if (!activeNodes.includes(label)) {
-              label.alpha = scaleOpacity
-            }
-          }
-        }),
+      for (const label of labelsContainer.children) {
+        if (label !== labelBackdrop && !activeNodes.includes(label as Text)) {
+          label.alpha = scaleOpacity
+        }
+      }
+    })
+
+  canvasSelection.call(zoomBehaviour)
+
+  /** Transform that puts world point (wx, wy) at the centre of the viewport at scale k. */
+  function centredTransform(k: number, wx: number, wy: number) {
+    return zoomIdentity.translate(width / 2 - k * wx, height / 2 - k * wy).scale(k)
+  }
+
+  // start zoomed in rather than at k=1: at k=1 a small neighbourhood is a few dots
+  // adrift in an empty box with every label at alpha 0
+  zoomBehaviour.transform(canvasSelection, centredTransform(startScale, width / 2, height / 2))
+
+  /**
+   * Once the force layout settles, frame what's actually there: fills the box for
+   * a big graph, and for a two-node neighbourhood zooms in to `initialScale`
+   * rather than further. Skipped the moment the reader pans or zooms themselves.
+   */
+  function fitToContent() {
+    if (userAdjustedView) return
+    const positioned = graphData.nodes.filter(
+      (n) => Number.isFinite(n.x) && Number.isFinite(n.y),
     )
+    if (positioned.length === 0) return
+
+    const xs = positioned.map((n) => n.x! + width / 2)
+    const ys = positioned.map((n) => n.y! + height / 2)
+    const minX = Math.min(...xs)
+    const maxX = Math.max(...xs)
+    const minY = Math.min(...ys)
+    const maxY = Math.max(...ys)
+
+    // labels hang off their node, so leave more room than the dots need
+    const pad = Math.min(width, height) * 0.12 + 24
+    const k = Math.min(
+      (width - 2 * pad) / Math.max(maxX - minX, 1),
+      (height - 2 * pad) / Math.max(maxY - minY, 1),
+      startScale,
+    )
+    const clamped = Math.min(Math.max(k, minZoom), maxZoom)
+    zoomBehaviour.transform(
+      canvasSelection,
+      centredTransform(clamped, (minX + maxX) / 2, (minY + maxY) / 2),
+    )
+  }
+
+  // keep the view framed *while* the layout expands, not just once it stops, so
+  // the graph never spends its first seconds spilling out of the box
+  let tickCount = 0
+  simulation.on("tick", () => {
+    if (++tickCount % 4 === 0) fitToContent()
+  })
+  simulation.on("end", fitToContent)
+
+  /**
+   * Redrawn every frame because the label it sits under keeps moving (and keeps
+   * resizing while the hover tween scales it up / swaps in the full title).
+   */
+  function drawLabelBackdrop() {
+    labelBackdrop.clear()
+    if (hoveredNodeId === null) return
+    const hovered = nodeRenderData.find((n) => n.simulationData.id === hoveredNodeId)
+    if (!hovered || hovered.label.alpha <= 0.01) return
+
+    const { label } = hovered
+    const padX = 6 * label.scale.x
+    const padY = 3 * label.scale.y
+    // anchor is {x: 0.5, y: 1.2}: the text sits above the node, horizontally centred
+    labelBackdrop
+      .roundRect(
+        label.x - label.width / 2 - padX,
+        label.y - label.height * 1.2 - padY,
+        label.width + 2 * padX,
+        label.height + 2 * padY,
+        4 * label.scale.x,
+      )
+      .fill({ color: computedStyleMap["--light"], alpha: 0.92 })
+      .stroke({ color: computedStyleMap["--lightgray"], width: 1, alpha: 0.9 })
+    labelBackdrop.alpha = label.alpha
   }
 
   let stopAnimation = false
@@ -620,6 +760,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
         .lineTo(linkData.target.x! + width / 2, linkData.target.y! + height / 2)
         .stroke({ alpha: l.alpha, width: 1, color: l.color })
     }
+
+    drawLabelBackdrop()
 
     tweens.forEach((t) => t.update(time))
     app.renderer.render(stage)

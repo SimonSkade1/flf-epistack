@@ -226,6 +226,34 @@ export interface TransformOptions {
   allSlugs: FullSlug[]
 }
 
+/** number of leading path segments two slugs' directories have in common */
+function sharedDirDepth(a: FullSlug, b: FullSlug): number {
+  const as = a.split("/").slice(0, -1)
+  const bs = b.split("/").slice(0, -1)
+  let i = 0
+  while (i < as.length && i < bs.length && as[i] === bs[i]) i++
+  return i
+}
+
+/**
+ * Pick the candidate slug closest to `src` in the folder tree — Obsidian's rule
+ * for an ambiguous bare `[[filename]]`. Returns undefined only if there are no
+ * candidates at all.
+ */
+export function findNearestSlug(src: FullSlug, candidates: FullSlug[]): FullSlug | undefined {
+  if (candidates.length <= 1) return candidates[0]
+  let best = candidates[0]
+  let bestDepth = -1
+  for (const candidate of candidates) {
+    const depth = sharedDirDepth(src, candidate)
+    if (depth > bestDepth) {
+      bestDepth = depth
+      best = candidate
+    }
+  }
+  return best
+}
+
 export function transformLink(src: FullSlug, target: string, opts: TransformOptions): RelativeURL {
   let targetSlug = transformInternalLink(target)
 
@@ -244,10 +272,14 @@ export function transformLink(src: FullSlug, target: string, opts: TransformOpti
         return targetCanonical === fileName
       })
 
-      // only match, just use it
-      if (matchingFileNames.length === 1) {
-        const targetSlug = matchingFileNames[0]
-        return (resolveRelative(src, targetSlug) + targetAnchor) as RelativeURL
+      // Stock Quartz gives up as soon as a filename is *not* unique and falls back
+      // to an absolute-from-root path, which 404s. EpiStack analyses use formulaic
+      // filenames that collide across runs ("CG-1 - HC-1 joint over O-1+O-2" exists
+      // in both covid1 and eggs1), so resolve the way Obsidian does instead: the
+      // candidate nearest the linking file wins.
+      const nearest = findNearestSlug(src, matchingFileNames)
+      if (nearest) {
+        return (resolveRelative(src, nearest) + targetAnchor) as RelativeURL
       }
     }
 

@@ -41,7 +41,7 @@ The **site shell** — the Quartz reading surface and the pipeline — is versio
       4. `content/v1/index.md` — v1 landing page; doubles as the `/v1/` folder page.
 2. `pipeline/` — the runnable EpiStack pipeline (a copy of the `flf-epistack` skill): `SKILL.md`, `steps/step-01…10`, and `runner/`. Not versioned by folder — use git tags.
    1. `.claude/skills/flf-epistack/` — the identical skill, at the path Claude Code resolves, so the reproduction command works in a fresh clone.
-3. `quartz/`, `quartz.config.ts`, `quartz.layout.ts` — the Quartz static-site generator and its config. Patched in two places: node-type colours and hover-reveals-neighbours in the graph (`quartz/components/scripts/graph.inline.ts`), and the colour definitions in `quartz/styles/custom.scss`.
+3. `quartz/`, `quartz.config.ts`, `quartz.layout.ts` — the Quartz static-site generator and its config. Patched to: colour nodes/links by node type (`graph.inline.ts` + `styles/custom.scss`), make the graph readable (zoom-in default, label truncation with hover-reveal, neighbour highlighting), render frontmatter as a properties table with live links (`components/Frontmatter.tsx`), and count frontmatter wikilinks as graph edges + backlinks (`plugins/transformers/frontmatterLinks.ts`). See `docs/website.md` for the details.
 4. `scripts/check-internal-links.mjs` — post-build link check (see below).
 5. `docs/website.md` — developer documentation for the website itself (not published to the site).
 
