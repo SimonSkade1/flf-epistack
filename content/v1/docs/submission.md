@@ -4,6 +4,11 @@ title: "EpiStack — a Bayesian knowledge graph for contested empirical question
 
 **Simon Skade · FLF Epistemic Stack competition**
 
+> [!info] What is finished at the deadline
+> I ran out of Claude usage allowance before the large runs completed. Complete at the deadline are three **shakedown runs** under `analysis-tests/` — one per case study, each taken end-to-end through all ten steps at N=5–10 curated sources. Everything §2 onward describes is demonstrated there; the numbers are small-N but genuine, and each recomputes from the notes.
+>
+> Larger runs (N=25–50) are queued and should appear within roughly a day of the deadline. If the pipeline changes rather than just the run size, that lands under `/v2/` alongside v1, which stays frozen. Defects the shakedown exposed are named in the failure-modes appendix instead of being quietly patched — several are visible in the reports themselves, where a run disowns its own top-ranked hypothesis.
+
 ## 0 — Executive summary
 
 I built a 10-step pipeline — shipped as a Claude Code skill plus python scripts and a deterministic runner — that turns **one contested empirical question** into a typed, navigable Obsidian **knowledge graph whose Bayesian answer recomputes from the notes**. One command per case produces every file in an analysis folder, autonomously, from a single `initial_prompt.md`.

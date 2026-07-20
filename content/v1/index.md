@@ -26,5 +26,7 @@ Every box in the debate is one markdown note with typed frontmatter, linked to t
 
 The current sample ([[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sahul megafauna extinction]]) is a hand-written **structural demo** — illustrative numbers, but every node type, folder, wikilink, embed, and code block a real run produces. Real analyses replace it as they finish.
 
-> [!warning] Entering late, deadline soon
-> This is a fast working end-to-end build for the [Future of Life Foundation](https://futureoflife.org/) epistemics competition, not a polished product. Content is being generated; expect dummies to be swapped for real runs.
+> [!info] Status at the submission deadline
+> I ran out of Claude usage allowance before the large runs finished, so what is **complete at the deadline** are three end-to-end **shakedown runs** — one per case study, under `analysis-tests/` (COVID origins and eggs at N=10, LHC black holes at N=5 curated sources). They are small but real: every posterior on those pages recomputes from the notes, and all ten steps ran.
+>
+> Larger runs (N=25–50) are queued and should land here within roughly a day. If the pipeline itself improves rather than just the runs, that work will appear under `/v2/` alongside v1 rather than overwriting it — read whichever is more informative. Known defects the shakedown surfaced are listed in the failure-modes appendix rather than quietly fixed.
