@@ -10,9 +10,14 @@ This site is the reading surface. The [runnable pipeline](https://github.com/Sim
 
 ## Start here
 
-1. [[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sample analysis — the final report]] — read one analysis top-to-bottom in ten minutes, then follow the backlinks down into the graph.
-2. [[manifest|Sample analysis — manifest]] and [[structuring-manifest|its cluster map]] — how an analysis is scoped and decomposed.
-3. [[v1/docs/index|Documentation]] — what the pipeline does, and how to read the node types.
+1. [[submission|The submission document]] — the written core of the FLF entry: principles, pipeline, ontology, Bayesian logic, cases, limitations.
+2. **The three end-to-end runs**, each a real pipeline output you can read top-to-bottom and then follow down into the graph:
+	1. [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|COVID origins]]
+	2. [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|LHC black holes]]
+	3. [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|Eggs and health]]
+3. [[APPENDIX - known failure modes|Known failure modes]] — 3 BLOCKERs and 33 MAJORs, each logged by an agent inside the run that hit it, including one defect claim the run then retracted.
+4. [[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sample analysis — the final report]] and its [[manifest|manifest]] / [[structuring-manifest|cluster map]] — a hand-written structural demo of every node type.
+5. [[v1/docs/index|Documentation]] — what the pipeline does, and how to read the node types.
 
 ## What an analysis looks like
 
@@ -27,4 +32,4 @@ Every box in the debate is one markdown note with typed frontmatter, linked to t
 The current sample ([[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sahul megafauna extinction]]) is a hand-written **structural demo** — illustrative numbers, but every node type, folder, wikilink, embed, and code block a real run produces. Real analyses replace it as they finish.
 
 > [!info] How to read the published runs
-> `analysis-tests/` holds three end-to-end runs, one per case study, at 5–10 curated sources each (COVID origins and eggs at N=10, LHC black holes at N=5). These are deliberately small shakedown runs: all ten steps ran and every posterior recomputes from the notes, but each rests on a thin evidence base, so read them as a demonstration of the method rather than as settled answers. Fuller runs land in `analyses/`. Defects the runs exposed are listed in the failure-modes appendix rather than quietly fixed.
+> `analysis-tests/` holds three end-to-end runs, one per case study, at 5–10 curated sources each (COVID origins and eggs at N=10, LHC black holes at N=5). These are deliberately small shakedown runs: all ten steps ran and every posterior recomputes from the notes, but each rests on a thin evidence base, so read them as a demonstration of the method rather than as settled answers. Fuller runs land in `analyses/`. Defects the runs exposed are listed in the [[APPENDIX - known failure modes|failure-modes appendix]] rather than quietly fixed.

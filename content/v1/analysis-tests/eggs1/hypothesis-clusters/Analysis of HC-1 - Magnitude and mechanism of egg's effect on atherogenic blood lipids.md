@@ -1,0 +1,46 @@
+---
+type: cluster-review
+cluster: "[[HC-1 - Magnitude and mechanism of egg's effect on atherogenic blood lipids]]"
+---
+
+#### What the analysis says
+
+The cluster asks how large habitual egg / dietary-cholesterol's effect on atherogenic blood lipids is, and by what mechanism. Four members: [[H-1 - Habitual whole-egg intake raises atherogenic LDL-ApoB and thereby CVD risk]] (a large, CVD-relevant ApoB rise), [[H-5 - Poor bioavailability of egg cholesterol explains its weak effect on plasma cholesterol]] (small because egg-matrix cholesterol is poorly absorbed), [[H-8 - Dietary cholesterol's effect on serum cholesterol is real but saturating, small at high habitual intakes]] (small because the dose-response saturates), and residual [[H-11 - Egg's effect on atherogenic blood lipids is characterized in some way not listed above]].
+
+The prior, argued from outside-view physiology (bounded fractional absorption ~0.5, hepatic synthesis downregulation) rather than from any graph edge, was `[0.2228, 0.1733, 0.4950, 0.1089]` - saturation already the anchor at ~0.50, a large non-saturating rise at ~0.22. After six evidence blocks the posterior is `[0.0667, 0.0739, 0.8104, 0.0491]`. H-8 goes 0.50 -> 0.81; H-1 falls 0.22 -> 0.067; H-5 falls slightly, 0.17 -> 0.074; the residual falls 0.11 -> 0.049.
+
+The blocks that moved it, by how far their likelihood vectors deviate from flat:
+
+1. [[E-7 - O-18 × HC-1 — serum cholesterol rises with dietary cholesterol with square-root diminishing returns]] `[0.25, 0.20, 1.0, 0.35]`, t=0.78 - the single strongest pro-H-8 block, and the only one that speaks to *curve shape* rather than to effect size at a point. [[A-6 - Square-root dose-response implies each additional egg's serum-cholesterol effect shrinks at high baseline intake]] supplies the inference (d/dx k*sqrt(x) = k/(2*sqrt(x)), strictly decreasing).
+2. [[v1/analysis-tests/eggs1/correlation-groups/CG-1 - HC-1 joint over O-1+O-2|CG-1 - HC-1 joint over O-1+O-2]] `[1.0, 0.15, 0.85, 0.3]`, t=0.68 - the Sacks crossover's LDL +12% / ApoB +9%. Anchored on H-1, it is the one block that favours H-1; its main work in the run is against H-5 (0.15).
+3. The two high-baseline nulls, [[E-5 - O-13 × HC-1 — 2 eggs-day for 3 months produced no between-group lipid difference]] `[0.30, 1.0, 1.0, 0.9]` and [[E-8 - O-20 × HC-1 — no association between egg intake and blood lipids in PURE]] `[0.5, 1.0, 1.0, 0.8]`, which cut H-1 without separating H-5 from H-8.
+4. [[E-6 - O-17 × HC-1 — responsiveness uncorrelated with habitual cholesterol intake]] `[1.0, 1.0, 0.45, 0.85]`, t=0.50 - the only block that cuts *against* H-8.
+5. [[CG-2 - HC-1 joint over O-11+O-12]] `[0.30, 1.0, 0.55, 0.60]` - pro-H-5, deliberately capped (see below).
+
+So the shape of the result is: two high-baseline nulls plus a square-root curve kill H-1; the crossover kills H-5; H-8 collects the remainder.
+
+#### What the model may not capture
+
+**A self-confirming loop on H-5.** H-5 was *extracted from* S-19, and its only inbound evidence, E-3 and E-4 (grouped as CG-2), are S-19's own two observations. Its posterior therefore rests entirely on the data that generated it - the hypothesis and its sole witness are the same study. CG-2's author saw this and hand-capped the H-5:H-1 likelihood ratio at ~3.3:1 (1.0 vs 0.30) to limit the circularity, which is a reasonable local patch, but **nothing in the pipeline enforces or even detects this pattern**; the cap is one child agent's discretion and would vanish on a re-run by a different agent. Shipping unfixed. The same structure applies more weakly to H-8, which was extracted from S-8 and whose strongest edge (E-7) is S-8's own observation O-18 - with no cap applied there at all.
+
+**H-5 and H-8 are only weakly separated.** The cluster's own `exclusivity` note concedes they "overlap somewhat as magnitude answers" and are kept apart only because a mechanism observation is supposed to discriminate them. In practice both predict a small net lipid effect; only CG-2 (absorption fraction) and E-7 (curve shape) are mechanism-discriminating at all, and the three nulls (E-5, E-8, and much of CG-1) are silent between them. The 0.074 vs 0.810 split reads as a clean verdict but rests on two blocks, one of which is the circular one.
+
+**CG-1 does less separating work than its prose implies.** Its own comment says so: at S-12's baseline of 97 mg/d - the steep part of any saturating curve - H-1 and H-8 make near-identical predictions, hence 1.0 vs 0.85. A block presented as "the crossover that shows eggs raise ApoB" is, for the H-1-vs-H-8 question this cluster actually turns on, close to uninformative. The real separation came from E-7 and from the high-baseline nulls.
+
+**The posterior leans on one observation's functional form.** H-8's move from 0.50 to 0.81 is substantially E-7, i.e. a single post-hoc square-root fit to 19 metabolic-ward comparisons in 227 men (O-18 / S-8), on *total* cholesterol rather than the LDL-ApoB this cluster is about. E-7's t=0.78 docks for exactly this, but a discount on trust is not the same as a discount for the shape being one of several curves that would fit a monotone-with-flattening dataset (log, Michaelis-Menten, piecewise-linear). The result is less robust than 0.81 suggests: my own rough estimate is that a re-fit under a different functional form leaves H-8 clearly favoured but not at four-to-one over everything else.
+
+**Is the answer on the list?** The residual sits at 0.049, low enough that nobody would think to interrogate it, which is exactly when rule 6 bites. Three of the four members share a framing - that the interesting quantity is the *magnitude* of a serum-cholesterol/ApoB change caused by cholesterol intake. An unlisted answer that steps outside it (the atherogenic action running through LDL particle number/size, oxidised LDL, HDL functionality, or a TMAO route with LDL mass as a bystander; or the operative dietary variable being egg's saturated fat and phospholipid content rather than its cholesterol) would be *more* consequential than any listed member, because it would make the whole surrogate-lipid arm the wrong instrument rather than merely mis-sized. CG-1's E-2 (HDL/ApoA/TG flat) is the only block that bites on this, and it is an underpowered null in N=17. 0.049 is, in my judgement, too confident.
+
+#### What would help
+
+1. A dose-response dataset in the *habitual Western* range (250-700 mg/d) with LDL-ApoB, not total cholesterol, as endpoint, powered to distinguish saturating from linear over that segment - this is the exact interval on which H-1 vs H-8 turns, and O-18's leverage over it comes mostly from doses outside it. *unclear* (fragments likely exist across the feeding-trial literature; a single adequate study I am not aware of).
+2. An absorption-fraction comparison of egg-matrix vs purified cholesterol from a group with no stake in S-19's result - H-5's entire case is one lab's two crossovers. *unclear*.
+3. S-8's underlying 19 comparisons in tabular form, to test whether the square-root fit is preferred over alternative saturating forms and how much of the flattening comes from doses above 700 mg/d. *exists, unread*.
+4. Whether the responder-class literature can measure habitual intake accurately enough for E-6's null to mean anything - E-6's t=0.50 already encodes the doubt, but the underlying question (is the null real or measurement-attenuated?) is answerable. *exists, unread*.
+5. Whether H-5 and H-8 are separable in principle by any obtainable observation, or whether the carving should be one "small effect" member. *does not exist* as literature; it is a modelling decision, and if the answer is "not separable", that is a step-4 re-carve.
+
+#### Confusions and contradictions
+
+E-6 and E-7 point in opposite directions on H-8 and the analysis should not smooth this over. E-7 is H-8's defining curve shape and drives most of its rise. E-6 tests H-8's direct corollary - if the curve saturates, high-habitual-intake people sit on the flat part and should respond less - and finds no such correlation. The blocks handle this by discounting E-6 hard (t=0.50, likelihood only 0.45 against H-8) on the grounds that self-reported habitual intake is noisy and the range narrow, which is a real defence but also a convenient one: the same argument would defuse any null that embarrassed the anchor hypothesis. As it stands the run believes the curve saturates while disbelieving the one direct population-level test of what saturation implies about people. I cannot tell from the sources whether O-17's null is measurement attenuation or a genuine failure of the corollary; if it is the latter, H-8's mechanism is wrong even if its curve shape is right, and the cluster has no member for "the dose-response saturates, but not as a function of habitual intake."
+
+Secondarily: CG-1 shows a clean +12% LDL from one egg while E-5 (2 eggs/day, 3 months) and E-8 (PURE, 21 countries) show nothing. The analysis reads this as saturation - low baseline steep, high baseline flat - which is coherent and is the reason H-8 wins. But the studies also differ in design (tightly controlled crossover vs free-living RCT vs observational FFQ), and a design-attenuation account explains the same pattern without any saturation at all. Nothing in the run distinguishes these two readings.

@@ -1,0 +1,39 @@
+---
+type: cluster-review
+cluster: "[[HC-1 - Route of the first human SARS-CoV-2 infection]]"
+---
+
+## What the analysis says
+
+The cluster asks by what route SARS-CoV-2 first infected a human, over three exclusive members in order: [[H-1 - SARS-CoV-2 first infected humans via zoonotic spillover at the Huanan market]], [[H-5 - SARS-CoV-2 first infected humans through a research-related incident at the WIV]], and the residual [[H-6 - The first human infection arose by neither route listed here]].
+
+The prior is `[0.3695, 0.1132, 0.5173]`; the posterior after four evidence blocks is `[0.4952, 0.0809, 0.4238]`. Reproduced byte-identical on re-run. The prior is a pure outside-view construction: a natural-emergence anchor, a research-vs-natural base rate multiplied by `uplift_coincident_lab_city = 5.0`, then split by `p_index_case_at_retail_market_given_natural = 0.40` and `p_wiv_given_research_incident = 0.70`, with H-6 built from two legs (`0.50` off-market natural, `0.06` non-WIV research).
+
+Four joint likelihood blocks, all on correlation groups, zero lone edges: CG-1 (O-1+O-2, t=0.62), CG-2 (O-4+O-5, t=0.7), CG-3 (O-8+O-9+O-10, t=0.7), CG-4 (O-11+O-12, t=0.7). The updating work is done almost entirely by the two blocks that deviate furthest from flat: CG-1, where the environmental-swab spatial clustering is anchored at `lik_swabs_H1 = 1.0` against `lik_swabs_H5 = 0.3`, and CG-4, where DEFUSE is anchored at `lik_defuse_H5 = 1.0` against `lik_defuse_H1 = 0.40`. These pull in opposite directions and CG-1 wins; H-5 falls from 0.1132 to 0.0809 and H-1 rises. Sensitivity runs confirm the concentration: `--set CG-1:lik_swabs_H5=1.0` -> `[0.4564, 0.1469, 0.3966]` and `--set CG-4:lik_defuse_H5=3.0` -> `[0.448, 0.1725, 0.3795]` each roughly double H-5; `--set HC-1:uplift_coincident_lab_city=1.0` -> `[0.5263, 0.0179, 0.4558]` shows H-5's posterior is mostly the prior's coincidence uplift surviving, not something the evidence built.
+
+## What the model may not capture
+
+**The residual barely moved, and that is the headline defect.** H-6 went 0.5173 -> 0.4238 across all four blocks. Step 7 predicted it "should compress substantially once step 8 prices CG-1 and CG-3"; it did not, and the reason is structural, not arithmetic: every market-side observation (O-1, O-2, O-4, O-5) is sampled *at* Huanan and every research-side observation (O-11, O-12) concerns WIV/DEFUSE specifically. No observation in the graph can see outside either frame, so no likelihood can discriminate against H-6's legs. The model's 42% residual is therefore closer to a statement about the observation set than about the world. Rule 6's standing question — is the true answer even on the list? — is answered here as "possibly not, and the analysis cannot tell". An unlisted answer is not less consequential than the listed ones: an upstream fur-farm spillover and a non-WIV Wuhan research incident have opposite implications, and both sit undifferentiated inside H-6.
+
+**The curated base is 5 sources and doubly frame-bound.** 12 of 17 sources were cut at N=5, and the cut removed an entire evidence class rather than trimming within classes. Case-geolocation and epidemiological evidence is absent from the model entirely: S-1 (Worobey market-epicenter), its critique S-7 (Stoyan & Chiu), S-13 (Pekar, lineage A/B implying two independent spillovers, scored `usefulness 4.5` — the highest in the pool), and S-3 (Crits-Christoph/Débarre reanalysis of the *same* D-2 raw reads that O-1 and O-2 come from) were all scored and none curated. So the model prices D-2 through one reading of it only. Also cut: S-5 (Bloom, ascertainment bias toward market-linked viruses) — precisely the counterargument no curated source had an incentive to make, since S-2 is China CDC-led and S-4 is a wildlife survey. S-8 (China released only summary data, not raw line lists, on the 174 earliest cases) is cut too, so the data-availability asymmetry never enters any trust discount.
+
+**H-5 bundles two distinct hypotheses.** Escape of a *collected, unmodified* natural virus and escape of an *engineered* one fit O-10/O-11/O-12 very differently — DEFUSE is near-irrelevant to the former and central to the latter. Step 4 dropped H-3 (natural bat-reservoir evolution) as non-competing, so nowhere in the graph now carries the natural-vs-engineered distinction at all. The single `lik_defuse_H5 = 1.0` anchor is an average over two hypotheses whose true likelihoods differ by a large factor (my estimate: well over 3x), and the reader cannot see this from the posterior.
+
+**The prior rests on nothing but the step-7 child's own reasoning.** [[A-5 - DEFUSE documents intent and capability to engineer exactly the furin site SARS-CoV-2 has but absent from relatives, raising lab-origin probability]] carries `affects_hypotheses: [[H-5]]` that no step reads — a pipeline bug — and step 7 could mark no edge `used_for_prior` because all 9 edges sit in correlation groups and marking is all-or-none. So zero argument input and zero evidence input reached the prior block. Given the `uplift_coincident_lab_city=1.0` run above, the prior is doing most of the work on H-5, which makes this ungroundedness load-bearing rather than cosmetic. Shipped unfixed.
+
+**Motivatedness cuts both ways in the curated set.** S-2 is China CDC-led with a 13-month raw-read release lag; S-15 was surfaced by DRASTIC, an explicitly lab-leak-driven group, and authored by EcoHealth/Daszak, later debarred. They sit at trust 0.72 and 0.80 with no adjustment for the direction of their incentives.
+
+## What would help
+
+1. The D-2 raw metagenomic reads read against the S-3 reanalysis rather than only the S-2 reading — *exists, unread*.
+2. Any observation locating early cases independently of Huanan sampling (the S-1/S-7/S-13 class) — *exists, unread*; the single item most likely to move H-6.
+3. Raw line lists for the 174 earliest cases — *exists, inaccessible*.
+4. WIV's pre-2019 virus collection inventory and the databases taken offline in Sept 2019 — *exists, inaccessible*.
+5. Wildlife sampling upstream of Huanan (fur/game farms supplying the market, sampled contemporaneously) — *does not exist*.
+6. Whether the unmodified-escape and engineered-escape branches of H-5 are separable on available evidence — *unclear*.
+
+## Confusions and contradictions
+
+CG-3 bundles evidence pointing in opposite directions from a single paper: O-9 (a wild bat sarbecovirus already binds human ACE2, cutting against the need for any lab) with O-10 (no furin cleavage site in the closest natural relatives, favouring H-5). The joint call at `lik_banal_H5 = 0.65` is a net; the step-8 child noted in a block comment that this buries O-10's isolable pro-H-5 signal, whose strength depends on how densely the sarbecovirus reservoir has been sampled — a quantity nobody in the curated set estimates. That dependence is real and unresolved, and the `--set CG-3:lik_banal_H5=1.3` run -> `[0.4713, 0.1247, 0.404]` shows it is worth roughly a 50% swing in H-5. Exposing O-10 as its own overridable variable is the honest fix and belongs to a step-8 re-run; shipped unfixed here.
+
+Separately, [[O-3 - Huanan market closed and disinfected from 1 Jan 2020 with animal sampling only from 18 Jan]] was orphaned as non-discriminating, along with O-6, O-7 and A-3. Orphaning O-3 looks wrong. Its force is real — it explains why O-2's animal-negative result is weak — but it reaches the model only indirectly, through [[A-1 - Post-disinfection late animal sampling means the animal-negative result cannot exclude infected animals]] adjusting the CG-1 likelihood inside a comment. A reader tracing why O-2 does not count against H-1 finds no edge to follow. O-6 and O-7 are correctly orphaned; O-3 is not non-discriminating, it is discriminating through a path the graph does not represent.

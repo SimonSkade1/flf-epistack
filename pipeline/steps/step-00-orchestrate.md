@@ -30,8 +30,12 @@ Analysis directory: <path>
 Main question (verbatim): "<main_question>"
 Your slice: <the one search thread / paper / cluster you own, and what you must not touch>
 Budget: <how much to read and write, in the step's own units>
-Mint every id'd node with:
-  python3 .claude/skills/flf-epistack/scripts/create_node.py <analysis-dir> --type <type> --title "..."
+Mint every id'd node by piping its markdown on stdin (the body carries {{ID}}; the title never does):
+  cat <<'EOF' | python3 /home/simonskade/workspace/.claude/skills/flf-epistack/scripts/create_node.py <analysis-dir> --type <type> --title "..."
+  ---
+  id: {{ID}}
+  ...
+  EOF
 Never hand-pick an id, and do not spawn subagents.
 Return: <what you need back — ids created, gaps hit, a short report>
 ```

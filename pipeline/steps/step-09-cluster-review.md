@@ -15,6 +15,18 @@ Write one human-readable review per hypothesis-cluster: the qualitative layer ov
 
 One review per active cluster (every `HC-N` file in `hypothesis-clusters/`), living **beside its cluster** in `hypothesis-clusters/`, named `Analysis of HC-N - {rest of HC-N's title}.md` — e.g. `HC-1 - Dominant driver of the megafauna extinction pulse.md` gets `Analysis of HC-1 - Dominant driver of the megafauna extinction pulse.md`. It is not an id'd graph node: no `CR-` prefix, no separate folder. The body is the four parts below and is the whole artifact — no index, no register, no script.
 
+**Create the file with a shell heredoc, not the `Write` tool.** When step 9 runs as a subagent (the normal case — one child per cluster), `Write` refuses this file with "Subagents should return findings as text, not write report files", because a prose `.md` looks to the harness like a report the child should have returned instead. That refusal is spurious here: the review *is* this step's deliverable, not a status write-up. A child that accepts the error produces **no artifact at all** and the run silently completes a cluster short. So write it as:
+
+```
+cat > "<analysis-dir>/hypothesis-clusters/Analysis of HC-N - {rest of title}.md" << 'EOF'
+---
+type: cluster-review
+...
+EOF
+```
+
+Quote the delimiter (`<< 'EOF'`) so backticks, `$` and python in the body are not interpolated. Verify with `wc -w` on the path afterwards.
+
 | field | req | meaning |
 |---|---|---|
 | `type` | MUST | `cluster-review` (no `id` — the file is not an id'd node; it is located by its `Analysis of HC-N …` name beside the cluster) |

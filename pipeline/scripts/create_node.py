@@ -10,6 +10,9 @@ pipes the file's markdown (frontmatter + body) on stdin. Every `{{ID}}` in that
 markdown is replaced with the assigned id, and the file is written to the type's
 folder as `PREFIX-N - Title.md`. The assigned id and path go to stdout.
 
+The `{{ID}}` placeholder belongs in the piped body ONLY — never in `--title`,
+which takes the plain descriptive title (a placeholder there is stripped).
+
 Plain files carry no id — `initial_prompt.md`, everything under `agent-notes/`,
 the per-cluster `Analysis of HC-N - ….md`, and the final `main report - ….md`
 are written directly by the agent, not through this script.
@@ -48,9 +51,16 @@ LOCKFILE = ".create_node.lock"
 
 def clean_title(title, prefix):
     """Strip a leading id the caller shouldn't have passed, drop illegal chars."""
+    title = title.strip()
+    # The body legitimately needs {{ID}}, so callers mirror it into --title by
+    # mistake; left in, it lands verbatim in the filename. Drop it, plus any
+    # separator dashes it leaves stranded.
+    title = re.sub(r"\{\{\s*ID\s*\}\}", "", title)
     title = re.sub(r"^%s-\d+\s*-\s*" % prefix, "", title.strip())
     title = ILLEGAL.sub("-", title)
-    return re.sub(r"\s+", " ", title).strip(" .")
+    title = re.sub(r"\s+", " ", title).strip()
+    title = re.sub(r"^[-\s]+|[-\s]+$", "", title)
+    return re.sub(r"\s+-\s+-\s+", " - ", title).strip(" .")
 
 
 def next_id(root, prefix):
@@ -68,7 +78,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("analysis_dir")
     ap.add_argument("--type", required=True, choices=sorted(TYPES))
-    ap.add_argument("--title", required=True, help="descriptive title, without the id")
+    ap.add_argument("--title", required=True,
+                    help="descriptive title, without the id; {{ID}} belongs in "
+                         "the piped body only and is stripped from here")
     args = ap.parse_args()
 
     root = pathlib.Path(args.analysis_dir)

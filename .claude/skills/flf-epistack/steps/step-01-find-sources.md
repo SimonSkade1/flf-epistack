@@ -17,8 +17,17 @@ Per-type folders, one file per node: `sources/` (S). Plus one file that is *not*
 Searchers write at the same time, so ids are never chosen by hand — a script assigns them under a lock, which is the only thing keeping parallel writers off the same `S-N`. Pipe the note's markdown (frontmatter + body, with `{{ID}}` wherever the bare id belongs, at minimum `id: {{ID}}`) to:
 
 ```
-python3 .claude/skills/flf-epistack/scripts/create_node.py <analysis-dir> --type source --title "Descriptive title, no id"
+cat <<'EOF' | python3 /home/simonskade/workspace/.claude/skills/flf-epistack/scripts/create_node.py <analysis-dir> --type source --title "Descriptive title, no id"
+---
+id: {{ID}}
+type: source
+...
+---
+body
+EOF
 ```
+
+The markdown **must** arrive on stdin (heredoc or `< file.md`) — the script reads it there and exits if nothing comes; and `{{ID}}` belongs in that piped body **only**, never in `--title`. Use the absolute script path shown, so the call works from any working directory.
 
 It prints the assigned id and the path; use that filename for wikilinks. `--type` takes any node type of the pipeline. Your orientation note carries no id — write that one directly.
 

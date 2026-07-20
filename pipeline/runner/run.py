@@ -13,9 +13,11 @@ Usage:
     python3 test_run.py          # self-check against the specs' published numbers
 """
 
+import io
 import re
 import sys
 import pathlib
+import tokenize
 
 HEADING = re.compile(r"^##\s+(Prior|Likelihood)\s*$")
 FENCE = re.compile(r"^```python\s*$")
@@ -23,6 +25,38 @@ ASSIGN = re.compile(r"^\s*([A-Za-z_]\w*)\s*=")
 # Blocks are arithmetic over named variables and the two registrar calls.
 # Anything that could reach outside that is a determinism hole (criterion 14).
 BANNED = re.compile(r"\b(import|open|eval|exec|globals|locals|__\w+__)\b")
+
+
+def code_only(src):
+    """Return `src` with comments and string literals blanked out.
+
+    The banned-token scan must look at *code*, not prose. Steps 7 and 8 require
+    every number to carry a reason comment, and those comments are ordinary
+    English -- "an open Author Correction", "we could not import the raw reads",
+    "locals to the region" -- which the BANNED pattern would otherwise match,
+    failing the run on a note that is entirely well-formed. Blanking comments and
+    string contents (rather than deleting them) preserves line/column offsets, so
+    a genuine hit still reports a usable position.
+    """
+    try:
+        toks = list(tokenize.generate_tokens(io.StringIO(src).readline))
+    except (tokenize.TokenError, IndentationError, SyntaxError):
+        # Unparseable source: fall back to scanning it raw. exec() below will
+        # raise the real syntax error anyway, which is the more useful message.
+        return src
+    lines = src.split("\n")
+    for tok in toks:
+        if tok.type not in (tokenize.COMMENT, tokenize.STRING):
+            continue
+        (r1, c1), (r2, c2) = tok.start, tok.end
+        for row in range(r1, r2 + 1):
+            i = row - 1
+            if i >= len(lines):
+                continue
+            start = c1 if row == r1 else 0
+            end = c2 if row == r2 else len(lines[i])
+            lines[i] = lines[i][:start] + " " * (end - start) + lines[i][end:]
+    return "\n".join(lines)
 
 
 def extract(text, block_id):
@@ -124,7 +158,7 @@ def run(notes_dir, overrides=None):
 
     m = Model()
     for kind, bid, src in blocks:
-        bad = BANNED.search(src)
+        bad = BANNED.search(code_only(src))
         if bad:
             raise ValueError(f"{bid}: '{bad.group()}' is not allowed in a block")
         env = {"prior": m.prior, "evidence": m.evidence, "__builtins__": {}}
