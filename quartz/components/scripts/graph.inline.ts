@@ -408,6 +408,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
     const defaultScale = 1 / scale
     const activeScale = defaultScale * 1.45
+    // the current page's label rests a hair larger than the rest so it reads as
+    // the anchor — nowhere near the hover blow-up
+    const currentRestScale = defaultScale * 1.15
 
     // The zoom handler fades labels in as you zoom in; this is the alpha a label
     // returns to once nothing is hovered. Mirrors the formula in the zoom handler.
@@ -416,11 +419,13 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     for (const n of nodeRenderData) {
       const nodeId = n.simulationData.id
       const isHovered = hoveredNodeId === nodeId
+      const isCurrent = nodeId === slug
       // show the titles of adjacent nodes too, so hovering reads the neighbourhood
       const isNeighbour = hoveredNodeId !== null && hoveredNeighbours.has(nodeId)
 
       // the hovered node is the one you're trying to read, so it gets its full
-      // title back, is scaled up, and is lifted above every other label
+      // title back, is scaled up, and is lifted above every other label. The
+      // current node's n.shortText is already its full title.
       const wantedText = isHovered ? n.fullText : n.shortText
       if (n.label.text !== wantedText) n.label.text = wantedText
       if (isHovered) {
@@ -429,7 +434,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
       }
 
       let targetAlpha = baselineAlpha
-      let targetScale = defaultScale
+      let targetScale = isCurrent ? currentRestScale : defaultScale
       if (isHovered) {
         targetAlpha = 1
         targetScale = activeScale
@@ -522,7 +527,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
   for (const n of graphData.nodes) {
     const nodeId = n.id
-    const shortText = truncateLabel(n.text, maxLabelChars)
+    // the current page always shows its full title (it's the anchor of the view);
+    // everyone else is truncated until hovered
+    const shortText = nodeId === slug ? n.text : truncateLabel(n.text, maxLabelChars)
 
     const label = new Text({
       interactive: false,
@@ -540,7 +547,8 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
       },
       resolution: window.devicePixelRatio * 4,
     })
-    label.scale.set(1 / scale)
+    // current page's label sits a hair larger than the rest (see renderLabels)
+    label.scale.set((nodeId === slug ? 1.15 : 1) / scale)
 
     let oldLabelOpacity = 0
     const isTagNode = nodeId.startsWith("tags/")

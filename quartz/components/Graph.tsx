@@ -57,7 +57,7 @@ const defaultOptions: GraphOptions = {
     focusOnHover: false,
     enableRadial: false,
     initialScale: 1.5,
-    labelMaxChars: 20,
+    labelMaxChars: 26,
     collidePadding: 8,
   },
   globalGraph: {
@@ -77,7 +77,7 @@ const defaultOptions: GraphOptions = {
     // zoom in hard on the current page's neighbourhood; the fit-to-content pass
     // only pulls back below this when the neighbourhood is genuinely large
     initialScale: 2.4,
-    labelMaxChars: 30,
+    labelMaxChars: 38,
     collidePadding: 16,
   },
 }
