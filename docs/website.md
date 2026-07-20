@@ -162,8 +162,8 @@ rsync -az --delete public/ \
 curl -s -o /dev/null -w "%{http_code}\n" https://epistack.simonskade.org/
 ```
 
-Then commit and push the repo as usual. `public/` is committed too, so the repo
-and the live site stay in step.
+Then commit and push the repo as usual. (`public/` is gitignored — the rsynced
+copy on the VPS is the only deployed artifact, so always rsync after building.)
 
 ### Local preview
 
