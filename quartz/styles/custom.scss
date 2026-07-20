@@ -25,6 +25,7 @@
   --node-hypothesis: #6d28d9;
   --node-hypothesis-cluster: #a21caf;
   --node-evidence-link: #b45309;
+  --node-correlation-group: #78350f;
   --node-argument: #be123c;
   --node-cluster-review: #475569;
   --node-main-report: #0f172a;
@@ -37,6 +38,7 @@
   --node-hypothesis: #b39dfa;
   --node-hypothesis-cluster: #e879f9;
   --node-evidence-link: #fbbf24;
+  --node-correlation-group: #fdba74;
   --node-argument: #fb7185;
   --node-cluster-review: #94a3b8;
   --node-main-report: #e2e8f0;
@@ -45,16 +47,17 @@
 // every node type, in pipeline order (used for legend + graph filter swatches).
 // superset of $node-folders: main-report has no folder of its own.
 $node-types: source, data-basis, observation, hypothesis, hypothesis-cluster, evidence-link,
-  argument, cluster-review, main-report;
+  correlation-group, argument, cluster-review, main-report;
 
 // type slug → the folder the pipeline writes that node type into
 $node-folders: (
   "source": "sources",
   "data-basis": "data-bases",
-  "observation": "observations",
+  "observation": "observations-and-facts",
   "hypothesis": "hypotheses",
   "hypothesis-cluster": "hypothesis-clusters",
   "evidence-link": "evidence-links",
+  "correlation-group": "correlation-groups",
   "argument": "arguments",
   "cluster-review": "cluster-reviews",
 );

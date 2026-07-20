@@ -44,6 +44,7 @@ const NODE_TYPES = [
   "observation",
   "hypothesis",
   "hypothesis-cluster",
+  "correlation-group",
   "evidence-link",
   "argument",
   "cluster-review",

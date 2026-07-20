@@ -2,15 +2,14 @@
 title: Documentation
 ---
 
-> [!note] Draft
-> Placeholder documentation for the FLF submission. The prose here is a dummy scaffold; the authoritative spec is the pipeline itself (`pipeline/SKILL.md` + `pipeline/steps/` in the [repository](https://github.com/SimonSkade1/flf-epistack)).
+> [!note] What is authoritative here
+> [[submission|The submission document]] is the frozen FLF entry. The authoritative specification of the method is the pipeline itself, published step by step at [[v1/pipeline/index|/v1/pipeline/]] (source: `pipeline/SKILL.md` + `pipeline/steps/` in the [repository](https://github.com/SimonSkade1/flf-epistack)). Anything else on this site is a reading aid.
 
 ## Pages
 
 0. [[submission|The submission document]] — **start here.** The ≤10-page written core of the FLF entry: the principles, the pipeline (with the agent fan-out graphic), the ontology, the Bayesian logic, the cases, the limitations, and how to run it.
-1. [[pipeline-overview|The 10-step pipeline]] — what each step consumes and produces.
-2. [[reading-an-analysis|Reading an analysis]] — the node types and folder layout, and how to follow the graph.
-3. [[running-the-model|Running the model]] — how the `## Prior` / `## Likelihood` code blocks compose into a posterior.
+1. [[navigating-an-analysis|How to navigate an analysis]] — the node types and folder layout, one worked chain from the answer down to the dataset it rests on, how the `## Prior` / `## Likelihood` code blocks compose into a posterior, and how to re-price any number yourself. Written after the deadline.
+2. [[v1/pipeline/index|The pipeline]] — the 10-step specification the analyses were produced by, browsable step by step, plus the runner and scripts.
 
 ## What this is
 
