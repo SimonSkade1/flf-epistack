@@ -301,17 +301,11 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     if (v) typeColorMap[t] = v
   }
 
-  // distinct "you are here" colour (chartreuse — the one hue no node type uses)
-  const currentNodeColor =
-    getComputedStyle(document.documentElement).getPropertyValue("--node-current").trim() ||
-    computedStyleMap["--secondary"]
-
-  // calculate color
+  // calculate color. The current page keeps its own type colour — it's set apart
+  // by size and a contrasting ring instead (see nodeRadius and the ring below),
+  // so you still see what kind of node you're on.
   const color = (d: NodeData) => {
-    const isCurrent = d.id === slug
-    if (isCurrent) {
-      return currentNodeColor
-    } else if (d.id.startsWith("tags/")) {
+    if (d.id.startsWith("tags/")) {
       return computedStyleMap["--tertiary"]
     } else if (d.nodeType && typeColorMap[d.nodeType]) {
       // type colour wins over the visited/unvisited distinction: which kind of node
@@ -329,9 +323,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
       (l) => l.source.id === d.id || l.target.id === d.id,
     ).length
     const base = 2 + Math.sqrt(numLinks)
-    // the current page is drawn a touch bigger so it reads as the anchor of the
-    // view — but only slightly, so the dot doesn't cover its own title
-    return d.id === slug ? base * 1.2 : base
+    // the current page is drawn bigger so it reads as the anchor of the view —
+    // this plus a thin ring is what sets it apart, now that it keeps its type colour
+    return d.id === slug ? base * 1.3 : base
   }
 
   // declared up here (rather than next to the zoom setup) because renderLabels reads it
@@ -578,6 +572,13 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
     if (isTagNode) {
       gfx.stroke({ width: 2, color: computedStyleMap["--tertiary"] })
+    }
+
+    // thin ring around the current page's node — black on the light theme, white
+    // on the dark one (--dark is the theme's foreground), so it pops against the
+    // background whatever its type colour
+    if (nodeId === slug) {
+      gfx.stroke({ width: 1.5, color: computedStyleMap["--dark"] })
     }
 
     nodesContainer.addChild(gfx)
