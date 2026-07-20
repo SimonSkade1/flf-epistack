@@ -200,6 +200,80 @@ $node-folders: (
   }
 }
 
+// ─── Expanded-graph depth controls ───────────────────────────────────────────
+// Bottom-centre floating bar on the full-screen graph: max-distance slider
+// (neighbourhood radius around the current page, 1–3) + whole-vault toggle.
+// The expanded view opens at distance 1 — it never defaults to the full vault.
+
+.graph-depth-controls {
+  position: fixed;
+  bottom: calc(10vh + 0.6rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  background: var(--light);
+  font-size: 0.8rem;
+  color: var(--dark);
+}
+
+.graph-depth-slider {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  // dimmed while the whole-vault toggle overrides the distance limit
+  &.inactive {
+    opacity: 0.35;
+  }
+
+  input[type="range"] {
+    width: 7rem;
+    margin: 0;
+    accent-color: var(--secondary);
+    cursor: pointer;
+  }
+
+  .graph-depth-value {
+    min-width: 0.9em;
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+.graph-whole-vault {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--secondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--lightgray);
+  }
+
+  &[aria-pressed="true"] {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--light);
+
+    &:hover {
+      background: var(--secondary);
+      opacity: 0.9;
+    }
+  }
+}
+
 /* ---- wide diagrams break out of the prose column -------------------------
    The pipeline flow graphic is ~1580px wide and short. Scaled into the ~800px
    article column its labels become unreadable, and the reader has to open the

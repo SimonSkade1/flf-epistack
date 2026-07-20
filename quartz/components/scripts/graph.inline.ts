@@ -107,7 +107,7 @@ type TweenNode = {
   stop: () => void
 }
 
-async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
+async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride?: number) {
   const slug = simplifySlug(fullSlug)
   const visited = getVisited()
   removeAllChildren(graph)
@@ -127,6 +127,13 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     focusOnHover,
     enableRadial,
   } = JSON.parse(graph.dataset["cfg"]!) as D3Config
+
+  if (depthOverride !== undefined) {
+    depth = depthOverride
+    // the radial ring layout only makes sense for the whole-vault view; for a
+    // bounded neighbourhood keep the plain force layout centred on the page
+    if (depthOverride >= 0) enableRadial = false
+  }
 
   const data: Map<SimpleSlug, ContentDetails> = new Map(
     Object.entries<ContentDetails>(await fetchData).map(([k, v]) => [
@@ -710,6 +717,80 @@ async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<voi
   }
 }
 
+/**
+ * Expanded-graph view state. Deliberately NOT persisted: every page load starts
+ * at the local neighbourhood (distance 1) — the whole-vault view is opt-in per
+ * look, so expanding the graph never dumps the full vault on you by default.
+ */
+let globalGraphDepth = 1
+let globalGraphWholeVault = false
+
+/**
+ * Distance slider (1–3) + whole-vault toggle for the expanded graph. Lives in
+ * `.global-graph-outer` for the same reason as the filter chips: renderGraph()
+ * wipes its own container on every re-render.
+ */
+function buildDepthControls(outer: HTMLElement, onChange: () => Promise<void>) {
+  let container = outer.querySelector(".graph-depth-controls") as HTMLElement | null
+  if (!container) {
+    container = document.createElement("div")
+    container.className = "graph-depth-controls"
+    outer.appendChild(container)
+  }
+  removeAllChildren(container)
+
+  const sliderWrap = document.createElement("label")
+  sliderWrap.className = "graph-depth-slider"
+  sliderWrap.classList.toggle("inactive", globalGraphWholeVault)
+  sliderWrap.title = "How many links away from the current page to show"
+
+  const label = document.createElement("span")
+  label.textContent = "Distance"
+  sliderWrap.appendChild(label)
+
+  const slider = document.createElement("input")
+  slider.type = "range"
+  slider.min = "1"
+  slider.max = "3"
+  slider.step = "1"
+  slider.value = String(globalGraphDepth)
+  sliderWrap.appendChild(slider)
+
+  const value = document.createElement("span")
+  value.className = "graph-depth-value"
+  value.textContent = String(globalGraphDepth)
+  sliderWrap.appendChild(value)
+
+  const wholeVault = document.createElement("button")
+  wholeVault.className = "graph-whole-vault"
+  wholeVault.textContent = "Show whole vault"
+  wholeVault.setAttribute("aria-pressed", String(globalGraphWholeVault))
+
+  // live value readout while dragging; re-render only on release ("change"),
+  // so we don't tear down and rebuild the pixi canvas on every tick
+  slider.addEventListener("input", () => {
+    value.textContent = slider.value
+  })
+  slider.addEventListener("change", async () => {
+    globalGraphDepth = parseInt(slider.value)
+    // touching the slider always means "show me the neighbourhood"
+    globalGraphWholeVault = false
+    wholeVault.setAttribute("aria-pressed", "false")
+    sliderWrap.classList.remove("inactive")
+    await onChange()
+  })
+
+  wholeVault.addEventListener("click", async () => {
+    globalGraphWholeVault = !globalGraphWholeVault
+    wholeVault.setAttribute("aria-pressed", String(globalGraphWholeVault))
+    sliderWrap.classList.toggle("inactive", globalGraphWholeVault)
+    await onChange()
+  })
+
+  container.appendChild(sliderWrap)
+  container.appendChild(wholeVault)
+}
+
 let localGraphCleanups: (() => void)[] = []
 let globalGraphCleanups: (() => void)[] = []
 
@@ -750,6 +831,10 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   })
 
   const containers = [...document.getElementsByClassName("global-graph-outer")] as HTMLElement[]
+
+  // the expanded graph defaults to the local neighbourhood; -1 = whole vault
+  const expandedDepth = () => (globalGraphWholeVault ? -1 : globalGraphDepth)
+
   async function renderGlobalGraph() {
     const slug = getFullSlug(window)
     for (const container of containers) {
@@ -762,13 +847,18 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       const graphContainer = container.querySelector(".global-graph-container") as HTMLElement
       registerEscapeHandler(container, hideGlobalGraph)
       if (graphContainer) {
-        globalGraphCleanups.push(await renderGraph(graphContainer, slug))
+        const rerenderExpanded = async () => {
+          cleanupGlobalGraphs()
+          globalGraphCleanups.push(await renderGraph(graphContainer, slug, expandedDepth()))
+        }
 
-        // toggling a type re-renders the global graph in place, and the local
+        globalGraphCleanups.push(await renderGraph(graphContainer, slug, expandedDepth()))
+        buildDepthControls(container, rerenderExpanded)
+
+        // toggling a type re-renders the expanded graph in place, and the local
         // sidebar graph too so both agree on what's shown
         await buildGraphFilters(container, async () => {
-          cleanupGlobalGraphs()
-          globalGraphCleanups.push(await renderGraph(graphContainer, slug))
+          await rerenderExpanded()
           await renderLocalGraph()
         })
       }

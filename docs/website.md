@@ -91,7 +91,7 @@ tell apart at a glance.
 
 ## Graph behaviour
 
-Two customisations on top of stock Quartz (`graph.inline.ts`):
+Customisations on top of stock Quartz (`graph.inline.ts`):
 
 1. **Type colouring** (above). The current page's node keeps the standard
    highlight colour, which wins over its type colour.
@@ -103,6 +103,14 @@ Two customisations on top of stock Quartz (`graph.inline.ts`):
    per node type, with its colour swatch and a count, plus `other` for pages
    with no `type:` (docs, indexes, manifests). Clicking a chip hides that type;
    `reset` clears all filters.
+4. **Expanded graph is local by default.** Stock Quartz's full-screen graph
+   always shows the whole vault. Here it opens on the current page's
+   neighbourhood at distance 1, with a bottom bar holding a max-distance
+   slider (1–3) and a "Show whole vault" toggle (whole vault = `depth: -1`,
+   and the only mode that uses the radial layout). This state is deliberately
+   not persisted — every page load starts local again. Implemented as a
+   `depthOverride` third argument to `renderGraph`; the sidebar mini-graph is
+   untouched by it.
 
 ### How the filter is wired
 
@@ -119,6 +127,23 @@ Two customisations on top of stock Quartz (`graph.inline.ts`):
 - The chip bar is built into `.global-graph-outer`, *not*
   `.global-graph-container`: `renderGraph` calls `removeAllChildren()` on its own
   container, so anything placed inside would be destroyed on every re-render.
+
+## Explorer & layout
+
+Three departures from stock Quartz, all in `quartz/components/styles/explorer.scss`
+and `quartz/styles/variables.scss` (re-apply if ever upgrading Quartz):
+
+1. **Scroll fix.** Stock v4.5.2 puts `overscroll-behavior: contain` on every
+   nested explorer `ul`; combined with `overflow: hidden` on `.folder-outer > ul`
+   each nested list becomes a scroll-chaining boundary, so wheel events over
+   folder contents never reach the actual scroll container (`.explorer-ul`) and
+   the tree simply doesn't scroll. The property now sits only on `.explorer-ul`.
+2. **Entry separation.** Long node filenames wrap to 2–3 lines; with stock
+   spacing a wrapped name is indistinguishable from several entries. Entries now
+   use tight `line-height: 1.25` *within* a name and `0.3rem` vertical padding
+   *between* entries.
+3. **Wider left panel.** `$leftPanelWidth: 380px` (right stays at
+   `$sidePanelWidth: 320px`) on the desktop grid, giving filenames more room.
 
 ## Build, deploy, verify
 

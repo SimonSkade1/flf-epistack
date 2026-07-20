@@ -114,16 +114,29 @@ button.desktop-explorer {
   overflow-y: auto;
   margin-top: 0.5rem;
 
+  // NOTE: `overscroll-behavior: contain` must sit ONLY on the element that
+  // actually scrolls (.explorer-ul). Stock Quartz put it on every nested ul;
+  // combined with `overflow: hidden` on .folder-outer > ul that made each
+  // nested ul a scroll-chaining boundary, so wheel events over folder contents
+  // never reached .explorer-ul — the explorer wouldn't scroll at all.
+  & > ul.overflow {
+    overscroll-behavior: contain;
+  }
+
   & ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    overscroll-behavior: contain;
 
     & li > a {
       color: var(--dark);
       opacity: 0.75;
       pointer-events: all;
+      // Tight line-height *within* a (wrapped) filename, clear padding
+      // *between* entries — so multi-line names read as one entry.
+      display: block;
+      line-height: 1.25;
+      padding: 0.3rem 0;
 
       &.active {
         opacity: 1;
@@ -161,7 +174,8 @@ button.desktop-explorer {
     font-family: var(--headerFont);
     font-size: 0.95rem;
     font-weight: $semiBoldWeight;
-    line-height: 1.5rem;
+    line-height: 1.25;
+    padding: 0.2rem 0;
     display: inline-block;
   }
 
@@ -187,7 +201,8 @@ button.desktop-explorer {
       color: var(--secondary);
       font-weight: $semiBoldWeight;
       margin: 0;
-      line-height: 1.5rem;
+      line-height: 1.25;
+      padding: 0.2rem 0;
       pointer-events: none;
     }
   }
