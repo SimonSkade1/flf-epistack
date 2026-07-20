@@ -2,7 +2,7 @@
 title: Reading an analysis
 ---
 
-> [!note] Draft. Worked against the sample [[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sahul megafauna analysis]].
+> [!note] Draft. Worked against the [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes analysis]].
 
 An analysis is one folder of markdown notes. Read it top-down:
 

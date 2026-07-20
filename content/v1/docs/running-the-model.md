@@ -14,8 +14,8 @@ The Bayesian layer of an analysis is not stored as cached numbers — it is **co
 The runner (`pipeline/runner/run.py`) reads every note, extracts these blocks, and composes each cluster's posterior:
 
 ```
-python3 pipeline/runner/run.py content/v1/analyses/sample-sahul-megafauna
-# HC-1  prior [0.2172, 0.4034, 0.2793, 0.1001]  posterior [0.2303, 0.5812, 0.115, 0.0735]  (2 evidence block(s))
+python3 pipeline/runner/run.py content/v1/analysis-tests/black-holes1
+# HC-1  prior [0.3097, 0.5752, 0.115]  posterior [0.0354, 0.8882, 0.0764]  (2 evidence block(s))
 ```
 
 ## Pricing an assumption
@@ -23,8 +23,8 @@ python3 pipeline/runner/run.py content/v1/analyses/sample-sahul-megafauna
 Any named variable can be overridden and the model re-run, so a skeptic can price exactly what a number is worth:
 
 ```
-python3 pipeline/runner/run.py content/v1/analyses/sample-sahul-megafauna --set E-14:t_dates=1.0
-# fully trusting the one age compilation lifts the human branch to ~0.89
+python3 pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.3 --set E-1:t_wd=0.3
+# distrusting the one paper both blocks rest on lifts the danger member's mass x4.7, to 0.1663
 ```
 
 Determinism is enforced: blocks are arithmetic over named variables only — no imports, randomness, clock, or I/O — so the same notes always give the same numbers.

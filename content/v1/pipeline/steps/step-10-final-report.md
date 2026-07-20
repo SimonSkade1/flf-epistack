@@ -1,0 +1,89 @@
+---
+title: "Step 10 — Final report answering the main question"
+---
+
+# Step 10 — Final report answering the main question
+
+You write one final report at the analysis-directory root — a single plain file, the only place in the whole knowledge base where the main question is answered. It is a **written report over the graph** — the bottom line, then what the analysis found, what it hangs on, what it doesn't cover — not a computed aggregate. It's for a human to read it front to back in at most ten minutes.
+
+## Spec
+
+**What the earlier steps left you.** Each **hypothesis-cluster** (`HC-N`) is one *sub*-question whose member hypotheses are mutually-exclusive candidate answers; steps 7-8 gave it a prior and a posterior over those members (get them by running `python3 runner/run.py <analysis-dir>` — prints `HC-N  prior [...]  posterior [...]` per cluster). Step 9 wrote one **review** per cluster, `Analysis of HC-N …` beside its cluster: prose saying where the posterior landed, what did the updating, what would change it, a *what-would-help* list of the missing information (each item labelled *exists, unread* · *exists, inaccessible* · *does not exist* · *unclear*), and notes on what the model may not capture and on contradictions. **These reviews are your primary input.**
+
+The main question is almost never itself a cluster. The clusters settle sub-questions, often in different currencies (a probability here, a rate there, a cost elsewhere), and putting them together into an answer is a judgment about what matters. So **the report is written, not computed**: you read the reviews and reason. Show the model's numbers, then argue.
+
+**Two boundaries.**
+
+1. **It re-derives nothing.** No paper re-read, no new number into the model, no snippet edited. A defect you notice is handed back as a re-run of the step that owns it, or stated as a limitation — never fixed here.
+2. **It is not read off the model.** It MUST NOT contradict a published posterior or claim confidence the reviews don't support (the "don't overreach, don't contradict the model" bar) — but the answer is **not** required to be recomputable from the graph. For most main questions there is nothing to recompute it from, and pretending otherwise buys a false audit trail. The honest form: show the model's numbers, then argue.
+
+### Artifact
+
+One final report file at the KB root, named `main report - {core research question}.md` — no id or prefix, since it is the single report rather than a graph node. The main question often ends in `?` or carries other characters illegal in a filename (`/`, `:`, …); replace them with a space or dash and collapse repeats, keeping the title readable. Frontmatter is just `type: main-report`. The body is the whole artifact: four prose parts, no template, no generated file, no python. **≤2000 words, part 1 ≤600** (about a page): the judges' ~10-page reading budget also has to hold the method spec.
+
+**Create the file with a shell heredoc, not the `Write` tool.** When step 10 runs as a subagent (the normal case), `Write` refuses this file with "Subagents should return findings as text, not write report files" — a prose `.md` looks to the harness like a report the child should have returned instead. That refusal is spurious here: the report *is* the deliverable. A child that accepts the error produces **no artifact at all**, and since this is the run's single answer file, the whole pipeline then completes with nothing to show. So write it as:
+
+```
+cat > "<analysis-dir>/main report - {core research question}.md" << 'EOF'
+---
+type: main-report
+---
+...
+EOF
+```
+
+Quote the delimiter (`<< 'EOF'`) so backticks and `$` in the body are not interpolated. Verify with `wc -w` on the path afterwards.
+
+### The four parts (all MUST, all prose)
+
+1. **The answer.** The bottom line in the first paragraph, in the terms the main question used (the verbatim contested question from `initial_prompt.md`, fixed at step 1 — answer *that*, not a paraphrase). A reader who stops here has the answer and its two or three reasons. Give a probability or range where the question admits one, and beside it what sits *outside* it. A **conditional** answer ("for X, A; for Y this analysis does not settle it") and a flat "not settled" are both legitimate; a confidence the reviews do not support is not. End with **≤10 curated entry points** as wikilinks — the deciding clusters' reviews (`[[Analysis of HC-N …]]`), the observations doing the most work, the data basis they rest on. That list is the whole navigation layer; everything below is reached by backlink.
+2. **What the analysis found.** One short paragraph per cluster that bears on the answer: its sub-question, where the posterior landed, what did the updating — quoted from the model, summarised from its review, never re-derived. Then step 10's own work: **how those sub-answers were weighed into part 1**, each weight declared a judgment. Where clusters answer in different currencies and none *is* the answer, that weighing argument is the substance of the report. A cluster that does not bear on the answer gets one line saying so and *why* — a heavily-studied cluster turning out irrelevant is a finding.
+3. **What the answer hangs on, and what would change it.** The few things that move the answer, named in prose — which cluster, observation, argument, or prior — and roughly how much it moves if each is wrong (driver visibility). Naming is required; pricing is optional. Where a re-run is cheap, do it: override the named variable and re-run (`python3 runner/run.py <analysis-dir> --set BLOCK:var=value`, `BLOCK` = the note's id, e.g. `--set E-14:t_dates=1.0`), then quote the move. Otherwise argue the size. No full sweep, no ranked table of computed sensitivities. Then the highest-value missing information, carried up from the reviews' what-would-help lists with their labels, re-ordered by effect on **the answer** (not on the individual cluster).
+4. **What this does not cover.** Scope and exclusions: what the question was taken to mean, what was ruled out at ingestion (the run's exclusions in `agent-notes/orientation/`; the step-2 curation notes in `agent-notes/curation.md` recording which sources were kept vs dropped), what the KB never modelled. What the debate **performed** rather than settled, from the reviews' notes on what the model may miss and on contradictions. KB-wide defects belonging to no cluster: source selection, orphan observations and arguments (an observation that discriminated no cluster, or an argument with neither an `affects_hypotheses` link nor an `affects_observations` on a live edge — moved to `orphan/` at step 5), unresolved `depends_on` (a cluster that needs another cluster's answer — a step-4 frontmatter link — never collapsed). Finally **external consensus**, as a **comparison, not an input**: your own explicitly-labelled characterisation of where the field currently stands on the main question — written by you from the sources and from whichever step-9 reviews wrote their optional consensus section — set beside what this analysis concluded, the difference discussed, neither mixed into the other. No node carries this as a field; it is the report's own reading, marked as such, and like step 9's it enters no number.
+
+### Rules
+
+1. **Quote the model's numbers, mark your own** (MUST). A number attributed to the analysis is one the model produces, with the run that produced it named at point of use. Any other number — most importantly part 1's answer, when no cluster is itself an answer — is the report's own judgment and is written as one. Minting a new model number means editing a step-7/8 snippet and re-running, not writing a sentence here.
+2. **Ground every load-bearing claim in a node** (MUST), by full wikilink: `[[Analysis of HC-1 - Dominant driver of the extinction pulse]]`, `[[O-14 - Youngest reliable ages fall within ~2 kyr of first occupation]]`. The reader is then ≤2 hops from a primary source via the node's `source`, and the backlinks show what the answer used.
+3. **State what is outside the number** (MUST). Every probability in part 1 arrives with the uncertainty that is *not* inside it — what the model does not cover, argued in prose from the reviews, plus the report's own unknown-unknown allowance. Test before shipping: would you bet at these odds? If not, the number is wrong or the range is missing.
+4. **Say when a number is not what the claim rests on** (MUST). A posterior within ~1e-3 of an endpoint (0 or 1) has stopped being the binding uncertainty — the arithmetic saturated. Label it a declared bound and say what the claim actually rests on (typically a prior or an out-of-model term), not the digit.
+5. **Independent impression** (MUST). External consensus appears only in part 4, labelled, entering no number. Agreeing with the field is fine, deferring is not, and the difference is whether the report can say what its own analysis contributed.
+
+### Micro-example (compressed; numbers illustrative and uncalibrated)
+
+The report — "What drove the extinction of Sahul's megafauna around 45-40 ka?"
+
+*The answer.* Human arrival, ~74%. `[[HC-1 - Dominant driver of the extinction pulse]]` splits that between direct predation (0.21) and indirect habitat impact through burning (0.53), against climate-driven aridification (0.18) and a driver nobody has proposed (0.08). **Which** human mechanism dominated, this analysis does not settle: the split rests on one prior variable with no reference class behind it (`p_direct_g_human`), which the evidence moves only through a single correlated pair of observations resting on one compilation. Outside the 74%: "one dominant driver" may be the wrong frame at all — argued in `[[Analysis of HC-1 - Dominant driver of the extinction pulse]]`, not scored — and everything rests on one age compilation `[[D-4 - Continental late-Quaternary age compilation, group R]]` whose screening protocol was never read. I would bet 3:1 on the human branch and at no odds on the mechanism. Entry points: `[[Analysis of HC-1 - Dominant driver of the extinction pulse]]`, `[[HC-1 - Dominant driver of the extinction pulse]]`, `[[O-14 - Youngest reliable ages fall within ~2 kyr of first occupation]]`, `[[D-4 - Continental late-Quaternary age compilation, group R]]`, … (≤10 total).
+
+*What the analysis found* summarises each bearing cluster's review, then states the weighing — e.g. `[[HC-2 - Arrival chronology of first human occupation]]` is not itself an answer but sets whether the 2 kyr window is real, so `HC-1`'s unresolved `depends_on` is priced here, not inside either cluster.
+
+*What the answer hangs on.* `t_dates = 0.55`, the reliability discount on `[[D-4]]`, is the biggest priced lever: `--set E-14:t_dates=1.0` moves the answer 74% → 85%; at 0 it falls to the prior, 62%. So the whole evidential contribution of this analysis is ~12 points, all flowing through one dataset. Then `[[A-31 - No comparable pulse at earlier glacial terminations]]`, which set the climate member's prior share before anything was read — priced by argument, not a re-run.
+
+*What this does not cover* names the ingestion exclusions, the `[[O-127 - Surviving macropods show no dietary overlap with extinct browsers]]` orphan, and — as a rule-4 declared bound — that `[[HC-101]]`'s reported 2.0e-5 comes almost entirely from the empirical-fallback term in its prior, not the theory chain that nominally produces it.
+
+*The conditional shape* (where no cluster is an answer): "Should catchment C reintroduce beavers?" splits into flood-peak reduction (`HC-201`, 0.71 yes), salmonid effect (`HC-202`, 0.55 raise / 0.30 lower), and agricultural cost (`HC-203`, ~£40k/yr) — three currencies, none the answer. So part 1 is conditional ("yes in headwater sub-catchments; not settled where arable land sits inside the backwater zone") and part 2 carries the trade-off, including that `HC-202`, the most-studied cluster in the KB, barely moves the decision.
+
+### Checks (binary)
+
+1. Exactly one final report file (`type: main-report`); four parts present and non-empty; ≤2000 words, part 1 ≤600.
+2. Part 1 contains a probability or explicit range **and** a statement of what is outside it, and ends with ≤10 wikilinks.
+3. Every active cluster appears in part 2 — a paragraph or a one-line "did not bear on the answer" — and every cluster named links its review (`[[Analysis of HC-N …]]`).
+4. Every claim in parts 1-3 resting on the analysis names ≥1 existing node by full wikilink; every wikilink in the report resolves.
+5. Every number attributed to the model is reproduced by it, with the run producing it named; every other number is marked as the report's judgment.
+6. No argument with `status: rejected` (one step 6 judged invalid) is cited as support; external consensus is labelled as external and appears in no number.
+
+### Interface
+
+**Consumes, read-only.** *Step 9*: the reviews (`Analysis of HC-N …`) — the primary input, and the summary of each cluster the report works from. *Steps 7-8*: each cluster's prior, likelihoods, and posterior. *Step 4*: unresolved `depends_on`, dropped hypotheses. *Step 5*: orphans. *Steps 1-2*: the main question (verbatim) from `initial_prompt.md`, the run's `search_scope` / `exclusions` in `agent-notes/orientation/`, and the curation notes in `agent-notes/curation.md`. **MAY** re-run the model with a named variable overridden to price a driver (`runner/run.py … --set …`); nothing requires it.
+
+**Produces.** The submission's entry document, and the answer to the main question — which exists nowhere else in the KB. Nothing downstream consumes it mechanically. You own the final report file and the main question's answer; no field on any existing node, no generated file, no script.
+
+## Process
+
+1. **Load before you write a word.** Read the main question verbatim from `initial_prompt.md` and skim the run's exclusions (`agent-notes/orientation/`) and the curation notes (`agent-notes/curation.md`) so you know the question's exact framing and edges. Run `python3 runner/run.py <analysis-dir>` once to capture current priors and posteriors. Then read every review end to end — they are the substance. If you find yourself opening `sources/` or re-reading a paper, stop: that is re-derivation (boundary 1). The reviews already did the reading; your job is to weigh them.
+2. **Do the weighing before drafting.** The central move is mapping sub-answers onto the main question. Scratch a line per cluster: what currency it answers in, and whether/how it bears on the main question. Most clusters answer in a different currency than the question is asked in, so the report's real content is the argument that combines them — decide the bottom line from that argument, not from any single posterior. Naming which clusters *don't* bear, and why, is part of the finding.
+3. **Draft parts 2-4 first, part 1 last.** Part 1 is a distillation; you can only front-load the bottom line and its two or three reasons once you know what the analysis found (part 2) and what it hangs on (part 3). Pick the ≤10 entry points from what actually carried the answer, not from what looks impressive.
+4. **Calibrate deliberately**. State ranges you would actually bet at. Two directions of error: a tidy single number hiding model gaps (over-confident), and a hedged range wider than the evidence warrants (sandbagged). The reviews already name most of the out-of-model risk — pull it forward rather than re-inventing it — and add your own unknown-unknown allowance on top. In the model that allowance lives in the residual "some driver nobody proposed" member; in the report it lives in your prose.
+5. **Price the drivers, don't sweep** (part 3). Name first, price second. For any lever with a named python variable, pricing is a one-liner: `--set BLOCK:var=value`, re-run, quote the posterior move in percentage points. Price only the two or three levers that plausibly move *the answer* most; a table of every variable is noise. For levers with no variable — a framing choice, an unread source, a prior set before reading — argue the magnitude instead. A lever that swings a cluster hard but the answer barely is itself worth one sentence.
+6. **Watch four traps.** (a) Minting a model number in prose (rule 1) — if you want a number the model doesn't output, that's a step-7/8 edit and re-run handed back, not a sentence here. (b) Overruling a posterior (boundary 2) — you may call a posterior fragile and say why; you may not contradict it. (c) Treating a saturated posterior as certainty (rule 4) — a 1e-5 or a 0.999 usually means the arithmetic hit a wall the prior or an out-of-model term set; say what really carries the claim. (d) Deference — write your bottom line from the model and the reviews, *then* characterise the field's consensus in part 4 and compare; if you can't state what your own analysis added beyond the consensus, you deferred.
+7. **Hold the budget.** ≤2000 words (part 1 ≤600) forces choices the judges' 10-page limit imposes. Cut non-bearing clusters to one line, point into the reviews instead of re-summarising them, and don't re-explain machinery the graph already holds. If a sentence doesn't help a reader decide what to trust, delete it.

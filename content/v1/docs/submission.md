@@ -56,7 +56,7 @@ Every file in each analysis folder is generated autonomously from `initial_promp
 
 **Stated plainly:** the pipeline is implemented end to end, the runner passes a self-check, and all three cases have run the whole way through step 10 as low-N shakedown runs. The §5.1 posteriors are real and recompute from the notes, but are small-N draws from much larger scored pools — a demonstration of the method, not settled answers.
 
-The `sample-sahul-megafauna` demo ships in the repo: a structurally different question on the same schema, with illustrative and uncalibrated numbers but a real schema, runner and override machinery. **§7 turns it into a three-command demo, including a re-run with one assumption overridden.** Start there if you have a terminal.
+**§7 turns the black-holes run into a three-command demo**, including a re-run that distrusts the single paper most of its likelihoods route through and watches the posterior move. Start there if you have a terminal.
 
 ---
 ## 1 — Underlying principles
@@ -143,7 +143,7 @@ The runner's composition: normalise the prior, then each edge multiplies every m
 
 Three questions with contrasting difficulty profiles (near-closed physics, a vague nutrition question, a live politicized one) got the **same command and the same case-agnostic schema**, differing only in question and `curated_target_N`. All three ran all ten steps end-to-end as **preliminary shakedown runs at N=5–10 curated sources** (§5.1); larger runs are queued.
 
-That claim is checkable in thirty seconds: across the pipeline's 3053 lines of specification and code, the *only* occurrence of "black hole", "egg" or "COVID" is one illustrative parenthetical in the skill's one-line description. A fourth, structurally different question (Quaternary extinction, `sample-sahul-megafauna`) runs the pipeline unchanged.
+That claim is checkable in thirty seconds: across the pipeline's 3152 lines of specification and code, the *only* occurrence of "black hole", "egg" or "COVID" is one illustrative parenthetical in the skill's one-line description.
 
 1. **black-holes** (primary): [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|final report]]. Goes after what the consensus *rests on*, not the consensus (§4).
 2. **eggs**: [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|final report]]. Tests whether the method can *report that there is no strong crux*. A pipeline that always emits one is broken, not impressive.
@@ -181,9 +181,11 @@ That claim is checkable in thirty seconds: across the pipeline's 3053 lines of s
 
 ## 7 — How to run & reproduce it
 
-**Browse it:** `https://epistack.simonskade.org`. Every typed node is rendered and navigable by its frontmatter edges; the FLF iteration is frozen at `https://epistack.simonskade.org/v1/`.
+*Edited after the submission deadline.* The demo and curated entry points below originally ran on `sample-sahul-megafauna`, a hand-written structural demo whose numbers were illustrative rather than pipeline-computed. It has been withdrawn from the site and its two passing mentions elsewhere (§3, §6) trimmed; both now use the real black-holes run instead. §6's line count was also corrected from 3053 to 3152, the figure the shipped skill actually gives. Nothing else changed.
 
-**Reproduce a run:** clone `https://github.com/SimonSkade1/flf-epistack`. It ships the skill at `.claude/skills/flf-epistack/` and the worked analyses at `content/v1/analyses/<case>/`. Each case is one command:
+**Browse it:** `https://epistack.simonskade.org`. Every typed node is rendered and navigable by its frontmatter edges; the FLF iteration is frozen at `https://epistack.simonskade.org/v1/`. The pipeline specification itself is browsable at `https://epistack.simonskade.org/v1/pipeline/`.
+
+**Reproduce a run:** clone `https://github.com/SimonSkade1/flf-epistack`. It ships the skill at `.claude/skills/flf-epistack/` and the completed runs at `content/v1/analysis-tests/<case>/`. Each case is one command:
 
 ```
 cd content/v1/analyses/black-holes && claude -p "/flf-epistack 0 — curated_target_N=25" --model fable --effort max --permission-mode bypassPermissions
@@ -193,25 +195,23 @@ cd content/v1/analyses/eggs        && claude -p "/flf-epistack 0 — curated_tar
 
 Every file in an analysis folder comes from its `initial_prompt.md` via that command, no hand-editing.
 
-**Interrogate the answer: a two-minute demo.** The repo ships `sample-sahul-megafauna`, a fully-worked analysis exercising every schema step. Needs only python 3:
+**Interrogate the answer: a two-minute demo.** Runs on a published analysis; needs only python 3:
 
 ```
-python3 .claude/skills/flf-epistack/runner/run.py content/v1/analyses/sample-sahul-megafauna
-# HC-1  prior [0.2172, 0.4034, 0.2793, 0.1001]  posterior [0.2303, 0.5812, 0.115, 0.0735]  (2 evidence block(s))
+python3 .claude/skills/flf-epistack/runner/run.py content/v1/analysis-tests/black-holes1
+# HC-1  prior [0.3097, 0.5752, 0.115]  posterior [0.0354, 0.8882, 0.0764]  (2 evidence block(s))
 ```
 
-One line per cluster, in `HC.hypotheses` order (here `[direct predation, indirect human impact, climate aridification, residual]`). Re-price any assumption with `--set BLOCK:var=value`: `BLOCK` is a note id, `var` a named variable in its python block. `CG-1` holds the *one joint likelihood* for the two observations sharing the `D-4` age compilation; `t_dates` is its reliability weight:
+One line per cluster, in `HC.hypotheses` order (here `[H-1 catastrophic, H-2 harmless, H-6 residual]`). Re-price any assumption with `--set BLOCK:var=value`: `BLOCK` is a note id, `var` a named variable in its python block. §6's structural worry is that nearly every empirical likelihood traces back to one paper, `S-1` (Giddings–Mangano), trust-capped at 0.74 — which caps both `CG-1`, the joint block over `O-2`/`O-3`/`O-4`, and the lone white-dwarf edge `E-1`. Distrust that paper and watch the danger mass move:
 
 ```
-python3 .claude/skills/flf-epistack/runner/run.py content/v1/analyses/sample-sahul-megafauna --set CG-1:t_dates=1.0
-# posterior [0.2167, 0.6708, 0.0562, 0.0562]      <- take the compilation fully at face value
-python3 .claude/skills/flf-epistack/runner/run.py content/v1/analyses/sample-sahul-megafauna --set CG-1:t_dates=0.0001
-# posterior [0.2485, 0.4615, 0.1934, 0.0967]      <- distrust it entirely; collapses toward the prior
+python3 .claude/skills/flf-epistack/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.3 --set E-1:t_wd=0.3
+# posterior [0.1663, 0.7318, 0.1019]     <- H-1's danger mass ×4.7
+python3 .claude/skills/flf-epistack/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.0 --set E-1:t_wd=0.0
+# posterior [0.3097, 0.5752, 0.115]      <- distrust it entirely; recovers the prior exactly
 ```
 
-Any disputed assumption is one flag from a re-run; `t=0` recovers the prior exactly.
-
-Once the case runs finish, the same commands work on `content/v1/analyses/black-holes` and the others.
+Any disputed assumption is one flag from a re-run, and `t=0` recovers the prior exactly — the ×4.7 figure §6 quotes is this command, not an assertion.
 
 Self-check:
 
@@ -221,11 +221,11 @@ python3 .claude/skills/flf-epistack/runner/test_run.py
 
 It rebuilds the step 7 and step 8 specs' micro-examples and asserts the runner reproduces every number they publish, plus determinism, edge-order commutativity, and the sandbox guard rejecting `import`.
 
-**Curated entry points.** Six links into `sample-sahul-megafauna`, in reading order from the answer down to the dataset it rests on. Its numbers are illustrative; each contest report (§5.1) has its own list. With ten minutes, read the [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes report]] instead. Its dependency-tracing is most visible.
+**Curated entry points.** Six links into the black-holes run, in reading order from the answer down to the dataset it rests on. It is a low-N shakedown run (§5.1), but every number below is computed, and its dependency-tracing is the most visible of the three.
 
-1. [The main report](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/MR-1---What-drove-the-extinction-of-Sahul's-megafauna-around-45-40-ka): the answer, and what sits outside it.
-2. [The cluster review](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/cluster-reviews/CR-1---Review-of-HC-1,-dominant-driver-of-the-extinction-pulse): what moved the posterior, and whether the true answer is listed.
-3. [The cluster itself](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/hypothesis-clusters/HC-1---Dominant-driver-of-the-extinction-pulse). Four mutually-exclusive members, residual last, frozen order.
-4. [The driver observation](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/observations/O-14---Youngest-reliable-ages-for-8-of-12-dated-genera-fall-within-~2-kyr-of-first-human-occupation): the finding the answer leans on hardest.
-5. [The correlation group](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/correlation-groups/CG-1---Continental-age-compilation-D-4-—-arrival-window-pattern) — **read this one if you read one.** One joint likelihood for two observations sharing a data basis; the sibling edge deliberately holds none.
-6. [The data basis](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/data-bases/D-4---Continental-late-Quaternary-age-compilation,-group-R): the compilation both rest on; its `known_biases` names the shared failure mode.
+1. [The main report](https://epistack.simonskade.org/v1/analysis-tests/black-holes1/main-report---Was-the-risk-that-LHC-collisions-destroy-the-Earth-truly-put-to-rest-and-what-does-that-conclusion-hinge-on): the answer, and what sits outside it.
+2. [The cluster review](https://epistack.simonskade.org/v1/analysis-tests/black-holes1/hypothesis-clusters/Analysis-of-HC-1---Fate-of-a-stable-LHC-black-hole-trapped-in-Earth): what moved the posterior, and whether the true answer is listed.
+3. [The cluster itself](https://epistack.simonskade.org/v1/analysis-tests/black-holes1/hypothesis-clusters/HC-1---Fate-of-a-stable-LHC-black-hole-trapped-in-Earth). Three mutually-exclusive members, residual last, frozen order.
+4. [The driver observation](https://epistack.simonskade.org/v1/analysis-tests/black-holes1/observations-and-facts/O-3---Cosmic-rays-far-above-LHC-equivalent-energy-continuously-bombard-Earth,-white-dwarfs-and-neutron-stars): the finding the safety case leans on hardest.
+5. [The correlation group](https://epistack.simonskade.org/v1/analysis-tests/black-holes1/correlation-groups/CG-1---HC-1-joint-over-O-2+O-3+O-4) — **read this one if you read one.** One joint likelihood for three observations sharing a data basis, rather than three independent votes.
+6. [The data basis](https://epistack.simonskade.org/v1/analysis-tests/black-holes1/data-bases/D-1---Cosmic-ray-survival-premise---high-energy-cosmic-rays-have-bombarded-astronomical-bodies-over-Gyr-without-catastrophe): the premise all three rest on; its `known_biases` names the shared failure mode.

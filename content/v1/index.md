@@ -16,7 +16,7 @@ This site is the reading surface. The [runnable pipeline](https://github.com/Sim
 	2. [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|LHC black holes]]
 	3. [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|Eggs and health]]
 3. [[APPENDIX - known failure modes|Known failure modes]] — 3 BLOCKERs and 33 MAJORs, each logged by an agent inside the run that hit it, including one defect claim the run then retracted.
-4. [[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sample analysis — the final report]] and its [[manifest|manifest]] / [[structuring-manifest|cluster map]] — a hand-written structural demo of every node type.
+4. [[v1/pipeline/index|The pipeline itself]] — the 10-step specification the runs were produced by, browsable step by step.
 5. [[v1/docs/index|Documentation]] — what the pipeline does, and how to read the node types.
 
 ## What an analysis looks like
@@ -29,7 +29,7 @@ Every box in the debate is one markdown note with typed frontmatter, linked to t
 4. **evidence-links** (`E-N`) — observation → cluster edges, each carrying a runnable `## Likelihood` code block.
 5. **arguments** (`A-N`), **cluster-reviews** (`CR-N`), and the **main-report** (`MR-1`) that answers the question.
 
-The current sample ([[MR-1 - What drove the extinction of Sahul's megafauna around 45-40 ka|Sahul megafauna extinction]]) is a hand-written **structural demo** — illustrative numbers, but every node type, folder, wikilink, embed, and code block a real run produces. Real analyses replace it as they finish.
+A hand-written structural demo of this schema (`sample-sahul-megafauna`) used to sit here. It was withdrawn after the submission deadline: its numbers were illustrative rather than pipeline-computed, which on a site whose whole claim is that every number recomputes from the notes is a liability rather than an aid. The three runs above are the real thing.
 
 > [!info] How to read the published runs
 > `analysis-tests/` holds three end-to-end runs, one per case study, at 5–10 curated sources each (COVID origins and eggs at N=10, LHC black holes at N=5). These are deliberately small shakedown runs: all ten steps ran and every posterior recomputes from the notes, but each rests on a thin evidence base, so read them as a demonstration of the method rather than as settled answers. Fuller runs land in `analyses/`. Defects the runs exposed are listed in the [[APPENDIX - known failure modes|failure-modes appendix]] rather than quietly fixed.

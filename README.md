@@ -35,7 +35,7 @@ The **site shell** — the Quartz reading surface and the pipeline — is versio
 1. `content/` — the site content (Quartz reads this).
    1. `content/index.md` — version-agnostic root landing page (what EpiStack is, links to the iterations).
    2. `content/v1/` — the FLF-competition iteration → `/v1/`.
-      1. `content/v1/analyses/` — one folder per full-N analysis. `sample-sahul-megafauna/` is a hand-written **structural demo** exercising every node type, folder, wikilink, embed, and code block a real run produces (illustrative numbers).
+      1. `content/v1/analyses/` — one folder per full-N analysis; each currently holds only its `initial_prompt.md`.
       2. `content/v1/analysis-tests/` — the three completed **low-N shakedown runs**, plus the known-failure-modes appendix. Kept separate from `analyses/` so the distinction stays legible.
       3. `content/v1/docs/` — the submission document and supporting documentation.
       4. `content/v1/index.md` — v1 landing page; doubles as the `/v1/` folder page.
