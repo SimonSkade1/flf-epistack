@@ -3,8 +3,7 @@ type: evidence-link
 id: E-22
 from: "[[O-22 - Three megafauna genera persist more than 5 kyr after first human arrival]]"
 to: "[[HC-1 - Dominant driver of the extinction pulse]]"
-correlated_with:
-  - "[[E-14 - O-14 × HC-1 +A-7 — youngest ages cluster in the arrival window]]"
+group: "[[CG-1 - Continental age compilation D-4 — arrival-window pattern]]"
 ---
 
 ![[O-22 - Three megafauna genera persist more than 5 kyr after first human arrival]]
@@ -15,4 +14,4 @@ A >5 kyr refugial tail fits a staggered habitat squeeze ([[H-11 - Indirect human
 
 ## Likelihood
 
-Joint estimate with O-14 in [[E-14 - O-14 × HC-1 +A-7 — youngest ages cluster in the arrival window]] (shared basis [[D-4 - Continental late-Quaternary age compilation, group R]]). No separate block: pricing this observation on its own would count the D-4 compilation as two independent witnesses (criterion 3).
+Joint estimate with O-14 in [[CG-1 - Continental age compilation D-4 — arrival-window pattern]] (shared basis [[D-4 - Continental late-Quaternary age compilation, group R]]). No separate block: pricing this observation on its own would count the D-4 compilation as two independent witnesses (criterion 3).
