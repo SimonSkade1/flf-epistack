@@ -329,8 +329,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
       (l) => l.source.id === d.id || l.target.id === d.id,
     ).length
     const base = 2 + Math.sqrt(numLinks)
-    // the current page is drawn bigger so it reads as the anchor of the view
-    return d.id === slug ? base * 1.6 : base
+    // the current page is drawn a touch bigger so it reads as the anchor of the
+    // view — but only slightly, so the dot doesn't cover its own title
+    return d.id === slug ? base * 1.2 : base
   }
 
   // declared up here (rather than next to the zoom setup) because renderLabels reads it
@@ -569,12 +570,6 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
     if (isTagNode) {
       gfx.stroke({ width: 2, color: computedStyleMap["--tertiary"] })
-    }
-
-    // ring the current node in the foreground colour (--dark, high-contrast in
-    // both themes) so it's unmistakable even against a same-family neighbour
-    if (nodeId === slug) {
-      gfx.stroke({ width: Math.max(2, nodeRadius(n) * 0.4), color: computedStyleMap["--dark"] })
     }
 
     nodesContainer.addChild(gfx)

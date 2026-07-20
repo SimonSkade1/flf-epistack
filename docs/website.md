@@ -94,10 +94,9 @@ tell apart at a glance.
 Customisations on top of stock Quartz (`graph.inline.ts`):
 
 1. **Type colouring** (above). The current page's node instead gets the dedicated
-   `--node-current` colour — **chartreuse**, the one hue the 10-type palette leaves
-   open (max min-distance from every type colour in both themes) — plus a
-   high-contrast ring (`--dark`) and 1.6× radius, so "you are here" is unmistakable
-   even next to a same-family neighbour.
+   `--node-current` colour — **neon yellow**, a hue no node type uses (darkened for
+   the light theme so it reads on the near-white background) — and a slight 1.2×
+   radius. No ring: it obscured the title and read as clutter.
 2. **Hover reveals neighbour titles.** Stock Quartz shows only the hovered
    node's label. Here, hovering also shows the labels of all adjacent nodes, so
    you can read a neighbourhood without clicking. Labels return to the

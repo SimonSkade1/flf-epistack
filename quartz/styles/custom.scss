@@ -29,11 +29,9 @@
   --node-argument: #be123c;
   --node-cluster-review: #475569;
   --node-main-report: #0f172a;
-  // The "you are here" node. Deliberately NOT a type colour: chartreuse is the
-  // one hue the 10-type palette leaves open (it sits between evidence's amber and
-  // observation's green), so it reads as "none of the above". Max min-distance
-  // from every type colour in both themes; the graph also rings it and sizes it up.
-  --node-current: #84cc16;
+  // The "you are here" node. Neon yellow — a hue no node type uses. Darkened for
+  // the light theme so it stays legible on the near-white background without a ring.
+  --node-current: #b0a000;
 }
 
 :root[saved-theme="dark"] {
@@ -47,7 +45,7 @@
   --node-argument: #fb7185;
   --node-cluster-review: #94a3b8;
   --node-main-report: #e2e8f0;
-  --node-current: #bef264;
+  --node-current: #f2ec00;
 }
 
 // every node type, in pipeline order (used for legend + graph filter swatches).
