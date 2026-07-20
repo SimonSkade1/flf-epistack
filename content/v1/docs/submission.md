@@ -21,7 +21,7 @@ I built a 10-step pipeline (a Claude Code skill, python scripts and a determinis
 | `observation` | `O` | Empirical finding |
 | `hypothesis` | `H` | Candidate answer |
 | `hypothesis-cluster` | `HC` | Mutually-exclusive answers to a sub-question, residual last |
-| `argument` | `A` | Inference carrying no information itself |
+| `argument` | `A` | Inference carrying no information of its own |
 | `evidence-link` | `E` | Obs→cluster edge, minted only where it *discriminates* |
 | `correlation-group` | `CG` | Joint likelihood for edges sharing a data basis |
 
@@ -71,11 +71,11 @@ A contested question rarely suffers from too little evidence. It suffers from ev
 
 4. **Correlated evidence counted once.** Observations resting on the same data-basis node get ONE joint likelihood on a `correlation-group` node, stating P(all of them | H). Why: independent-counting of correlated evidence is *the* standard way Bayesian aggregation manufactures false confidence, and what most separates this from a source-tally. Live instance in §4: two apparently independent black-hole safety arguments on one cosmic-ray dataset.
 
-5. **Explicit out-of-model residual.** Every non-exhaustive cluster carries a residual member ("something not listed here") with its own argued weight and real likelihood, never `1 - sum(others)`. Why: a complement is a rescaling artifact rather than an estimate, and it hides both failure modes. Too small and no evidence can lift it; too large and it soaks up every posterior. An argued weight keeps unmodelled explanations visibly competing.
+5. **Explicit out-of-model residual.** Every non-exhaustive cluster carries a residual member ("something not listed here") with its own argued weight and real likelihood, never `1 − sum(others)`. Why: a complement is a rescaling artifact rather than an estimate, and it hides both failure modes. Too small and no evidence can lift it; too large and it soaks up every posterior. An argued weight keeps unmodelled explanations visibly competing.
 
 ### Scalability
 
-No hand-designed human bottleneck sits anywhere. One command per case produces every file, and the optional human-review mode is not load-bearing. The design improves with stronger models and more compute: better models re-estimate variables in place or extract more carefully, with no schema change; more compute buys more sources, deeper extraction, optional cross-model ensembling. Models are assigned per step by the orchestrator. Judgment-heavy children (step 1's planner and consolidator, both step-2 substeps) run on opus, searchers on sonnet, others inherit the session model.
+No hand-designed human bottleneck sits anywhere. One command per case produces every file, and the optional human-review mode is not load-bearing. The design improves with stronger models and more compute: better models re-estimate variables in place or extract more carefully, with no schema change; more compute buys more sources, deeper extraction, optional cross-model ensembling. Models are assigned per step by the orchestrator, on top of whatever session model the run was launched with (`--model fable` in §7). Judgment-heavy children (step 1's planner and consolidator, both step-2 sub-steps) run on opus, searchers on sonnet, and everything else inherits the session model.
 
 ---
 
@@ -83,66 +83,13 @@ No hand-designed human bottleneck sits anywhere. One command per case produces e
 
 Ten steps, one orchestrator spawning every child. Each step fans out over disjoint slices and only *adds* to the previous step's graph. No human checkpoints.
 
-```mermaid
-flowchart TB
-  Q["initial_prompt.md<br/>main question, verbatim"]
+![[epistack-pipeline-figure.png]]
 
-  subgraph INGEST["INGEST — steps 1-3 · find, curate, extract"]
-    direction LR
-    A1["1a planner<br/>slices the literature"] -->|"child prompts"| A2["1b searchers ×k<br/>one search thread each"]
-    A2 -->|"S"| A3["1c consolidator<br/>dedupe pool + audit balance"]
-    A3 -->|"S pool"| B1["2a scorers ×pool/10<br/>~10 sources each, mint D"]
-    B1 -->|"S scored + D"| B2["2b selector<br/>merge D, cut to ~N curated"]
-    B2 -->|"S curated"| C1["3 extractors ×N/5<br/>~5 papers each"]
-    C1 -->|"O + H + A"| C2["3 consolidator<br/>merge dup D + generally-known O"]
-  end
-
-  subgraph STRUCT["STRUCTURE — steps 4-5 · cluster, link"]
-    direction LR
-    D1["4a merge/drop"] -->|"H active"| D2["4b cluster<br/>mints HC + residual members"]
-    D2 -->|"HC"| E1["5 linkers ×cluster<br/>mint discriminating edges"]
-    E1 -->|"E"| E2["5 consolidator<br/>attach args, build CG, mark orphans"]
-  end
-
-  subgraph ASSESS["ASSESS — steps 6-9 · validity, priors, likelihoods"]
-    direction LR
-    F1["6 argument batches<br/>&lt;=20 arguments each"] -->|"A validity"| G1["7 priors ×cluster<br/>one Prior block each"]
-    G1 -->|"prior + unmarked E"| H1["8 likelihoods<br/>×CG, or ×&lt;=3 lone edges"]
-    H1 -->|"Likelihood blocks"| GATE{{"gate: runner/run.py<br/>composes prior × likelihoods"}}
-    GATE -->|"posterior"| I1["9 reviews ×cluster"]
-  end
-
-  subgraph ASSEMBLE["ASSEMBLE — step 10"]
-    J1["10 report writer<br/>main report, 4 parts"]
-  end
-
-  Q --> A1
-  C2 -->|"H"| D1
-  E2 -->|"A on edges, E + CG"| F1
-  I1 -->|"reviews + posterior"| J1
-
-  linkStyle 0 stroke:#666666,stroke-width:1.5px
-  linkStyle 1,2,3,4 stroke:#1f77b4,stroke-width:2px
-  linkStyle 5 stroke:#2ca02c,stroke-width:2px
-  linkStyle 6 stroke:#ff7f0e,stroke-width:2px
-  linkStyle 7 stroke:#d62728,stroke-width:2px
-  linkStyle 8 stroke:#8c564b,stroke-width:2px
-  linkStyle 9 stroke:#9467bd,stroke-width:2px
-  linkStyle 10 stroke:#8c564b,stroke-width:2px
-  linkStyle 11 stroke:#e377c2,stroke-width:2px
-  linkStyle 12 stroke:#000000,stroke-width:2.5px
-  linkStyle 13 stroke:#666666,stroke-width:1.5px
-  linkStyle 14 stroke:#ff7f0e,stroke-width:2px
-  linkStyle 15 stroke:#9467bd,stroke-width:2px
-  linkStyle 16 stroke:#000000,stroke-width:2.5px
-```
-
-*Edge colour and label name the file type:* **S** source · **D** data-basis · **O** observation · **H** hypothesis · **HC** cluster · **A** argument · **E** evidence-link · **CG** correlation-group · **posterior** (computed, not a file).
-
+*Arrow colour and label name the node type flowing along it; stacked boxes are parallel children on disjoint slices. The chips on the right of a box give its model and its fan-out.*
 
 ### The streams
 
-Beyond §0's node types: **D** makes "these two findings share a basis" node identity rather than free-text matching. **CG** is the connected components of edges sharing a `D`.
+Beyond §0's node types: **D** turns "these two findings share a basis" into node identity rather than a free-text match. A **CG** is a connected component of edges sharing a `D`.
 
 ### The steps
 
@@ -206,7 +153,7 @@ That claim is checkable in thirty seconds: across the pipeline's 3053 lines of s
 
 **Read these as shakedown runs, not as answers.** They live in `analysis-tests/`, separate from `analyses/`, where the full-N runs land after the deadline. Each ran at `curated_target_N` = 5 (black-holes, covid) or 10 (eggs): black-holes scored 23 sources, 18 cleared the trust baseline, top 5 curated. The evidence base is thin. Read them as *what the pipeline does with evidence*, not *what is true*. The numbers are genuine: all ten steps ran, every posterior recomputes via `run.py` (§7).
 
-1. **black-holes.** HC-3 (hole forms): H-8 **0.94**. HC-2 (evaporates): H-4 **0.956** vs non-evaporation 0.044. HC-1 (trapped stable hole is dangerous): catastrophic H-1 **0.035**, harmless H-2 0.888, residual 0.076. Chaining the danger legs gives order **1e-4**. That is *my* composition, not a model output, and a loose upper shape rather than a computed probability: the legs share `S-1` and `D-1`, so are not independent. Structure matters more: nearly every empirical likelihood routes through **one paper** (Giddings–Mangano, trust-capped 0.74) and its cosmic-ray premise `D-1`; dropping trust 0.74 → 0.3 moves HC-1's danger mass ×4.7.
+1. **black-holes.** HC-3 (hole forms): H-8 **0.94**. HC-2 (evaporates): H-4 **0.956** vs non-evaporation 0.044. HC-1 (trapped stable hole is dangerous): catastrophic H-1 **0.035**, harmless H-2 0.888, residual 0.076. Chaining the danger legs gives order **1e-4**. That is *my* composition, not a model output, and a loose upper bound rather than a computed probability: the legs share `S-1` and `D-1`, so are not independent. Structure matters more: nearly every empirical likelihood routes through **one paper** (Giddings–Mangano, trust-capped 0.74) and its cosmic-ray premise `D-1`; dropping trust 0.74 → 0.3 moves HC-1's danger mass ×4.7.
 2. **eggs.** HC-2 (net direction on hard endpoints), by branch: **null 0.639**, direction-varies 0.308, protective 0.039, harmful 0.014. HC-1 (lipid mechanism): a real-but-saturating dietary-cholesterol effect at **0.810**. HC-3 (heterogeneity): ~0.659 on "not uniform across people". Mechanism and endpoint layers agree.
 3. **covid.** One cluster only: zoonotic spillover at Huanan **0.495**, research-related incident **0.081**, neither-listed residual **0.424**.
 
@@ -217,7 +164,7 @@ That claim is checkable in thirty seconds: across the pipeline's 3053 lines of s
 6. **eggs' HC-2 is not a clean partition.** Three members assert a null under different scope riders, so they can co-hold and member-level ranking is undefined; the report ranks by branch. HC-1's 0.810 is partly circular: its strongest edge comes from its own extraction source, and nothing detects that.
 7. **black-holes covers one mechanism.** Strangelets and vacuum decay, both named in the question, never became clusters at N=5. The LSAG report, which publicly put the risk to rest, scored **below the cut** as a synthesis, so the analysis reconstructs it from LSAG's primary inputs.
 
-**What the small run did get right.** The safety case turns on the cosmic-ray argument *and its non-obvious repair*: cosmic-ray-produced holes are relativistic and escape, so Earth's survival says nothing about the **slow, trapped** holes the LHC would make. Hence white-dwarf and neutron-star survival is load-bearing. The graph carries both halves (`O-3`, `O-1`/`O-2`, `O-4`) plus the joining arguments: `A-1` closes the relativistic-escape loophole via WD/NS stopping power, `A-2` excludes fast accretion, `A-3` excludes charged holes, `A-6` inerts the naive Earth/Sun leg on observer-selection grounds, leaving neutron-star survival to carry the weight. Curation also caught itself: the script flagged `D-1` as shut out of the top-5 cut, and the cut was adjusted to admit the one source resting on it.
+**What the small run did get right.** The safety case turns on the cosmic-ray argument *and its non-obvious repair*: cosmic-ray-produced holes are relativistic and escape, so Earth's survival says nothing about the **slow, trapped** holes the LHC would make. Hence white-dwarf and neutron-star survival is load-bearing. The graph carries both halves (`O-3`, `O-1`/`O-2`, `O-4`) plus the joining arguments: `A-1` closes the relativistic-escape loophole via WD/NS stopping power, `A-2` excludes fast accretion, `A-3` excludes charged holes, and `A-6` defuses a separate naive leg — Earth's and the Sun's own survival read as a safety bound — on observer-selection grounds, leaving neutron-star survival to carry the weight. Curation also caught itself: the script flagged `D-1` as shut out of the top-5 cut, and the cut was adjusted to admit the one source resting on it.
 
 ---
 ## 6 — Further thoughts on limitations & improvement options
@@ -274,7 +221,7 @@ python3 .claude/skills/flf-epistack/runner/test_run.py
 
 It rebuilds the step 7 and step 8 specs' micro-examples and asserts the runner reproduces every number they publish, plus determinism, edge-order commutativity, and the sandbox guard rejecting `import`.
 
-**Curated entry points.** Six links in reading order, answer down to dataset, into `sample-sahul-megafauna`; its numbers are illustrative, each contest report (§5.1) has its own list. With ten minutes, read the [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes report]] instead. Its dependency-tracing is most visible.
+**Curated entry points.** Six links into `sample-sahul-megafauna`, in reading order from the answer down to the dataset it rests on. Its numbers are illustrative; each contest report (§5.1) has its own list. With ten minutes, read the [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes report]] instead. Its dependency-tracing is most visible.
 
 1. [The main report](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/MR-1---What-drove-the-extinction-of-Sahul's-megafauna-around-45-40-ka): the answer, and what sits outside it.
 2. [The cluster review](https://epistack.simonskade.org/v1/analyses/sample-sahul-megafauna/cluster-reviews/CR-1---Review-of-HC-1,-dominant-driver-of-the-extinction-pulse): what moved the posterior, and whether the true answer is listed.
