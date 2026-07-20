@@ -29,6 +29,11 @@
   --node-argument: #be123c;
   --node-cluster-review: #475569;
   --node-main-report: #0f172a;
+  // The "you are here" node. Deliberately NOT a type colour: chartreuse is the
+  // one hue the 10-type palette leaves open (it sits between evidence's amber and
+  // observation's green), so it reads as "none of the above". Max min-distance
+  // from every type colour in both themes; the graph also rings it and sizes it up.
+  --node-current: #84cc16;
 }
 
 :root[saved-theme="dark"] {
@@ -42,6 +47,7 @@
   --node-argument: #fb7185;
   --node-cluster-review: #94a3b8;
   --node-main-report: #e2e8f0;
+  --node-current: #bef264;
 }
 
 // every node type, in pipeline order (used for legend + graph filter swatches).
@@ -185,19 +191,35 @@ $node-folders: (
   }
 }
 
-.graph-filter-reset {
-  padding: 0.2rem 0.55rem;
+// "show all" / "hide all" — set every type at once, so soloing one type is two
+// clicks (hide all, then click the one you want) instead of unchecking nine.
+.graph-filter-bulk {
+  padding: 0.2rem 0.6rem;
   border: 1px solid var(--lightgray);
   border-radius: 999px;
   background: transparent;
   color: var(--secondary);
   font-family: inherit;
   font-size: 0.8rem;
+  font-weight: 600;
   cursor: pointer;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--lightgray);
   }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+// a hairline separator between the type chips and the bulk buttons
+.graph-filters-sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 0.1rem 0.15rem;
+  background: var(--lightgray);
 }
 
 // ─── Expanded-graph depth controls ───────────────────────────────────────────

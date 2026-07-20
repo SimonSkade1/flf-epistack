@@ -93,16 +93,22 @@ tell apart at a glance.
 
 Customisations on top of stock Quartz (`graph.inline.ts`):
 
-1. **Type colouring** (above). The current page's node keeps the standard
-   highlight colour, which wins over its type colour.
+1. **Type colouring** (above). The current page's node instead gets the dedicated
+   `--node-current` colour — **chartreuse**, the one hue the 10-type palette leaves
+   open (max min-distance from every type colour in both themes) — plus a
+   high-contrast ring (`--dark`) and 1.6× radius, so "you are here" is unmistakable
+   even next to a same-family neighbour.
 2. **Hover reveals neighbour titles.** Stock Quartz shows only the hovered
    node's label. Here, hovering also shows the labels of all adjacent nodes, so
    you can read a neighbourhood without clicking. Labels return to the
    zoom-determined baseline opacity when the hover ends.
 3. **Node-type filters.** The full-screen graph carries a chip bar — one chip
    per node type, with its colour swatch and a count, plus `other` for pages
-   with no `type:` (docs, indexes, manifests). Clicking a chip hides that type;
-   `reset` clears all filters.
+   with no `type:` (docs, indexes, manifests). Clicking a chip hides that type.
+   Two bulk buttons: **`hide all`** then click one chip = solo that type (instead
+   of unchecking nine), **`show all`** clears every filter. The **current page's
+   node is never filtered out**, even when its own type is hidden — so soloing a
+   type you're not on still shows you where you are.
 4. **Expanded graph is local by default.** Stock Quartz's full-screen graph
    always shows the whole vault. Here it opens on the current page's
    neighbourhood at distance 1, with a bottom bar holding a max-distance

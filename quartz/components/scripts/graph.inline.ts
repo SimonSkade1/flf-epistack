@@ -226,6 +226,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
   const hiddenTypes = getHiddenTypes()
   if (hiddenTypes.size > 0) {
     for (const url of [...neighbourhood]) {
+      // the current page always stays, even if its type is filtered out —
+      // otherwise "hide all" would blank the very node you're looking at
+      if (url === slug) continue
       const t = nodeTypeOf(url, data)
       if (t && hiddenTypes.has(t)) neighbourhood.delete(url)
     }
@@ -292,11 +295,16 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     if (v) typeColorMap[t] = v
   }
 
+  // distinct "you are here" colour (chartreuse — the one hue no node type uses)
+  const currentNodeColor =
+    getComputedStyle(document.documentElement).getPropertyValue("--node-current").trim() ||
+    computedStyleMap["--secondary"]
+
   // calculate color
   const color = (d: NodeData) => {
     const isCurrent = d.id === slug
     if (isCurrent) {
-      return computedStyleMap["--secondary"]
+      return currentNodeColor
     } else if (d.id.startsWith("tags/")) {
       return computedStyleMap["--tertiary"]
     } else if (d.nodeType && typeColorMap[d.nodeType]) {
@@ -314,7 +322,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     const numLinks = graphData.links.filter(
       (l) => l.source.id === d.id || l.target.id === d.id,
     ).length
-    return 2 + Math.sqrt(numLinks)
+    const base = 2 + Math.sqrt(numLinks)
+    // the current page is drawn bigger so it reads as the anchor of the view
+    return d.id === slug ? base * 1.6 : base
   }
 
   // declared up here (rather than next to the zoom setup) because renderLabels reads it
@@ -550,6 +560,12 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
     if (isTagNode) {
       gfx.stroke({ width: 2, color: computedStyleMap["--tertiary"] })
+    }
+
+    // ring the current node in the foreground colour (--dark, high-contrast in
+    // both themes) so it's unmistakable even against a same-family neighbour
+    if (nodeId === slug) {
+      gfx.stroke({ width: Math.max(2, nodeRadius(n) * 0.4), color: computedStyleMap["--dark"] })
     }
 
     nodesContainer.addChild(gfx)
@@ -846,17 +862,32 @@ async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<voi
     container.appendChild(chip)
   }
 
-  if (hidden.size > 0) {
-    const reset = document.createElement("button")
-    reset.className = "graph-filter-reset"
-    reset.textContent = "reset"
-    reset.addEventListener("click", async () => {
-      setHiddenTypes(new Set())
-      await onChange()
-      await buildGraphFilters(outer, onChange)
-    })
-    container.appendChild(reset)
-  }
+  const sep = document.createElement("span")
+  sep.className = "graph-filters-sep"
+  container.appendChild(sep)
+
+  // "hide all" then click one type = solo that type, without unchecking the rest
+  const hideAll = document.createElement("button")
+  hideAll.className = "graph-filter-bulk"
+  hideAll.textContent = "hide all"
+  hideAll.disabled = ordered.every((t) => hidden.has(t))
+  hideAll.addEventListener("click", async () => {
+    setHiddenTypes(new Set(ordered))
+    await onChange()
+    await buildGraphFilters(outer, onChange)
+  })
+  container.appendChild(hideAll)
+
+  const showAll = document.createElement("button")
+  showAll.className = "graph-filter-bulk"
+  showAll.textContent = "show all"
+  showAll.disabled = hidden.size === 0
+  showAll.addEventListener("click", async () => {
+    setHiddenTypes(new Set())
+    await onChange()
+    await buildGraphFilters(outer, onChange)
+  })
+  container.appendChild(showAll)
 }
 
 /**
