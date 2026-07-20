@@ -144,7 +144,22 @@ def main(argv):
         block, _, var = block_var.partition(":")
         overrides[(block, var)] = float(value)
 
+    if not pathlib.Path(notes_dir).is_dir():
+        print(f"{notes_dir}: not a directory", file=sys.stderr)
+        return 2
+
     m = run(notes_dir, overrides)
+    if not m.clusters():
+        # A partial graph is the normal state mid-pipeline, not a crash — but
+        # exiting 0 with no output reads as a broken runner. Say which step is
+        # missing instead.
+        print(
+            f"no '## Prior' blocks found in {notes_dir} — the analysis has not "
+            f"reached step 7 (priors), so no cluster can be composed yet.",
+            file=sys.stderr,
+        )
+        return 3
+
     for hc in m.clusters():
         pri = [round(x, 4) for x in m.prior_of(hc)]
         post = [round(x, 4) for x in m.posterior(hc)]
