@@ -12,34 +12,34 @@ Published now, in `analysis-tests/`: three complete end-to-end runs, one per cas
 
 I built a 10-step pipeline — a Claude Code skill, python scripts and a deterministic runner — that turns **one contested empirical question** into a typed, navigable Obsidian **knowledge graph whose Bayesian answer recomputes from the notes**.
 
-**Why this shape** (§1): contested questions rarely lack evidence, they lack navigable evidence — and counting who says what, weighted by prestige, manufactures false confidence by treating correlated sources as independent voices. So the pipeline builds its own technical model bottom-up from low-level observations instead of summarizing the debate.
+**Why this shape** (§1): contested questions rarely lack evidence, they lack *navigable* evidence — and counting who says what, weighted by prestige, manufactures false confidence by treating correlated sources as independent voices. So the pipeline builds its own technical model bottom-up from low-level observations.
 
-**How to read the graph.** Each node is one markdown file — typed YAML frontmatter plus prose; each edge is a frontmatter wikilink, so the analysis directory *is* a directed typed graph, queryable by ordinary tools. The answer is a **report computed over the graph**, never cached in it: no posterior, prior or likelihood sits in any frontmatter field, because cached numbers go stale silently.
+**How to read the graph.** Each node is one markdown file — typed YAML frontmatter plus prose; each edge is a frontmatter wikilink, so the analysis directory *is* a directed typed graph. The answer is a **report computed over the graph**, never cached in it: no posterior, prior or likelihood sits in frontmatter, because cached numbers go stale silently.
 
-**Node types**: `source` (`S`) primary paper or dataset · `data-basis` (`D`) shared dataset, actor or instrument — observations sharing a D are *correlated* · `observation` (`O`) empirical finding · `hypothesis` (`H`) · `hypothesis-cluster` (`HC`) mutually-exclusive answers to one sub-question, residual last · `argument` (`A`) universally-valid inference, no information of its own · `evidence-link` (`E`) obs→cluster edge, minted only where the observation *discriminates* · `correlation-group` (`CG`) joint-likelihood home for edges sharing a data basis. Plus per-cluster reviews and one main report.
+**Node types**: `source` (`S`) primary paper or dataset · `data-basis` (`D`) shared dataset, actor or instrument — observations sharing one are *correlated* · `observation` (`O`) empirical finding · `hypothesis` (`H`) · `hypothesis-cluster` (`HC`) mutually-exclusive answers to a sub-question, residual last · `argument` (`A`) inference carrying no information itself · `evidence-link` (`E`) obs→cluster edge, minted only where it *discriminates* · `correlation-group` (`CG`) joint likelihood for edges sharing a data basis.
 
-**Four stages. Ingest** — find primary sources (1), score data-reliability and map provenance (2), extract observations, hypotheses and arguments (3). **Structure** — merge and cluster hypotheses (4), mint discriminating evidence-links (5). **Assess** — argument validity (6), priors (7), likelihoods (8), cluster review (9). **Assemble** — the report (10).
+**Four stages:** ingest (1 sources, 2 data-reliability and provenance, 3 extraction) · structure (4 cluster hypotheses, 5 mint discriminating evidence-links) · assess (6 argument validity, 7 priors, 8 likelihoods, 9 cluster review) · assemble (10 the report).
 
 ### Core strengths — the delta over the baseline
 
-Against off-the-shelf deep research or a single-prompt Claude Code investigation, most important first:
+Versus off-the-shelf deep research or a single-prompt Claude Code run, most important first:
 
-1. **Correlated evidence is aggregated correctly.** Observations resting on the same data-basis get **one joint likelihood**, not one factor each. Black-holes case: the folk "Earth and the Moon are still here" reassurance and the Giddings–Mangano stable-black-hole exclusion both resolve onto `D-1 — High-energy cosmic-ray flux spectrum`. A source-counter sees two independent reassurances and gets more confident; this pipeline prices them once, as one witness. `D-1`'s `known_biases` names the failure mode they share — fixed-target cosmic-ray kinematics mapped onto a collider's near-symmetric kinematics — and if that mapping is wrong, everything resting on `D-1` fails together.
-2. **Source-trust is separated from claim-truth**, so prestige cannot launder in. `trust_score` prices data-reliability from source features only; validity and truth are judged author-blind, and must stay derivable with author and venue stripped.
+1. **Correlated evidence is aggregated correctly.** Observations resting on the same data-basis get **one joint likelihood**, not one factor each. Black-holes case: the folk "Earth and the Moon are still here" reassurance and the Giddings–Mangano stable-black-hole exclusion both resolve onto `D-1 — High-energy cosmic-ray flux spectrum`; a source-counter sees two independent reassurances, this pipeline one witness. `D-1`'s `known_biases` names their shared failure mode — fixed-target cosmic-ray kinematics mapped onto a collider's near-symmetric kinematics — so if that mapping is wrong, everything on `D-1` fails together.
+2. **Source-trust is separated from claim-truth**, so prestige cannot launder in. `trust_score` prices data-reliability from source features only; validity and truth are judged author-blind and must stay derivable with author and venue stripped.
 3. **Every number is an overridable named variable**, its reason in the comment beside it. A skeptic re-prices any assumption and re-runs the whole model: `--set BLOCK:var=value`.
 4. **Uncertainty stays live.** Every non-exhaustive cluster carries a residual member — "the answer is something not listed here" — with its own argued weight, never `1 − sum(others)`.
 
 ### Core weaknesses, up front
 
-Extraction is not reproducible run-to-run: steps 1–5 are model calls, so two runs find different sources and carve at different granularity (everything downstream of the notes *is* deterministic). The trust floor can under-weight a less-published minority side. Assessment is capped by ingestion — steps 6–10 only price what step 3 wrote down — and nothing hunts the counter-argument no source had an incentive to make. §6 bounds each of these.
+Extraction is not reproducible: steps 1–5 are model calls, so two runs find different sources and carve at different granularity (everything downstream of the notes *is* deterministic). The trust floor can under-weight a less-published minority side. Assessment is capped by ingestion — steps 6–10 only price what step 3 wrote down — and nothing hunts the counter-argument no source had an incentive to make. §6 bounds each.
 
 ### Provenance
 
-Every file in each analysis folder is generated autonomously from that folder's `initial_prompt.md` by the single per-case command in §7, with no hand-editing; retired nodes and intermediate agent notes are kept, so discards are auditable. Worked analyses: [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes]] · [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|eggs]] · [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|covid]].
+Every file in each analysis folder is generated autonomously from `initial_prompt.md` by the single per-case command in §7, no hand-editing; retired nodes and agent notes are kept, so discards are auditable. Worked analyses: [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|black-holes]] · [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|eggs]] · [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|covid]].
 
-**Stated plainly:** the pipeline is implemented end to end, the runner passes a self-check, and all three cases have run the whole way through step 10 as low-N shakedown runs. The posteriors in §5.1 are real and recompute from the notes; they are also small-N, drawn from much larger scored pools — read them as a demonstration of the method, not as settled answers.
+**Stated plainly:** the pipeline is implemented end to end, the runner passes a self-check, and all three cases have run the whole way through step 10 as low-N shakedown runs. The §5.1 posteriors are real and recompute from the notes, but are small-N draws from much larger scored pools — a demonstration of the method, not settled answers.
 
-The `sample-sahul-megafauna` demo ships in the repo: a structurally different question on the same schema, its numbers illustrative and uncalibrated but the schema, runner and override machinery the real thing — **§7 turns it into a three-command demo, including re-running the model with one assumption overridden.** If you have a terminal open, start there.
+The `sample-sahul-megafauna` demo ships in the repo: a structurally different question on the same schema, its numbers illustrative and uncalibrated but the schema, runner and override machinery real — **§7 turns it into a three-command demo, including a re-run with one assumption overridden.** Start there if you have a terminal.
 
 ---
 
@@ -65,7 +65,7 @@ No hand-designed human bottleneck sits anywhere: one command per case produces e
 
 ## 2 — The pipeline in detail
 
-Ten steps, one orchestrator spawning every child. Each step fans out over disjoint slices — one child per search thread, per ~10 sources, per ~5 papers, per cluster, per ≤20 arguments, per correlation group — each child only *adds* to the previous step's graph. No human checkpoints.
+Ten steps, one orchestrator spawning every child. Each step fans out over disjoint slices, and each child only *adds* to what the previous step left. No human checkpoints.
 
 ```mermaid
 flowchart TB
@@ -121,36 +121,36 @@ flowchart TB
   linkStyle 16 stroke:#000000,stroke-width:2.5px
 ```
 
-*Edge colour and label name the file type:* **S** source · **D** data-basis · **O** observation · **H** hypothesis · **HC** cluster · **A** argument · **E** evidence-link · **CG** correlation-group · **posterior** (computed, not a file).
+*Edge colour and label name the file type flowing along it:* **S** source · **D** data-basis · **O** observation · **H** hypothesis · **HC** cluster · **A** argument · **E** evidence-link · **CG** correlation-group · **posterior** (computed, not a file).
 
 
 ### The streams
 
-Beyond §0's node types: **D** makes "these two findings share a basis" node identity rather than free-text matching, which makes correlation mechanically detectable. **CG** is the connected components of edges sharing a `D` — one group, one witness, priced once.
+What each arrow *carries*, beyond §0's node types: **D** makes "these two findings share a basis" node identity rather than free-text matching. **HC** freezes at step 4 the member order every later number is indexed against; **CG** collects the connected components of edges sharing a `D`.
 
 ### The steps
 
-1. **1a planner** — one child-prompt per slice. Judgment: *how to slice* — independent data per slice, every side represented.
+1. **1a planner** — one finished child-prompt per slice. Judgment: *how to slice* — independent data per slice, every side represented.
 2. **1b searchers** — `S` notes (~4N written, ~8N read) plus an orientation note. Judgment: *the primary artifact, not the review citing it*.
-3. **1c consolidator** — deduped pool, audited against 1a's plan; a thin side or data axis triggers a top-up round.
-4. **2a scorers** — mint `trust_score`/`usefulness`, `D` nodes and each source's `data_basis`. Judgment: *would this survive a clean replication*, from design and statistics.
-5. **2b selector** — duplicate `D`s merged, ~N flagged `curated`. Judgment: *the cut*, trading a ranking point for `data_basis` independence where needed.
-6. **3 extractors** — ~5 papers each, read in isolation; each `O`/`H`/`A` rests on exactly one source. Judgment: *the observation/hypothesis line* — what a rival team on the same data must grant.
+3. **1c consolidator** — deduped overview, audited against 1a's plan; a thin side or data axis triggers a top-up round.
+4. **2a scorers** — mint `trust_score`/`usefulness`, the `D` nodes and each source's `data_basis`. Judgment: *would this survive a clean replication*.
+5. **2b selector** — duplicate `D`s merged, ~N flagged `curated`. Judgment: *the cut*, including trading a ranking point for `data_basis` independence.
+6. **3 extractors** — ~5 papers each, read in isolation; each `O`/`H`/`A` rests on exactly one source. Judgment: *the observation/hypothesis line* — what a rival team on the same data would still have to grant.
 7. **3 consolidator** — merges duplicate `D`s and near-duplicate `generally_known` observations. Judgment: *is this the same fact*; paper-derived observations are never merged.
-8. **4a merge/drop** — near-duplicate `H` merged, off-topic dropped. Judgment: *discriminability* — merge only where no in-scope observation would differ.
-9. **4b cluster** — mints `HC` (freezing the member order later numbers are indexed against), residual members, backlinks. Judgment: *the carving* — one sub-question, exclusive answers, comparable grain.
-10. **5 linkers** — mint an `E` only where ≥2 of a cluster's members predict the observation materially differently. Judgment: *diagnosticity*; no numbers.
-11. **5 consolidator** — attaches arguments via `affects_observations`, mints the `CG` nodes, orphans unlinked observations. No judgment: two scripts plus a sweep — correlation is found, not decided.
-12. **6 argument batches** — ≤20 each; `approved`/`corrected`/`rejected` plus `checked`/`trusted` out. Judgment: *does the inference hold given its premises* — validity, not strength or truth.
-13. **7 prior children** — a `## Prior` python block per cluster, `used_for_prior: true` on each edge spent. Judgment: *the partition* into base-rate and discriminating evidence — erring either way double-counts or drops evidence.
-14. **8 likelihood children** — `## Likelihood` blocks, one per `CG` or per ≤3 lone edges. Judgment: *P(obs given member)* as ratios, `t` capped by trust; a correlated group gets one joint call.
-15. **9 cluster reviews** — one per cluster, read-only. Judgment: *what the model cannot express*, including whether the true answer is on the list.
+8. **4a merge/drop** — near-duplicate `H` merged, off-topic dropped. Judgment: *discriminability* — merge only where no in-scope observation would come out differently.
+9. **4b cluster** — mints `HC`, residual members, backlinks. Judgment: *the carving* — one sub-question, exclusive answers, comparable grain.
+10. **5 linkers** — one per cluster; mint an `E` only where the cluster's members predict materially differently about the observation. Judgment: *diagnosticity*; no numbers.
+11. **5 consolidator** — attaches arguments via `affects_observations`, mints the `CG` nodes, orphans unlinked observations. No judgment: two scripts plus a mechanical sweep.
+12. **6 argument batches** — ≤20 each; `approved`/`corrected`/`rejected` plus `checked`/`trusted` out. Judgment: *validity* — does the inference hold given its premises, not strength, not truth.
+13. **7 prior children** — a `## Prior` python block per cluster, `used_for_prior: true` on each edge spent. Judgment: *the partition* of evidence into base rate and discriminating.
+14. **8 likelihood children** — `## Likelihood` blocks, one per `CG` or per ≤3 lone edges. Judgment: *P(obs given member)* as ratios, `t` capped by trust.
+15. **9 cluster reviews** — one per cluster, read-only. Judgment: *what the model cannot express*, including whether the true answer is on the list at all.
 16. **10 report writer** — reviews in, one answer out. Judgment: *weighing sub-answers given in different currencies*. Written, not computed.
 
 ### Two structural facts
 
-1. **The run is an auditable diff.** Steps only add fields, never rewrite them; nothing is deleted. Retired nodes move to `non-curated/`, `merged/`, `dropped/`, `orphan/`, links and content intact, reason recorded.
-2. **The conclusion lives in the notes.** `runner/run.py` executes the step-7 `## Prior` and step-8 `## Likelihood` python blocks to compose each cluster's posterior; no derived number is cached in frontmatter. It gates between steps 8 and 9, so no review is written on a broken model.
+1. **The run is an auditable diff.** Each step adds fields, never rewrites an earlier step's; nothing is deleted. Retired nodes move to `non-curated/`, `merged/`, `dropped/`, `orphan/` with links and content intact and the reason recorded.
+2. **The conclusion lives in the notes.** `runner/run.py` executes the step-7 `## Prior` and step-8 `## Likelihood` python blocks to compose each cluster's posterior; no derived number is cached in frontmatter. It runs as a gate between steps 8 and 9, so no review is written on a broken model.
 
 ---
 
@@ -178,30 +178,30 @@ The runner's composition: normalise the prior, then each edge multiplies every m
 
 ## 5 — Case studies
 
-Three questions with deliberately contrasting difficulty profiles — near-closed technical physics, a vague open-ended nutrition question, and a live politicized one — got the **same command and the same case-agnostic schema**, differing only in the question and `curated_target_N`. **All three have now run end-to-end through all ten steps, as preliminary shakedown runs at N=5–10 curated sources** (§5.1); larger runs are queued.
+Three questions with contrasting difficulty profiles — near-closed physics, a vague nutrition question, a live politicized one — got the **same command and the same case-agnostic schema**, differing only in question and `curated_target_N`. All three ran all ten steps end-to-end as **preliminary shakedown runs at N=5–10 curated sources** (§5.1); larger runs are queued.
 
-The generalization claim is checkable in thirty seconds: across the pipeline's 3053 lines of specification and code, the *only* occurrence of "black hole", "egg" or "COVID" is one illustrative parenthetical in the skill's one-line description. A fourth, structurally different question (a Quaternary-extinction case, `sample-sahul-megafauna`) already runs the whole pipeline end to end on that schema unchanged.
+That claim is checkable in thirty seconds: across the pipeline's 3053 lines of specification and code, the *only* occurrence of "black hole", "egg" or "COVID" is one illustrative parenthetical in the skill's one-line description. A fourth, structurally different question (Quaternary extinction, `sample-sahul-megafauna`) runs the pipeline unchanged.
 
-1. **black-holes** (primary) — [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|final report]]. The consensus is not in dispute; what it *rests on* is. Much of the case is specialist theory, so many arguments take `reason_if_not_false: trusted` rather than `checked` — step 9 flags that, but recording an unchecked derivation is not checking it.
-2. **eggs** — [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|final report]]. Vague, open-ended, prone to dissolving into "same facts, different frame". It tests whether the method can *report that there is no strong crux*; a pipeline that always emits a confident crux is broken, not impressive.
-3. **covid** (deliberately lower effort, to spare the budget the other two needed) — [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|final report]]. Live, high-stakes, with deliberate information sabotage and motivated sources on both sides. `trust ≠ truth` is built for this shape, but motivated sources cut twice — they also bias which arguments were ever advanced, and a graph can only assess arguments that reached it.
+1. **black-holes** (primary) — [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|final report]]. Not the consensus but what it *rests on* (§4).
+2. **eggs** — [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|final report]]. Tests whether the method can *report that there is no strong crux* — a pipeline that always emits one is broken, not impressive.
+3. **covid** (lower effort) — [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|final report]]. Live, high-stakes, deliberate information sabotage; `trust ≠ truth` is built for it, but a graph can only assess arguments that reached it.
 
 ### 5.1 — Preliminary results
 
-**Read these as shakedown runs, not as answers.** They live in `analysis-tests/`, deliberately separate from `analyses/`, where the full-N runs land after the deadline. Each ran at `curated_target_N` = 5 (black-holes, covid) or 10 (eggs), drawn from a much larger scored pool — black-holes is representative, with 23 sources scored, 18 clearing the trust baseline, the top 5 curated. Every number below rests on a deliberately thin evidence base; the honest reading is *what the pipeline does with evidence*, not *what is true about the world*. The numbers are nonetheless genuine — all ten steps ran, and every posterior recomputes from the notes via `run.py` (§7).
+**Read these as shakedown runs, not as answers.** They live in `analysis-tests/`, separate from `analyses/`, where the full-N runs land after the deadline. Each ran at `curated_target_N` = 5 (black-holes, covid) or 10 (eggs): black-holes scored 23 sources, 18 cleared the trust baseline, top 5 curated. The evidence base is thin, so read them as *what the pipeline does with evidence*, not *what is true*. The numbers are genuine: all ten steps ran, every posterior recomputes via `run.py` (§7).
 
-1. **black-holes** — HC-3 (does a hole form at all): H-8 **0.94**. HC-2 (does it evaporate): H-4 **0.956** vs non-evaporation 0.044. HC-1 (is a trapped stable hole dangerous): catastrophic H-1 **0.035**, harmless H-2 0.888, residual 0.076. Chaining the danger legs gives order **1e-4** — *my* composition, not a model output, and a loose upper shape rather than a computed probability, since the legs share `S-1` and `D-1` and are not independent. The structure matters more: nearly every empirical likelihood routes through **one paper** (Giddings–Mangano, trust-capped 0.74) and its shared cosmic-ray premise `D-1`; dropping that trust 0.74 → 0.3 moves HC-1's danger mass ×4.7.
-2. **eggs** — HC-2 (net direction on hard endpoints), by branch: **null 0.639**, direction-varies 0.308, protective 0.039, harmful 0.014. HC-1 (lipid mechanism): a real-but-saturating dietary-cholesterol effect at **0.810**. HC-3 (heterogeneity): ~0.659 on "not uniform across people". Mechanism and endpoint layers agree — a saturating lipid effect at Western baseline intake predicts a hard-endpoint null.
+1. **black-holes** — HC-3 (hole forms): H-8 **0.94**. HC-2 (evaporates): H-4 **0.956** vs non-evaporation 0.044. HC-1 (trapped stable hole is dangerous): catastrophic H-1 **0.035**, harmless H-2 0.888, residual 0.076. Chaining the danger legs gives order **1e-4** — *my* composition, not a model output, and a loose upper shape rather than a computed probability: the legs share `S-1` and `D-1`, so are not independent. Structure matters more: nearly every empirical likelihood routes through **one paper** (Giddings–Mangano, trust-capped 0.74) and its cosmic-ray premise `D-1`; dropping trust 0.74 → 0.3 moves HC-1's danger mass ×4.7.
+2. **eggs** — HC-2 (net direction on hard endpoints), by branch: **null 0.639**, direction-varies 0.308, protective 0.039, harmful 0.014. HC-1 (lipid mechanism): a real-but-saturating dietary-cholesterol effect at **0.810**. HC-3 (heterogeneity): ~0.659 on "not uniform across people". Mechanism and endpoint layers agree.
 3. **covid** — one cluster only: zoonotic spillover at Huanan **0.495**, research-related incident **0.081**, neither-listed residual **0.424**.
 
-**Where they are weak — the parts I would not defend.**
+**Where they are weak.**
 
-4. **Small-N curation can delete an evidence class.** Curation ranks by score with no constraint that each *class* survives. In covid it dropped case geolocation and epidemiology entirely — including the pool's **top**-usefulness source — much of why the residual is 42.4%. That residual is *structural*: every curated market-side observation was sampled at Huanan and every research-side one concerns the WIV, so no likelihood can discriminate against either residual leg. A fact about the observation set, not the world; the report says so rather than allocating it.
-5. **covid produced a single cluster**, so cross-cluster weighing got no exercise there; black-holes (4 clusters) and eggs (3) are the only demonstrations. Its lab-leak 0.081 is not a finding either: one step-7 Fermi factor with no reference class, and defensible re-settings move it between 0.018 and 0.173.
-6. **eggs' HC-2 is not a clean partition.** Three members assert a null under different scope riders, so they can co-hold and member-level ranking is undefined — the report ranks by branch and says why. HC-1's 0.810 is partly circular: its strongest edge comes from its own extraction source, and nothing detects that shape.
-7. **black-holes covers one mechanism.** Strangelets and vacuum decay, both named in the question, never became clusters at N=5. The LSAG report — the document that publicly put the risk to rest — scored **below the cut** as a synthesis, so the analysis reconstructs the case from LSAG's primary inputs.
+4. **Small-N curation can delete an evidence class.** Curation ranks by score; no constraint keeps each *class* alive. In covid it dropped case geolocation and epidemiology entirely — including the pool's **top**-usefulness source — much of why the residual is 42.4%. That residual is *structural*: every curated market-side observation was sampled at Huanan, every research-side one concerns the WIV, so no likelihood discriminates against either leg — a fact about the observation set, not the world, which the report states rather than allocates.
+5. **covid produced a single cluster**, so cross-cluster weighing got no exercise there; only black-holes (4 clusters) and eggs (3) demonstrate it. Its lab-leak 0.081 is not a finding: one step-7 Fermi factor with no reference class, and defensible re-settings move it between 0.018 and 0.173.
+6. **eggs' HC-2 is not a clean partition.** Three members assert a null under different scope riders, so they can co-hold and member-level ranking is undefined; the report ranks by branch. HC-1's 0.810 is partly circular: its strongest edge comes from its own extraction source, and nothing detects that.
+7. **black-holes covers one mechanism.** Strangelets and vacuum decay, both named in the question, never became clusters at N=5. The LSAG report — which publicly put the risk to rest — scored **below the cut** as a synthesis, so the analysis reconstructs it from LSAG's primary inputs.
 
-**What the small run did get right.** The real safety case turns on the cosmic-ray argument *and its non-obvious repair*: cosmic-ray-produced holes are relativistic and escape, so Earth's survival alone says nothing about the **slow, trapped** holes the LHC would make — which is why white-dwarf and neutron-star survival is load-bearing. The graph carries both halves separately (`O-3`, `O-1`/`O-2`, `O-4`) plus the arguments joining them: `A-1` closes the relativistic-escape loophole via WD/NS stopping power, `A-2` excludes fast accretion, `A-3` excludes charged holes. `A-6` then inerts the naive Earth/Sun leg on observer-selection grounds, leaving neutron-star survival to carry the weight. Curation also caught itself about to drop the hinge — the script flagged `D-1` as shut out of the top-5 cut, and the cut was adjusted to admit the one source resting on it.
+**What the small run did get right.** The safety case turns on the cosmic-ray argument *and its non-obvious repair*: cosmic-ray-produced holes are relativistic and escape, so Earth's survival says nothing about the **slow, trapped** holes the LHC would make — hence white-dwarf and neutron-star survival is load-bearing. The graph carries both halves (`O-3`, `O-1`/`O-2`, `O-4`) plus the joining arguments: `A-1` closes the relativistic-escape loophole via WD/NS stopping power, `A-2` excludes fast accretion, `A-3` excludes charged holes, `A-6` inerts the naive Earth/Sun leg on observer-selection grounds, leaving neutron-star survival to carry the weight. Curation also caught itself: the script flagged `D-1` as shut out of the top-5 cut, and the cut was adjusted to admit the one source resting on it.
 
 ---
 ## 6 — Further thoughts on limitations & improvement options
