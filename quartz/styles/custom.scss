@@ -196,3 +196,25 @@ $node-folders: (
     background: var(--lightgray);
   }
 }
+
+/* ---- wide diagrams break out of the prose column -------------------------
+   The pipeline flow graphic is ~1580px wide and short. Scaled into the ~800px
+   article column its labels become unreadable, and the reader has to open the
+   fullscreen dialog to use it at all. On screens with room to spare, let a
+   mermaid figure widen past the column and stay centred on it. Below that, it
+   falls back to normal in-column behaviour (and the expand button still works).
+   `:has()` is supported by every browser that ships Quartz's other CSS. */
+@media (min-width: 1200px) {
+  article pre:has(> code.mermaid) {
+    width: min(1560px, 92vw);
+    max-width: none;
+    margin-left: calc(50% - min(780px, 46vw));
+    margin-right: calc(50% - min(780px, 46vw));
+  }
+
+  article pre:has(> code.mermaid) svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
+}

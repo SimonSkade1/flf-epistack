@@ -7,6 +7,7 @@ title: Documentation
 
 ## Pages
 
+0. [[submission|The submission document]] — **start here.** The ≤10-page written core of the FLF entry: the principles, the pipeline (with the agent fan-out graphic), the ontology, the Bayesian logic, the cases, the limitations, and how to run it.
 1. [[pipeline-overview|The 10-step pipeline]] — what each step consumes and produces.
 2. [[reading-an-analysis|Reading an analysis]] — the node types and folder layout, and how to follow the graph.
 3. [[running-the-model|Running the model]] — how the `## Prior` / `## Likelihood` code blocks compose into a posterior.
