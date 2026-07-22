@@ -46,8 +46,9 @@
 
 // every node type, in pipeline order (used for legend + graph filter swatches).
 // superset of $node-folders: main-report has no folder of its own.
-$node-types: source, data-basis, observation, hypothesis, hypothesis-cluster, evidence-link,
-  correlation-group, argument, cluster-review, main-report;
+$node-types:
+  source, data-basis, observation, hypothesis, hypothesis-cluster, evidence-link, correlation-group,
+  argument, cluster-review, main-report;
 
 // type slug → the folder the pipeline writes that node type into
 $node-folders: (
@@ -113,9 +114,10 @@ $node-folders: (
   }
 }
 
-// ─── Global-graph node-type filters ──────────────────────────────────────────
+// ─── Global-graph filters (node type + folder) ───────────────────────────────
 // Chips live in .global-graph-outer (not the graph container, which renderGraph
-// clears on every render) and overlay the top of the full-screen graph.
+// clears on every render) and overlay the top of the full-screen graph. Two
+// stacked rows: one per filter axis ("Type", "Analysis").
 
 .graph-filters {
   position: fixed;
@@ -123,22 +125,37 @@ $node-folders: (
   left: 50%;
   transform: translateX(-50%);
   z-index: 10000;
-  max-width: min(78vw, 900px);
+  max-width: min(82vw, 960px);
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.3rem;
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--lightgray);
   border-radius: 6px;
   background: var(--light);
 }
 
+.graph-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+
+  // a hairline rule between the stacked axes
+  & + & {
+    padding-top: 0.3rem;
+    border-top: 1px solid var(--lightgray);
+  }
+}
+
 .graph-filters-label {
   font-size: 0.8rem;
+  font-weight: 600;
   opacity: 0.7;
   margin-right: 0.15rem;
+  min-width: 3.9em;
 }
 
 .graph-filter {
@@ -171,6 +188,12 @@ $node-folders: (
     border-radius: 50%;
     background: var(--gray);
     flex: none;
+
+    // folder swatches are squares (colour set inline) to read as a different
+    // kind of key than the round node-type swatches
+    &.square {
+      border-radius: 2px;
+    }
   }
 
   .graph-filter-count {

@@ -1,7 +1,7 @@
 # The EpiStack website
 
 Developer documentation for the site itself — how it's built, deployed, and
-customised. This is *not* the FLF submission documentation; that lives in
+customised. This is _not_ the FLF submission documentation; that lives in
 `content/v1/docs/` and is published at <https://epistack.simonskade.org/v1/docs/>.
 
 ## What it is
@@ -38,10 +38,10 @@ public/             # build output; rsynced to the VPS. Not the source of truth.
 
 The **site shell is general and version-agnostic**; the **content is versioned**:
 
-| URL | what |
-|---|---|
-| `/` | what EpiStack is, links to the iterations |
-| `/v1/` | the current FLF-contest submission (analyses + docs) |
+| URL    | what                                                                |
+| ------ | ------------------------------------------------------------------- |
+| `/`    | what EpiStack is, links to the iterations                           |
+| `/v1/` | the current FLF-contest submission (analyses + docs)                |
 | `/v2/` | a future significantly-different iteration — just add `content/v2/` |
 
 Quartz maps `content/` folders straight onto URL paths, so a new version needs
@@ -75,13 +75,13 @@ the `:root` / `:root[saved-theme="dark"]` blocks and the `$node-folders` map in
 The **graph** colours nodes from the `type:` frontmatter field (it has the whole
 content index available, so this is exact and survives any renaming).
 
-The **link colours** key off the *folder segment* of the URL (`/hypotheses/`,
+The **link colours** key off the _folder segment_ of the URL (`/hypotheses/`,
 `/sources/`, …), because when Quartz renders a link it does not have the target
 file's frontmatter available. This is correct as long as the pipeline keeps
 writing each node type into its own folder — which it does.
 
 **If the pipeline ever renames those folders, update the `$node-folders` map.**
-Node *filenames* can change freely (e.g. dropping the `MR-`/`CR-` prefixes);
+Node _filenames_ can change freely (e.g. dropping the `MR-`/`CR-` prefixes);
 only folder names matter here.
 
 The main report sits at the analysis root rather than in a type folder, so it has
@@ -104,14 +104,36 @@ Customisations on top of stock Quartz (`graph.inline.ts`):
    node's label. Here, hovering also shows the labels of all adjacent nodes, so
    you can read a neighbourhood without clicking. Labels return to the
    zoom-determined baseline opacity when the hover ends.
-3. **Node-type filters.** The full-screen graph carries a chip bar — one chip
-   per node type, with its colour swatch and a count, plus `other` for pages
-   with no `type:` (docs, indexes, manifests). Clicking a chip hides that type.
-   Two bulk buttons: **`hide all`** then click one chip = solo that type (instead
-   of unchecking nine), **`show all`** clears every filter. The **current page's
-   node is never filtered out**, even when its own type is hidden — so soloing a
-   type you're not on still shows you where you are.
-4. **Expanded graph is local by default.** Stock Quartz's full-screen graph
+3. **Node-type + folder filters.** The full-screen graph carries a chip bar
+   with two stacked rows — two independent filter axes:
+   - **Type** — one chip per node type, with its colour swatch (round) and a
+     count, plus `other` for pages with no `type:` (docs, indexes, manifests).
+   - **Analysis** — one chip per content folder, where "folder" means the unit
+     worth isolating: the _subject_ folder under `analyses/`/`analysis-tests/`
+     (`covid1`, `eggs1`, `black-holes`, …), or the section itself for everything
+     else (`docs`, `pipeline`). A leading `vN/` segment is stripped (`folderOf`
+     in `graph.inline.ts`). Swatches are _squares_ coloured by a stable
+     name-hash — folder identity keys, deliberately distinct from the round
+     type swatches; the nodes themselves stay coloured by type. The row is
+     ordered by node count and only rendered when >1 folder exists.
+
+   Clicking a chip hides that type/folder. Each row has two bulk buttons:
+   **`hide all`** then click one chip = solo it (instead of unchecking the
+   rest), **`show all`** clears that row's filter. The two axes AND together:
+   a node shows only if neither its type nor its folder is hidden. The
+   **current page's node is never filtered out**, even when its own type or
+   folder is hidden — so soloing something you're not on still shows you where
+   you are.
+
+4. **Directed edges.** Every link carries a small arrowhead at its target end
+   (drawn per frame in the animate loop, tip on the target node's rim), so you
+   can see which page links which. Sized in world units (`arrowLen`/
+   `arrowHalfWidth` in `graph.inline.ts`) — they zoom with the graph and fade
+   from relevance in the zoomed-out whole-vault view, like the labels. The
+   arrow inherits the link's colour and alpha, so hover-highlighting dims and
+   darkens it together with its line, and it's skipped when two nodes sit
+   nearly rim-to-rim. A ↔ B pairs simply get an arrowhead at each end.
+5. **Expanded graph is local by default.** Stock Quartz's full-screen graph
    always shows the whole vault. Here it opens on the current page's
    neighbourhood at distance 1, with a bottom bar holding a max-distance
    slider (1–3) and a "Show whole vault" toggle (whole vault = `depth: -1`,
@@ -133,7 +155,7 @@ configured via extra `D3Config` fields in `Graph.tsx` (`initialScale`,
    lost in an empty box.
 2. **Fits to content once the layout settles.** A `fitToContent` pass (on every
    4th sim tick and on `end`) frames the actual node bounding box, but never
-   zooms *past* `initialScale`. So a 2-node neighbourhood ends up nicely zoomed
+   zooms _past_ `initialScale`. So a 2-node neighbourhood ends up nicely zoomed
    and a 290-node whole-vault view pulls back to an overview. It stops the moment
    the reader pans/zooms/drags (`userAdjustedView`).
 3. **Labels truncate to `labelMaxChars`** (cut at a word boundary, keeping the
@@ -149,7 +171,7 @@ configured via extra `D3Config` fields in `Graph.tsx` (`initialScale`,
    so it doesn't become an unreadable wall. Stock divided by 3.75, leaving labels
    at ~0.2 even at 2×.
 
-A 40-node hub (e.g. HC-1, which everything links to) still overlaps *at rest* —
+A 40-node hub (e.g. HC-1, which everything links to) still overlaps _at rest_ —
 that's unavoidable when readable labels are ~150px wide — but truncation plus the
 hover plate make any single node legible on demand.
 
@@ -162,9 +184,10 @@ Obsidian's rule — so a within-analysis `[[CG-1 …]]` resolves to its own run.
 
 ### How the filter is wired
 
-- State is a `Set` of hidden types in `localStorage` under `graph-hidden-types`,
-  so a filter survives navigation and reloads.
-- Filtering happens on the *neighbourhood set* inside `renderGraph`, before
+- State is a `Set` of hidden types in `localStorage` under `graph-hidden-types`
+  and a `Set` of hidden folders under `graph-hidden-folders`, so a filter
+  survives navigation and reloads.
+- Filtering happens on the _neighbourhood set_ inside `renderGraph`, before
   nodes and links are built. Filtering the node list alone would leave links
   pointing at nodes that no longer exist.
 - Toggling a chip tears the graph down and re-renders it, so the force
@@ -172,7 +195,7 @@ Obsidian's rule — so a within-analysis `[[CG-1 …]]` resolves to its own run.
 - The filter applies to the **local sidebar graph too**, so "only hypotheses and
   evidence" holds while you browse. The chips in the full-screen graph are the
   only place to undo it — that graph is one click away in the sidebar header.
-- The chip bar is built into `.global-graph-outer`, *not*
+- The chip bar is built into `.global-graph-outer`, _not_
   `.global-graph-container`: `renderGraph` calls `removeAllChildren()` on its own
   container, so anything placed inside would be destroyed on every re-render.
 
@@ -216,8 +239,8 @@ and `quartz/styles/variables.scss` (re-apply if ever upgrading Quartz):
    the tree simply doesn't scroll. The property now sits only on `.explorer-ul`.
 2. **Entry separation.** Long node filenames wrap to 2–3 lines; with stock
    spacing a wrapped name is indistinguishable from several entries. Entries now
-   use tight `line-height: 1.25` *within* a name and `0.3rem` vertical padding
-   *between* entries.
+   use tight `line-height: 1.25` _within_ a name and `0.3rem` vertical padding
+   _between_ entries.
 3. **Wider left panel.** `$leftPanelWidth: 380px` (right stays at
    `$sidePanelWidth: 320px`) on the desktop grid, giving filenames more room.
 
@@ -271,7 +294,7 @@ with `disableBrokenWikilinks: true`, and it defaults to `false`
    filenames: `[[running-the-model]]`.
 2. **Filename collisions across versions are dangerous.** If `content/v2/`
    reuses v1 filenames (`H-3 - …`, `manifest.md`), bare wikilinks become
-   ambiguous in *both* trees and Quartz silently falls back to an
+   ambiguous in _both_ trees and Quartz silently falls back to an
    absolute-from-root path that 404s. Either give each iteration distinct ids
    (`v1-H-3`) or run the link checker religiously after building v2.
 

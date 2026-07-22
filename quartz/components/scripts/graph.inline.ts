@@ -109,6 +109,56 @@ function nodeTypeOf(url: SimpleSlug, data: Map<SimpleSlug, ContentDetails>): str
   return data.get(url)?.nodeType ?? UNTYPED
 }
 
+/**
+ * Which "folder" (really: which analysis / section) a node belongs to — the
+ * second, orthogonal filter axis to node type.
+ *
+ * The content tree is `v1/analyses/<subject>/…`, `v1/analysis-tests/<subject>/…`,
+ * `v1/docs/…`, `v1/pipeline/…`. The literal top-level folder is always `v1`, so
+ * filtering on that is useless; what's actually worth isolating is one analysis
+ * subject (black-holes, covid1, …). So we strip a leading version segment and, for
+ * the two analysis sections, key off the subject folder one level down; everything
+ * else (docs, pipeline) keys off its section. Tag nodes have no folder.
+ */
+function folderOf(url: SimpleSlug): string | null {
+  if (url.startsWith("tags/")) return null
+  const parts = url.split("/").filter(Boolean)
+  let i = 0
+  if (/^v\d+$/.test(parts[0] ?? "")) i = 1 // strip a leading version segment (v1)
+  const section = parts[i]
+  if (!section) return null // root / bare version index page
+  // analyses/<subject>/… and analysis-tests/<subject>/… → the subject folder
+  if ((section === "analyses" || section === "analysis-tests") && parts[i + 2]) {
+    return parts[i + 1]
+  }
+  return section // docs, pipeline, or a bare section index
+}
+
+const graphFolderFilterKey = "graph-hidden-folders"
+function getHiddenFolders(): Set<string> {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(graphFolderFilterKey) ?? "[]"))
+  } catch {
+    return new Set()
+  }
+}
+function setHiddenFolders(hidden: Set<string>) {
+  localStorage.setItem(graphFolderFilterKey, JSON.stringify([...hidden]))
+}
+
+/**
+ * Stable colour for a folder chip's swatch, hashed from the folder name so it
+ * doesn't drift between renders. Folders are a filter axis only — graph *nodes*
+ * stay coloured by type (that palette is shared with the in-text link colours),
+ * so this colour is just a per-chip identity key, drawn as a square to set it
+ * apart from the round type swatches.
+ */
+function folderColor(name: string): string {
+  let h = 0
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0
+  return `hsl(${h % 360} 55% 55%)`
+}
+
 const localStorageKey = "graph-visited"
 function getVisited(): Set<SimpleSlug> {
   return new Set(JSON.parse(localStorage.getItem(localStorageKey) ?? "[]"))
@@ -226,17 +276,23 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     if (showTags) tags.forEach((tag) => neighbourhood.add(tag))
   }
 
-  // Drop node types the user has filtered out. Done on the neighbourhood set
-  // (not on `nodes`) so the link filter below stays consistent — filtering
+  // Drop node types / folders the user has filtered out. Done on the neighbourhood
+  // set (not on `nodes`) so the link filter below stays consistent — filtering
   // `nodes` alone would leave links pointing at nodes that no longer exist.
   const hiddenTypes = getHiddenTypes()
-  if (hiddenTypes.size > 0) {
+  const hiddenFolders = getHiddenFolders()
+  if (hiddenTypes.size > 0 || hiddenFolders.size > 0) {
     for (const url of [...neighbourhood]) {
-      // the current page always stays, even if its type is filtered out —
+      // the current page always stays, even if its type/folder is filtered out —
       // otherwise "hide all" would blank the very node you're looking at
       if (url === slug) continue
       const t = nodeTypeOf(url, data)
-      if (t && hiddenTypes.has(t)) neighbourhood.delete(url)
+      if (t && hiddenTypes.has(t)) {
+        neighbourhood.delete(url)
+        continue
+      }
+      const f = folderOf(url)
+      if (f && hiddenFolders.has(f)) neighbourhood.delete(url)
     }
   }
 
@@ -708,9 +764,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
    */
   function fitToContent() {
     if (userAdjustedView) return
-    const positioned = graphData.nodes.filter(
-      (n) => Number.isFinite(n.x) && Number.isFinite(n.y),
-    )
+    const positioned = graphData.nodes.filter((n) => Number.isFinite(n.x) && Number.isFinite(n.y))
     if (positioned.length === 0) return
 
     const xs = positioned.map((n) => n.x! + width / 2)
@@ -769,6 +823,17 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
     labelBackdrop.alpha = label.alpha
   }
 
+  // node radii, precomputed once: nodeRadius scans the whole link list per call,
+  // which is fine at setup but not per link per animation frame (the arrowheads
+  // below need the target's radius every frame)
+  const radiusOf = new Map<string, number>(graphData.nodes.map((n) => [n.id, nodeRadius(n)]))
+
+  // arrowhead dimensions in world units — deliberately small so the direction
+  // marking doesn't dominate; they shrink away at whole-vault zoom, which is fine
+  // (direction is a reading-distance detail, like the labels)
+  const arrowLen = 4.5
+  const arrowHalfWidth = 1.9
+
   let stopAnimation = false
   function animate(time: number) {
     if (stopAnimation) return
@@ -783,11 +848,37 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
 
     for (const l of linkRenderData) {
       const linkData = l.simulationData
+      const sx = linkData.source.x! + width / 2
+      const sy = linkData.source.y! + height / 2
+      const tx = linkData.target.x! + width / 2
+      const ty = linkData.target.y! + height / 2
       l.gfx.clear()
-      l.gfx.moveTo(linkData.source.x! + width / 2, linkData.source.y! + height / 2)
-      l.gfx
-        .lineTo(linkData.target.x! + width / 2, linkData.target.y! + height / 2)
-        .stroke({ alpha: l.alpha, width: 1, color: l.color })
+      l.gfx.moveTo(sx, sy)
+      l.gfx.lineTo(tx, ty).stroke({ alpha: l.alpha, width: 1, color: l.color })
+
+      // arrowhead at the target end (links are directed: source page → linked
+      // page). Tip sits on the target node's rim, not its centre. Skipped when
+      // the nodes are almost touching — a squeezed-in arrow is just noise.
+      const dx = tx - sx
+      const dy = ty - sy
+      const dist = Math.hypot(dx, dy)
+      const tgtR = radiusOf.get(linkData.target.id) ?? 3
+      const srcR = radiusOf.get(linkData.source.id) ?? 3
+      if (dist > srcR + tgtR + arrowLen + 2) {
+        const ux = dx / dist
+        const uy = dy / dist
+        const tipX = tx - ux * (tgtR + 0.5)
+        const tipY = ty - uy * (tgtR + 0.5)
+        const baseX = tipX - ux * arrowLen
+        const baseY = tipY - uy * arrowLen
+        l.gfx
+          .poly([
+            { x: tipX, y: tipY },
+            { x: baseX - uy * arrowHalfWidth, y: baseY + ux * arrowHalfWidth },
+            { x: baseX + uy * arrowHalfWidth, y: baseY - ux * arrowHalfWidth },
+          ])
+          .fill({ alpha: l.alpha, color: l.color })
+      }
     }
 
     drawLabelBackdrop()
@@ -800,37 +891,145 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
   requestAnimationFrame(animate)
   return () => {
     stopAnimation = true
+    // without this the force simulation keeps ticking after the pixi app is
+    // destroyed — its tick handler runs fitToContent → stage.scale.set on a
+    // destroyed stage, throwing on every filter toggle / re-render
+    simulation.stop()
     app.destroy()
   }
 }
 
+/** One filter dimension (node type, or folder) as a labelled row of chips. */
+type FilterRow = {
+  /** short label shown at the row's left ("Type", "Analysis") */
+  labelText: string
+  /** chip keys in display order, with their node counts */
+  items: { key: string; count: number }[]
+  getHidden: () => Set<string>
+  setHidden: (hidden: Set<string>) => void
+  /** how to colour the chip's swatch */
+  swatch: (key: string) => { dataNodeType?: string; inlineColor?: string; square?: boolean }
+}
+
+function buildFilterRow(
+  container: HTMLElement,
+  row: FilterRow,
+  onChange: () => Promise<void>,
+  rebuild: () => Promise<void>,
+) {
+  const rowEl = document.createElement("div")
+  rowEl.className = "graph-filter-row"
+
+  const label = document.createElement("span")
+  label.className = "graph-filters-label"
+  label.textContent = row.labelText
+  rowEl.appendChild(label)
+
+  const hidden = row.getHidden()
+  const keys = row.items.map((i) => i.key)
+
+  for (const { key, count } of row.items) {
+    const chip = document.createElement("button")
+    chip.className = "graph-filter"
+    chip.setAttribute("aria-pressed", String(!hidden.has(key)))
+    chip.title = hidden.has(key) ? `Show ${key}` : `Hide ${key}`
+
+    const swatch = document.createElement("span")
+    swatch.className = "graph-filter-swatch"
+    const s = row.swatch(key)
+    if (s.dataNodeType) chip.dataset.nodeType = s.dataNodeType
+    if (s.inlineColor) swatch.style.background = s.inlineColor
+    if (s.square) swatch.classList.add("square")
+    chip.appendChild(swatch)
+    chip.appendChild(document.createTextNode(key))
+
+    const countEl = document.createElement("span")
+    countEl.className = "graph-filter-count"
+    countEl.textContent = String(count)
+    chip.appendChild(countEl)
+
+    chip.addEventListener("click", async () => {
+      const cur = row.getHidden()
+      cur.has(key) ? cur.delete(key) : cur.add(key)
+      row.setHidden(cur)
+      await onChange()
+      await rebuild()
+    })
+
+    rowEl.appendChild(chip)
+  }
+
+  const sep = document.createElement("span")
+  sep.className = "graph-filters-sep"
+  rowEl.appendChild(sep)
+
+  // "hide all" then click one chip = solo it, without unchecking the rest
+  const hideAll = document.createElement("button")
+  hideAll.className = "graph-filter-bulk"
+  hideAll.textContent = "hide all"
+  hideAll.disabled = keys.every((k) => hidden.has(k))
+  hideAll.addEventListener("click", async () => {
+    const cur = row.getHidden()
+    keys.forEach((k) => cur.add(k))
+    row.setHidden(cur)
+    await onChange()
+    await rebuild()
+  })
+  rowEl.appendChild(hideAll)
+
+  const showAll = document.createElement("button")
+  showAll.className = "graph-filter-bulk"
+  showAll.textContent = "show all"
+  showAll.disabled = keys.every((k) => !hidden.has(k))
+  showAll.addEventListener("click", async () => {
+    const cur = row.getHidden()
+    keys.forEach((k) => cur.delete(k))
+    row.setHidden(cur)
+    await onChange()
+    await rebuild()
+  })
+  rowEl.appendChild(showAll)
+
+  container.appendChild(rowEl)
+}
+
 /**
- * Node-type filter chips for the global graph.
+ * Filter chips for the global graph: a "Type" row (node type) and an "Analysis"
+ * row (folder — see folderOf). Two independent axes, both persisted, both applied
+ * to the local sidebar graph too, so "show only hypotheses in the covid analysis"
+ * holds while you browse.
  *
  * Lives in `.global-graph-outer` rather than `.global-graph-container`, because
  * renderGraph() calls removeAllChildren() on its own container — anything put
- * inside it would be wiped on every re-render.
- *
- * The filter applies to the local sidebar graph too, so "show me only
- * hypotheses and evidence" holds while you browse. The chips are the only place
- * to undo that, but the global graph is always one click away in the sidebar.
+ * inside it would be wiped on every re-render. The chips are the only place to
+ * undo a filter, but the global graph is always one click away in the sidebar.
  */
 async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<void>) {
   const data = await fetchData
-  const counts = new Map<string, number>()
+  const typeCounts = new Map<string, number>()
+  const folderCounts = new Map<string, number>()
   for (const [slug, details] of Object.entries(data) as [FullSlug, ContentDetails][]) {
-    if (simplifySlug(slug).startsWith("tags/")) continue
+    const simple = simplifySlug(slug)
+    if (simple.startsWith("tags/")) continue
     const t = details.nodeType ?? UNTYPED
-    counts.set(t, (counts.get(t) ?? 0) + 1)
+    typeCounts.set(t, (typeCounts.get(t) ?? 0) + 1)
+    const f = folderOf(simple)
+    if (f) folderCounts.set(f, (folderCounts.get(f) ?? 0) + 1)
   }
 
   // known types first, in pipeline order, then anything unexpected, then "other"
-  const present = [...counts.keys()]
-  const ordered = [
-    ...NODE_TYPES.filter((t) => present.includes(t)),
-    ...present.filter((t) => !NODE_TYPES.includes(t as never) && t !== UNTYPED).sort(),
-    ...(present.includes(UNTYPED) ? [UNTYPED] : []),
+  const presentTypes = [...typeCounts.keys()]
+  const orderedTypes = [
+    ...NODE_TYPES.filter((t) => presentTypes.includes(t)),
+    ...presentTypes.filter((t) => !NODE_TYPES.includes(t as never) && t !== UNTYPED).sort(),
+    ...(presentTypes.includes(UNTYPED) ? [UNTYPED] : []),
   ]
+
+  // folders by node count (biggest analyses first), then name — puts the populated
+  // analyses up front and the one-file stubs / docs at the end
+  const orderedFolders = [...folderCounts.keys()].sort(
+    (a, b) => (folderCounts.get(b) ?? 0) - (folderCounts.get(a) ?? 0) || a.localeCompare(b),
+  )
 
   let container = outer.querySelector(".graph-filters") as HTMLElement | null
   if (!container) {
@@ -840,67 +1039,36 @@ async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<voi
   }
   removeAllChildren(container)
 
-  const hidden = getHiddenTypes()
+  const rebuild = () => buildGraphFilters(outer, onChange)
 
-  const label = document.createElement("span")
-  label.className = "graph-filters-label"
-  label.textContent = "Show"
-  container.appendChild(label)
+  buildFilterRow(
+    container,
+    {
+      labelText: "Type",
+      items: orderedTypes.map((t) => ({ key: t, count: typeCounts.get(t) ?? 0 })),
+      getHidden: getHiddenTypes,
+      setHidden: setHiddenTypes,
+      swatch: (t) => ({ dataNodeType: t }),
+    },
+    onChange,
+    rebuild,
+  )
 
-  for (const type of ordered) {
-    const chip = document.createElement("button")
-    chip.className = "graph-filter"
-    chip.dataset.nodeType = type
-    chip.setAttribute("aria-pressed", String(!hidden.has(type)))
-    chip.title = hidden.has(type) ? `Show ${type} nodes` : `Hide ${type} nodes`
-
-    const swatch = document.createElement("span")
-    swatch.className = "graph-filter-swatch"
-    chip.appendChild(swatch)
-    chip.appendChild(document.createTextNode(type))
-
-    const count = document.createElement("span")
-    count.className = "graph-filter-count"
-    count.textContent = String(counts.get(type) ?? 0)
-    chip.appendChild(count)
-
-    chip.addEventListener("click", async () => {
-      const cur = getHiddenTypes()
-      cur.has(type) ? cur.delete(type) : cur.add(type)
-      setHiddenTypes(cur)
-      await onChange()
-      await buildGraphFilters(outer, onChange)
-    })
-
-    container.appendChild(chip)
+  // only worth showing the folder axis if there's more than one folder to choose
+  if (orderedFolders.length > 1) {
+    buildFilterRow(
+      container,
+      {
+        labelText: "Analysis",
+        items: orderedFolders.map((f) => ({ key: f, count: folderCounts.get(f) ?? 0 })),
+        getHidden: getHiddenFolders,
+        setHidden: setHiddenFolders,
+        swatch: (f) => ({ inlineColor: folderColor(f), square: true }),
+      },
+      onChange,
+      rebuild,
+    )
   }
-
-  const sep = document.createElement("span")
-  sep.className = "graph-filters-sep"
-  container.appendChild(sep)
-
-  // "hide all" then click one type = solo that type, without unchecking the rest
-  const hideAll = document.createElement("button")
-  hideAll.className = "graph-filter-bulk"
-  hideAll.textContent = "hide all"
-  hideAll.disabled = ordered.every((t) => hidden.has(t))
-  hideAll.addEventListener("click", async () => {
-    setHiddenTypes(new Set(ordered))
-    await onChange()
-    await buildGraphFilters(outer, onChange)
-  })
-  container.appendChild(hideAll)
-
-  const showAll = document.createElement("button")
-  showAll.className = "graph-filter-bulk"
-  showAll.textContent = "show all"
-  showAll.disabled = hidden.size === 0
-  showAll.addEventListener("click", async () => {
-    setHiddenTypes(new Set())
-    await onChange()
-    await buildGraphFilters(outer, onChange)
-  })
-  container.appendChild(showAll)
 }
 
 /**
