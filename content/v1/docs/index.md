@@ -3,7 +3,7 @@ title: Documentation
 ---
 
 > [!note] What is authoritative here
-> [[submission|The submission document]] is the frozen FLF entry. The authoritative specification of the method is the pipeline itself, published step by step at [[v1/pipeline/index|/v1/pipeline/]] (source: `pipeline/SKILL.md` + `pipeline/steps/` in the [repository](https://github.com/SimonSkade1/flf-epistack)). Anything else on this site is a reading aid.
+> [[submission|The submission document]] is the frozen FLF entry. The authoritative specification of the method is the pipeline itself, published step by step at [[v1/pipeline/index|/v1/pipeline/]] (source: `content/v1/pipeline/SKILL.md` + `content/v1/pipeline/steps/` in the [repository](https://github.com/SimonSkade1/flf-epistack)). Anything else on this site is a reading aid.
 
 ## Pages
 

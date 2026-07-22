@@ -6,7 +6,7 @@ title: EpiStack v1 — FLF competition
 
 A browsable knowledge base for the **FLF epistemic-stack pipeline**: turning one contested empirical question into a Bayesian, navigable Obsidian-style graph — sources, observations, hypotheses, evidence links with runnable likelihood/prior code, per-cluster reviews, and one final report that answers the question.
 
-This site is the reading surface. The [runnable pipeline](https://github.com/SimonSkade1/flf-epistack) that produces these knowledge bases lives in the same repository under `pipeline/`.
+This site is the reading surface. The [runnable pipeline](https://github.com/SimonSkade1/flf-epistack) that produces these knowledge bases lives in the same repository under `content/v1/pipeline/`.
 
 ## Start here
 
@@ -28,8 +28,6 @@ Every box in the debate is one markdown note with typed frontmatter, linked to t
 3. **hypotheses** (`H-N`), grouped into mutually-exclusive **hypothesis-clusters** (`HC-N`).
 4. **evidence-links** (`E-N`) — observation → cluster edges, each carrying a runnable `## Likelihood` code block.
 5. **arguments** (`A-N`), **cluster-reviews** (`CR-N`), and the **main-report** (`MR-1`) that answers the question.
-
-A hand-written structural demo of this schema (`sample-sahul-megafauna`) used to sit here. It was withdrawn after the submission deadline: its numbers were illustrative rather than pipeline-computed, which on a site whose whole claim is that every number recomputes from the notes is a liability rather than an aid. The three runs above are the real thing.
 
 > [!info] How to read the published runs
 > `analysis-tests/` holds three end-to-end runs, one per case study, at 5–10 curated sources each (COVID origins and eggs at N=10, LHC black holes at N=5). These are deliberately small shakedown runs: all ten steps ran and every posterior recomputes from the notes, but each rests on a thin evidence base, so read them as a demonstration of the method rather than as settled answers. Fuller runs land in `analyses/`. Defects the runs exposed are listed in the [[APPENDIX - known failure modes|failure-modes appendix]] rather than quietly fixed.

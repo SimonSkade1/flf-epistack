@@ -26,8 +26,9 @@ content/            # the published markdown — this IS the site
     index.md
     analyses/<name>/   # one folder per analysis run
     docs/              # submission-facing documentation
+    pipeline/          # pipeline spec + runnable runner/scripts, frozen at submission
 docs/website.md     # this file (developer docs, NOT published)
-pipeline/           # the runnable EpiStack pipeline (copy of the vault skill)
+.claude/skills/flf-epistack/   # the living skill Claude Code resolves (may evolve)
 quartz/             # Quartz source — patched, see "Customisations"
 scripts/
   check-internal-links.mjs   # real broken-link checker (see "Link checking")

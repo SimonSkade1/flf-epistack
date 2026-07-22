@@ -181,7 +181,7 @@ That claim is checkable in thirty seconds: across the pipeline's 3152 lines of s
 
 ## 7 — How to run & reproduce it
 
-*Edited after the submission deadline.* The demo and curated entry points below originally ran on `sample-sahul-megafauna`, a hand-written structural demo whose numbers were illustrative rather than pipeline-computed. It has been withdrawn from the site and its two passing mentions elsewhere (§3, §6) trimmed; both now use the real black-holes run instead. §6's line count was also corrected from 3053 to 3152, the figure the shipped skill actually gives. Nothing else changed.
+*Edited after the submission deadline.* §6's line count was corrected from 3053 to 3152, the figure the shipped skill actually gives. Nothing else changed.
 
 **Browse it:** `https://epistack.simonskade.org`. Every typed node is rendered and navigable by its frontmatter edges; the FLF iteration is frozen at `https://epistack.simonskade.org/v1/`. The pipeline specification itself is browsable at `https://epistack.simonskade.org/v1/pipeline/`.
 

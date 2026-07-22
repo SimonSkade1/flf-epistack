@@ -67,7 +67,7 @@ Two kinds of python block exist, and nothing else runs.
 1. A **`## Prior`** block on each `HC-N` builds one strictly-positive relative weight per member out of named variables, each carrying its reasoning in the comment beside it, and ends in `prior(hc, w)`. The runner normalises.
 2. A **`## Likelihood`** block on each `E-N` (or once per `CG-N`) states P(observation | member) for every member, anchored at 1.0 on the member under which the observation is unsurprising, and ends in `evidence(hc, obs, lik, t)`. `t ∈ [0, 1]` is how far the data's reliability lets this evidence carry you off the prior, capped by the source's `trust_score`.
 
-`pipeline/runner/run.py` reads every note in the directory, extracts these blocks, and for each cluster multiplies each member `i` by `t·lik[i] + (1−t)·marg`, where `marg` is the prior-weighted average likelihood. Equivalently, `posterior = t·(posterior at t=1) + (1−t)·prior`. Two consequences worth knowing while reading: `t = 0` means the evidence does nothing, and because the mixture anchors on the prior rather than on the running posterior, a cluster's edges commute — the order the runner happens to read files in cannot change an answer.
+`content/v1/pipeline/runner/run.py` reads every note in the directory, extracts these blocks, and for each cluster multiplies each member `i` by `t·lik[i] + (1−t)·marg`, where `marg` is the prior-weighted average likelihood. Equivalently, `posterior = t·(posterior at t=1) + (1−t)·prior`. Two consequences worth knowing while reading: `t = 0` means the evidence does nothing, and because the mixture anchors on the prior rather than on the running posterior, a cluster's edges commute — the order the runner happens to read files in cannot change an answer.
 
 HC-1 in full, at prior `[0.3097, 0.5752, 0.115]`:
 
@@ -85,7 +85,7 @@ Determinism is enforced rather than hoped for: blocks are arithmetic over named 
 Run the whole model. It needs only python 3 and the repository:
 
 ```
-python3 pipeline/runner/run.py content/v1/analysis-tests/black-holes1
+python3 content/v1/pipeline/runner/run.py content/v1/analysis-tests/black-holes1
 HC-1  prior [0.3097, 0.5752, 0.115]  posterior [0.0354, 0.8882, 0.0764]  (2 evidence block(s))
 HC-2  prior [0.891, 0.109]  posterior [0.9561, 0.0439]  (2 evidence block(s))
 HC-3  prior [0.03, 0.94, 0.03]  posterior [0.03, 0.94, 0.03]  (0 evidence block(s))
@@ -97,13 +97,13 @@ One line per cluster, members in `HC.hypotheses` order. HC-3 having zero evidenc
 Now disagree with something. `--set BLOCK:var=value` rewrites one named variable and recomposes everything downstream of it. The interesting target here is the single-source dependency the report itself flags — S-1's 0.74 trust caps both `CG-1:t_survival` and `E-1:t_wd`, so those two flags price the entire empirical layer of this cluster at once:
 
 ```
-python3 pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.3 --set E-1:t_wd=0.3
+python3 content/v1/pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.3 --set E-1:t_wd=0.3
 HC-1  prior [0.3097, 0.5752, 0.115]  posterior [0.1663, 0.7318, 0.1019]  (2 evidence block(s))
 
-python3 pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.0 --set E-1:t_wd=0.0
+python3 content/v1/pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=0.0 --set E-1:t_wd=0.0
 HC-1  prior [0.3097, 0.5752, 0.115]  posterior [0.3097, 0.5752, 0.115]  (2 evidence block(s))
 
-python3 pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=1.0 --set E-1:t_wd=1.0
+python3 content/v1/pipeline/runner/run.py content/v1/analysis-tests/black-holes1 --set CG-1:t_survival=1.0 --set E-1:t_wd=1.0
 HC-1  prior [0.3097, 0.5752, 0.115]  posterior [0.005, 0.9334, 0.0616]  (2 evidence block(s))
 ```
 

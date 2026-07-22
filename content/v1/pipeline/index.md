@@ -26,20 +26,20 @@ The pipeline runs as one orchestrator plus per-step child agents. Each step belo
 
 ## The code
 
-Rendered on GitHub, which does code better than this site does:
+The runner and helper scripts live in this folder and are served here as raw source (GitHub renders them more nicely — [browse the folder on GitHub](https://github.com/SimonSkade1/flf-epistack/tree/main/content/v1/pipeline)):
 
-1. [`runner/run.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/runner/run.py)
-2. [`runner/test_run.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/runner/test_run.py)
-3. [`scripts/attach_argument_backlinks.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/attach_argument_backlinks.py)
-4. [`scripts/batch_arguments.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/batch_arguments.py)
-5. [`scripts/batch_likelihoods.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/batch_likelihoods.py)
-6. [`scripts/build_correlation_groups.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/build_correlation_groups.py)
-7. [`scripts/check_missing_evidence_links.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/check_missing_evidence_links.py)
-8. [`scripts/create_node.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/create_node.py)
-9. [`scripts/curation_select.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/curation_select.py)
-10. [`scripts/no_observation_arguments.py`](https://github.com/SimonSkade1/flf-epistack/blob/main/pipeline/scripts/no_observation_arguments.py)
+1. [`runner/run.py`](v1/pipeline/runner/run.py)
+2. [`runner/test_run.py`](v1/pipeline/runner/test_run.py)
+3. [`scripts/attach_argument_backlinks.py`](v1/pipeline/scripts/attach_argument_backlinks.py)
+4. [`scripts/batch_arguments.py`](v1/pipeline/scripts/batch_arguments.py)
+5. [`scripts/batch_likelihoods.py`](v1/pipeline/scripts/batch_likelihoods.py)
+6. [`scripts/build_correlation_groups.py`](v1/pipeline/scripts/build_correlation_groups.py)
+7. [`scripts/check_missing_evidence_links.py`](v1/pipeline/scripts/check_missing_evidence_links.py)
+8. [`scripts/create_node.py`](v1/pipeline/scripts/create_node.py)
+9. [`scripts/curation_select.py`](v1/pipeline/scripts/curation_select.py)
+10. [`scripts/no_observation_arguments.py`](v1/pipeline/scripts/no_observation_arguments.py)
 
 The runner (`runner/run.py`) is the piece that makes the answer recompute: it extracts the `## Prior` and `## Likelihood` python blocks from the notes, enforces determinism (arithmetic over named variables only — no imports, randomness, clock or I/O), and composes each cluster's posterior. `runner/test_run.py` checks it against the numbers the step 7 and 8 specs publish.
 
-> [!note] Generated copy
-> These pages are generated from `pipeline/` by `scripts/sync-pipeline-to-content.mjs`. Edit the source, not these. Wikilinks appearing in the step specs are *syntax examples*, shown verbatim rather than linked.
+> [!note] Frozen submission snapshot
+> This folder is the pipeline **as of the FLF submission deadline** — kept fixed so the `/v1/` URLs stay honest. The living skill, which may change over time, is at `.claude/skills/flf-epistack/` in the repo. Wikilinks appearing in the step specs are *syntax examples*, shown verbatim rather than linked.

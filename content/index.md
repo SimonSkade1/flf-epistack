@@ -17,5 +17,5 @@ Later iterations that change the method or the question set will appear as `/v2/
 
 ## Elsewhere
 
-1. [github.com/SimonSkade1/flf-epistack](https://github.com/SimonSkade1/flf-epistack) — site, content, and the pipeline (`pipeline/`: the 10 step specs and a runner that recomputes every posterior on the site).
+1. [github.com/SimonSkade1/flf-epistack](https://github.com/SimonSkade1/flf-epistack) — site, content, and the pipeline (`content/v1/pipeline/`: the 10 step specs and a runner that recomputes every posterior on the site).
 2. [The competition prompt](https://www.lesswrong.com/posts/frizRHnA6AZpJSDqw/lab-leaks-black-holes-and-eggs-epistemic-case-study) that v1 answers.

@@ -15,7 +15,10 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "en-US",
     baseUrl: "epistack.simonskade.org",
-    ignorePatterns: ["private", "templates", ".obsidian"],
+    // __pycache__/*.pyc would otherwise be copied into public/ verbatim: the
+    // pipeline runner now lives under content/v1/pipeline/ and leaves bytecode
+    // behind whenever it's run.
+    ignorePatterns: ["private", "templates", ".obsidian", "**/__pycache__/**", "**/*.pyc"],
     defaultDateType: "modified",
     theme: {
       fontOrigin: "googleFonts",

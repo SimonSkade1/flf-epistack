@@ -11,7 +11,7 @@ Live site: **https://epistack.simonskade.org** (Let's Encrypt TLS via Caddy; als
 1. **The submission document** — [`content/v1/docs/submission.md`](content/v1/docs/submission.md), rendered at <https://epistack.simonskade.org/v1/docs/submission>. The written core of the entry: principles, the 10-step pipeline, the node ontology, the Bayesian logic, the case studies, the limitations, and how to reproduce it.
 2. **Three end-to-end runs** under [`content/v1/analysis-tests/`](content/v1/analysis-tests) — COVID origins, LHC black holes, and eggs-and-health. All ten steps ran on each and every posterior recomputes from the notes (see *Run the Bayesian model* below). They are deliberately **low-N shakedown runs** (5–10 curated sources each), so read them as a demonstration of the method rather than as settled answers. Fuller runs land in `content/v1/analyses/`.
 3. **The failure-modes appendix** — [`content/v1/analysis-tests/APPENDIX - known failure modes.md`](content/v1/analysis-tests/APPENDIX%20-%20known%20failure%20modes.md). Across the three runs, **3 BLOCKERs and 33 MAJORs**, each logged by an agent *inside* the run that hit it — including one BLOCKER the run subsequently checked and retracted.
-4. **The pipeline itself** — [`pipeline/SKILL.md`](pipeline/SKILL.md) and [`pipeline/steps/`](pipeline/steps). The same files ship at `.claude/skills/flf-epistack/` so the reproduction command below resolves in a fresh clone.
+4. **The pipeline itself** — [`content/v1/pipeline/`](content/v1/pipeline) (browsable at <https://epistack.simonskade.org/v1/pipeline/>): [`SKILL.md`](content/v1/pipeline/SKILL.md), the [ten step specs](content/v1/pipeline/steps), and the runnable [`runner/`](content/v1/pipeline/runner) + [`scripts/`](content/v1/pipeline/scripts) alongside them. This is the pipeline **frozen as of the FLF submission deadline**. The same skill also ships at [`.claude/skills/flf-epistack/`](.claude/skills/flf-epistack), the path Claude Code resolves so the reproduction command works in a fresh clone — **that copy is the living skill and may be updated over time, so to see the skill/pipeline as it was at submission, read `content/v1/pipeline/`.**
 
 ### Reproduce a run
 
@@ -26,7 +26,7 @@ Every file in an analysis folder is produced from its `initial_prompt.md` by tha
 
 ## Content versioning
 
-The **site shell** — the Quartz reading surface and the pipeline — is version-agnostic and lives at the root. **Project content is versioned**: everything for one iteration sits under `content/vN/` and is served at `epistack.simonskade.org/vN/…`. Quartz maps content folders straight to URL paths, so no path-prefix config is involved; `baseUrl` stays the bare domain.
+The **site shell** — the Quartz reading surface — is version-agnostic and lives at the root. **Project content is versioned**: everything for one iteration, the pipeline snapshot included, sits under `content/vN/` and is served at `epistack.simonskade.org/vN/…`. Quartz maps content folders straight to URL paths, so no path-prefix config is involved; `baseUrl` stays the bare domain.
 
 `v1` is the FLF-competition iteration. A future iteration that changes the method or the question set becomes `content/v2/` and is served alongside v1, so URLs already handed out keep resolving. Git tags freeze the *code*; `/vN/` freezes the *URLs*.
 
@@ -39,8 +39,8 @@ The **site shell** — the Quartz reading surface and the pipeline — is versio
       2. `content/v1/analysis-tests/` — the three completed **low-N shakedown runs**, plus the known-failure-modes appendix. Kept separate from `analyses/` so the distinction stays legible.
       3. `content/v1/docs/` — the submission document and supporting documentation.
       4. `content/v1/index.md` — v1 landing page; doubles as the `/v1/` folder page.
-2. `pipeline/` — the runnable EpiStack pipeline (a copy of the `flf-epistack` skill): `SKILL.md`, `steps/step-01…10`, and `runner/`. Not versioned by folder — use git tags.
-   1. `.claude/skills/flf-epistack/` — the identical skill, at the path Claude Code resolves, so the reproduction command works in a fresh clone.
+      5. `content/v1/pipeline/` — the EpiStack pipeline frozen at the submission deadline: `SKILL.md`, `steps/step-00…10`, and the runnable `runner/` + `scripts/` (served as static files, so browsable at `/v1/pipeline/`).
+2. `.claude/skills/flf-epistack/` — the same skill at the path Claude Code resolves, so the reproduction command works in a fresh clone. This is the **living** copy and may change over time; the deadline snapshot is `content/v1/pipeline/`.
 3. `quartz/`, `quartz.config.ts`, `quartz.layout.ts` — the Quartz static-site generator and its config. Patched to: colour nodes/links by node type (`graph.inline.ts` + `styles/custom.scss`), make the graph readable (zoom-in default, label truncation with hover-reveal, neighbour highlighting), render frontmatter as a properties table with live links (`components/Frontmatter.tsx`), and count frontmatter wikilinks as graph edges + backlinks (`plugins/transformers/frontmatterLinks.ts`). See `docs/website.md` for the details.
 4. `scripts/check-internal-links.mjs` — post-build link check (see below).
 5. `docs/website.md` — developer documentation for the website itself (not published to the site).
@@ -68,21 +68,21 @@ Wikilinks resolve by `markdownLinkResolution: "shortest"` — a bare `[[filename
 Needs only python 3 — no dependencies. One line per hypothesis-cluster, in `HC.hypotheses` order:
 
 ```
-python3 pipeline/runner/run.py content/v1/analysis-tests/covid1
+python3 content/v1/pipeline/runner/run.py content/v1/analysis-tests/covid1
 # HC-1  prior [0.3695, 0.1132, 0.5173]  posterior [0.4952, 0.0809, 0.4238]  (4 evidence block(s))
 ```
 
 Every number in the graph is a **named variable with its reasoning beside it**, so any disputed assumption is one flag from a re-run. `--set BLOCK:var=value` re-prices one: `BLOCK` is a note id, `var` a named variable in that note's python block.
 
 ```
-python3 pipeline/runner/run.py content/v1/analysis-tests/covid1 --set HC-1:uplift_coincident_lab_city=1.0
+python3 content/v1/pipeline/runner/run.py content/v1/analysis-tests/covid1 --set HC-1:uplift_coincident_lab_city=1.0
 # HC-1  prior [0.4063, 0.0249, 0.5688]  posterior [0.5263, 0.0179, 0.4558]
 #   ^ drop the one unsourced Fermi factor behind the lab-leak prior
 ```
 
 That single re-setting takes the research-incident hypothesis from 8.1% to 1.8% — which is why the run's own report declines to treat that number as a finding. Setting a reliability weight `t=0` recovers the prior exactly.
 
-`python3 pipeline/runner/test_run.py` self-checks the runner against the step 7/8 specs' published numbers, plus determinism, edge-order commutativity, and the sandbox guard.
+`python3 content/v1/pipeline/runner/test_run.py` self-checks the runner against the step 7/8 specs' published numbers, plus determinism, edge-order commutativity, and the sandbox guard.
 
 ## Deploy
 
