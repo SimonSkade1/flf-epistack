@@ -308,6 +308,10 @@ Caddy config at `/etc/caddy/Caddyfile` on the VPS (edit as `root@91.98.229.7`):
     root * /home/simon/workspace/external-projects/flf-epistack/public
     encode gzip
     try_files {path} {path}.html {path}/index.html   # extensionless slugs
+    # JS/CSS bundles have stable names, so revalidate them each load (304 when
+    # unchanged) — otherwise a redeploy hides behind the browser's heuristic cache.
+    @assets path *.js *.css
+    header @assets Cache-Control "no-cache"
     file_server
     handle_errors {
         rewrite * /404.html

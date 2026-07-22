@@ -109,49 +109,137 @@ function nodeTypeOf(url: SimpleSlug, data: Map<SimpleSlug, ContentDetails>): str
   return data.get(url)?.nodeType ?? UNTYPED
 }
 
-/**
- * Which "folder" (really: which analysis / section) a node belongs to — the
- * second, orthogonal filter axis to node type.
- *
- * The content tree is `v1/analyses/<subject>/…`, `v1/analysis-tests/<subject>/…`,
- * `v1/docs/…`, `v1/pipeline/…`. The literal top-level folder is always `v1`, so
- * filtering on that is useless; what's actually worth isolating is one analysis
- * subject (black-holes, covid1, …). So we strip a leading version segment and, for
- * the two analysis sections, key off the subject folder one level down; everything
- * else (docs, pipeline) keys off its section. Tag nodes have no folder.
- */
-function folderOf(url: SimpleSlug): string | null {
-  if (url.startsWith("tags/")) return null
-  const parts = url.split("/").filter(Boolean)
-  let i = 0
-  if (/^v\d+$/.test(parts[0] ?? "")) i = 1 // strip a leading version segment (v1)
-  const section = parts[i]
-  if (!section) return null // root / bare version index page
-  // analyses/<subject>/… and analysis-tests/<subject>/… → the subject folder
-  if ((section === "analyses" || section === "analysis-tests") && parts[i + 2]) {
-    return parts[i + 1]
-  }
-  return section // docs, pipeline, or a bare section index
+// ─── Folder filter model ─────────────────────────────────────────────────────
+//
+// The folder filter is a live tree of the graph's real directory structure
+// (v1 → analyses → covid1 → hypotheses/…), one visibility toggle per folder.
+// A node's effective visibility is the state of its *own deepest* folder; a
+// parent toggle is just a bulk-set of its whole subtree, which a child can then
+// override. So we persist a flat set of hidden folder keys (full slash paths;
+// "" is the root-pages bucket) and read each node's folder key out of it.
+
+/** Root-level pages (content root, no folder) live under this key/label. */
+const ROOT_FOLDER_KEY = ""
+const ROOT_FOLDER_LABEL = "(root)"
+
+type FolderTreeNode = {
+  key: string // full path from content root; "" = root bucket
+  name: string // last path segment (or the root label)
+  children: FolderTreeNode[]
+  directCount: number // nodes whose deepest folder is exactly this one
+  subtreeCount: number
 }
 
-const graphFolderFilterKey = "graph-hidden-folders"
-function getHiddenFolders(): Set<string> {
+type FolderModel = {
+  /** node slug → its deepest folder key */
+  nodeFolderKey: Map<SimpleSlug, string>
+  /** folder key → every key in its subtree (incl. itself), for cascade toggles */
+  subtreeKeys: Map<string, string[]>
+  /** top-level tree nodes, in display order */
+  roots: FolderTreeNode[]
+}
+
+let _folderModel: FolderModel | null = null
+async function getFolderModel(): Promise<FolderModel> {
+  if (_folderModel) return _folderModel
+  const data = await fetchData
+  const slugs = Object.keys(data)
+    .map((k) => simplifySlug(k as FullSlug))
+    .filter((s) => !s.startsWith("tags/"))
+
+  // every directory that has at least one descendant node
+  const allDirs = new Set<string>()
+  for (const s of slugs) {
+    const segs = s.split("/").filter(Boolean)
+    for (let i = 1; i < segs.length; i++) allDirs.add(segs.slice(0, i).join("/"))
+  }
+
+  // each node's deepest folder. A folder-index page (its own slug is itself a
+  // directory) is placed *inside* that folder; a normal file goes in its parent.
+  const nodeFolderKey = new Map<SimpleSlug, string>()
+  const directCount = new Map<string, number>()
+  for (const s of slugs) {
+    const segs = s.split("/").filter(Boolean)
+    const full = segs.join("/")
+    const parent = segs.slice(0, -1).join("/")
+    const key = allDirs.has(full) ? full : parent
+    nodeFolderKey.set(s, key)
+    directCount.set(key, (directCount.get(key) ?? 0) + 1)
+  }
+
+  // build the tree from allDirs (+ the root bucket, if any root page exists)
+  const nodeFor = new Map<string, FolderTreeNode>()
+  const ensure = (key: string): FolderTreeNode => {
+    let n = nodeFor.get(key)
+    if (!n) {
+      const segs = key.split("/").filter(Boolean)
+      n = {
+        key,
+        name: key === ROOT_FOLDER_KEY ? ROOT_FOLDER_LABEL : segs[segs.length - 1],
+        children: [],
+        directCount: directCount.get(key) ?? 0,
+        subtreeCount: 0,
+      }
+      nodeFor.set(key, n)
+    }
+    return n
+  }
+
+  const roots: FolderTreeNode[] = []
+  if ((directCount.get(ROOT_FOLDER_KEY) ?? 0) > 0) roots.push(ensure(ROOT_FOLDER_KEY))
+  for (const dir of allDirs) {
+    const node = ensure(dir)
+    const segs = dir.split("/").filter(Boolean)
+    if (segs.length === 1) roots.push(node)
+    else ensure(segs.slice(0, -1).join("/")).children.push(node)
+  }
+
+  // alphabetical children, roll up subtree counts bottom-up
+  const finish = (n: FolderTreeNode): number => {
+    n.children.sort((a, b) => a.name.localeCompare(b.name))
+    n.subtreeCount = n.directCount + n.children.reduce((s, c) => s + finish(c), 0)
+    return n.subtreeCount
+  }
+  roots.forEach(finish)
+  roots.sort((a, b) => {
+    if (a.key === ROOT_FOLDER_KEY) return -1 // root bucket first, then dirs A→Z
+    if (b.key === ROOT_FOLDER_KEY) return 1
+    return a.name.localeCompare(b.name)
+  })
+
+  // precompute each folder's subtree key list for cascade toggles. The root
+  // bucket is a leaf: it must NOT cascade to the top-level dirs (they're shown
+  // as its siblings, not its children).
+  const subtreeKeys = new Map<string, string[]>()
+  const collect = (n: FolderTreeNode): string[] => {
+    const kids = n.key === ROOT_FOLDER_KEY ? [] : n.children.flatMap(collect)
+    const all = [n.key, ...kids]
+    subtreeKeys.set(n.key, all)
+    return all
+  }
+  roots.forEach(collect)
+
+  _folderModel = { nodeFolderKey, subtreeKeys, roots }
+  return _folderModel
+}
+
+const graphFolderHiddenKey = "graph-folder-hidden"
+function getHiddenFolderKeys(): Set<string> {
   try {
-    return new Set(JSON.parse(localStorage.getItem(graphFolderFilterKey) ?? "[]"))
+    return new Set(JSON.parse(localStorage.getItem(graphFolderHiddenKey) ?? "[]"))
   } catch {
     return new Set()
   }
 }
-function setHiddenFolders(hidden: Set<string>) {
-  localStorage.setItem(graphFolderFilterKey, JSON.stringify([...hidden]))
+function setHiddenFolderKeys(hidden: Set<string>) {
+  localStorage.setItem(graphFolderHiddenKey, JSON.stringify([...hidden]))
 }
 
 /**
- * Stable colour for a folder chip's swatch, hashed from the folder name so it
+ * Stable colour for a folder's swatch in the tree, hashed from its key so it
  * doesn't drift between renders. Folders are a filter axis only — graph *nodes*
  * stay coloured by type (that palette is shared with the in-text link colours),
- * so this colour is just a per-chip identity key, drawn as a square to set it
- * apart from the round type swatches.
+ * so this is just a per-folder identity mark in the tree, not a node colour.
  */
 function folderColor(name: string): string {
   let h = 0
@@ -280,19 +368,21 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug, depthOverride
   // set (not on `nodes`) so the link filter below stays consistent — filtering
   // `nodes` alone would leave links pointing at nodes that no longer exist.
   const hiddenTypes = getHiddenTypes()
-  const hiddenFolders = getHiddenFolders()
+  const hiddenFolders = getHiddenFolderKeys()
+  const folderModel = await getFolderModel()
   if (hiddenTypes.size > 0 || hiddenFolders.size > 0) {
     for (const url of [...neighbourhood]) {
       // the current page always stays, even if its type/folder is filtered out —
-      // otherwise "hide all" would blank the very node you're looking at
-      if (url === slug) continue
+      // otherwise hiding everything would blank the very node you're looking at
+      if (url === slug || url.startsWith("tags/")) continue
       const t = nodeTypeOf(url, data)
       if (t && hiddenTypes.has(t)) {
         neighbourhood.delete(url)
         continue
       }
-      const f = folderOf(url)
-      if (f && hiddenFolders.has(f)) neighbourhood.delete(url)
+      // effective visibility = state of the node's own deepest folder
+      const fk = folderModel.nodeFolderKey.get(url)
+      if (fk !== undefined && hiddenFolders.has(fk)) neighbourhood.delete(url)
     }
   }
 
@@ -994,10 +1084,9 @@ function buildFilterRow(
 }
 
 /**
- * Filter chips for the global graph: a "Type" row (node type) and an "Analysis"
- * row (folder — see folderOf). Two independent axes, both persisted, both applied
- * to the local sidebar graph too, so "show only hypotheses in the covid analysis"
- * holds while you browse.
+ * The node-**type** filter row for the global graph (the **folder** axis is the
+ * left-hand tree panel — see buildFolderTree). Persisted, and applied to the
+ * local sidebar graph too, so "show only hypotheses" holds while you browse.
  *
  * Lives in `.global-graph-outer` rather than `.global-graph-container`, because
  * renderGraph() calls removeAllChildren() on its own container — anything put
@@ -1007,14 +1096,10 @@ function buildFilterRow(
 async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<void>) {
   const data = await fetchData
   const typeCounts = new Map<string, number>()
-  const folderCounts = new Map<string, number>()
   for (const [slug, details] of Object.entries(data) as [FullSlug, ContentDetails][]) {
-    const simple = simplifySlug(slug)
-    if (simple.startsWith("tags/")) continue
+    if (simplifySlug(slug).startsWith("tags/")) continue
     const t = details.nodeType ?? UNTYPED
     typeCounts.set(t, (typeCounts.get(t) ?? 0) + 1)
-    const f = folderOf(simple)
-    if (f) folderCounts.set(f, (folderCounts.get(f) ?? 0) + 1)
   }
 
   // known types first, in pipeline order, then anything unexpected, then "other"
@@ -1025,12 +1110,6 @@ async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<voi
     ...(presentTypes.includes(UNTYPED) ? [UNTYPED] : []),
   ]
 
-  // folders by node count (biggest analyses first), then name — puts the populated
-  // analyses up front and the one-file stubs / docs at the end
-  const orderedFolders = [...folderCounts.keys()].sort(
-    (a, b) => (folderCounts.get(b) ?? 0) - (folderCounts.get(a) ?? 0) || a.localeCompare(b),
-  )
-
   let container = outer.querySelector(".graph-filters") as HTMLElement | null
   if (!container) {
     container = document.createElement("div")
@@ -1038,8 +1117,6 @@ async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<voi
     outer.prepend(container)
   }
   removeAllChildren(container)
-
-  const rebuild = () => buildGraphFilters(outer, onChange)
 
   buildFilterRow(
     container,
@@ -1051,24 +1128,140 @@ async function buildGraphFilters(outer: HTMLElement, onChange: () => Promise<voi
       swatch: (t) => ({ dataNodeType: t }),
     },
     onChange,
-    rebuild,
+    () => buildGraphFilters(outer, onChange),
   )
+}
 
-  // only worth showing the folder axis if there's more than one folder to choose
-  if (orderedFolders.length > 1) {
-    buildFilterRow(
-      container,
-      {
-        labelText: "Analysis",
-        items: orderedFolders.map((f) => ({ key: f, count: folderCounts.get(f) ?? 0 })),
-        getHidden: getHiddenFolders,
-        setHidden: setHiddenFolders,
-        swatch: (f) => ({ inlineColor: folderColor(f), square: true }),
-      },
-      onChange,
-      rebuild,
-    )
+// Small inline icons for the folder tree (stroke = currentColor so they inherit
+// the row's text colour and dim with it).
+const ICON_EYE = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+const ICON_EYE_OFF = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`
+const ICON_CARET = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
+
+/** Collapsed folders in the tree (session-only; deliberately not persisted). */
+const collapsedFolders = new Set<string>()
+
+/**
+ * The folder-filter tree: a left-hand panel over the global graph mirroring the
+ * content's real directory nesting, one eye toggle per folder.
+ *
+ * Cascade: toggling a folder bulk-sets its whole subtree to the new state, but
+ * each folder still stores its own state, so a child can be toggled back to
+ * differ from its parent afterwards. A node is shown iff its own deepest folder
+ * is shown. Applies to the sidebar graph too (which carries no tree UI).
+ *
+ * In `.global-graph-outer` for the same reason as the type chips: renderGraph()
+ * wipes its own container on every re-render.
+ */
+async function buildFolderTree(outer: HTMLElement, onChange: () => Promise<void>) {
+  const model = await getFolderModel()
+  if (model.roots.length === 0) return
+
+  let panel = outer.querySelector(".graph-folder-tree") as HTMLElement | null
+  if (!panel) {
+    panel = document.createElement("div")
+    panel.className = "graph-folder-tree"
+    outer.appendChild(panel)
   }
+  removeAllChildren(panel)
+
+  const rebuild = () => buildFolderTree(outer, onChange)
+  const hidden = getHiddenFolderKeys()
+
+  const header = document.createElement("div")
+  header.className = "graph-folder-tree-header"
+  const title = document.createElement("span")
+  title.textContent = "Folders"
+  header.appendChild(title)
+
+  const showAll = document.createElement("button")
+  showAll.className = "graph-folder-showall"
+  showAll.textContent = "show all"
+  showAll.disabled = hidden.size === 0
+  showAll.addEventListener("click", async () => {
+    setHiddenFolderKeys(new Set())
+    await onChange()
+    await rebuild()
+  })
+  header.appendChild(showAll)
+  panel.appendChild(header)
+
+  const list = document.createElement("div")
+  list.className = "graph-folder-tree-list"
+  panel.appendChild(list)
+
+  const renderNode = (node: FolderTreeNode, depth: number) => {
+    const row = document.createElement("div")
+    row.className = "graph-folder-row"
+    row.dataset.folderKey = node.key
+    row.style.paddingLeft = `${depth * 0.85 + 0.3}rem`
+
+    const isHidden = hidden.has(node.key)
+    const hasChildren = node.children.length > 0
+    const isCollapsed = collapsedFolders.has(node.key)
+
+    // caret toggles collapse; a hidden spacer keeps leaf names aligned
+    const caret = document.createElement("button")
+    caret.className = "graph-folder-caret"
+    if (hasChildren) {
+      caret.innerHTML = ICON_CARET
+      caret.classList.toggle("collapsed", isCollapsed)
+      caret.setAttribute("aria-label", isCollapsed ? "Expand folder" : "Collapse folder")
+      caret.addEventListener("click", async (e) => {
+        e.stopPropagation()
+        isCollapsed ? collapsedFolders.delete(node.key) : collapsedFolders.add(node.key)
+        await rebuild()
+      })
+    } else {
+      caret.classList.add("leaf")
+      caret.disabled = true
+    }
+    row.appendChild(caret)
+
+    const toggle = async () => {
+      const cur = getHiddenFolderKeys()
+      const willHide = !cur.has(node.key) // flip this folder, cascade to its subtree
+      for (const k of model.subtreeKeys.get(node.key) ?? [node.key]) {
+        willHide ? cur.add(k) : cur.delete(k)
+      }
+      setHiddenFolderKeys(cur)
+      await onChange()
+      await rebuild()
+    }
+
+    const eye = document.createElement("button")
+    eye.className = "graph-folder-eye"
+    eye.innerHTML = isHidden ? ICON_EYE_OFF : ICON_EYE
+    eye.setAttribute("aria-pressed", String(!isHidden))
+    eye.title = isHidden ? `Show ${node.name}` : `Hide ${node.name}`
+    eye.addEventListener("click", toggle)
+    row.appendChild(eye)
+
+    const swatch = document.createElement("span")
+    swatch.className = "graph-folder-swatch"
+    swatch.style.background = folderColor(node.key || ROOT_FOLDER_LABEL)
+    row.appendChild(swatch)
+
+    const name = document.createElement("span")
+    name.className = "graph-folder-name"
+    name.textContent = node.name
+    name.title = node.name
+    name.addEventListener("click", toggle)
+    row.appendChild(name)
+
+    const count = document.createElement("span")
+    count.className = "graph-folder-count"
+    count.textContent = String(node.subtreeCount)
+    row.appendChild(count)
+
+    if (isHidden) row.classList.add("hidden-folder")
+    list.appendChild(row)
+
+    if (hasChildren && !isCollapsed) {
+      for (const child of node.children) renderNode(child, depth + 1)
+    }
+  }
+  for (const root of model.roots) renderNode(root, 0)
 }
 
 /**
@@ -1209,12 +1402,14 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
         globalGraphCleanups.push(await renderGraph(graphContainer, slug, expandedDepth()))
         buildDepthControls(container, rerenderExpanded)
 
-        // toggling a type re-renders the expanded graph in place, and the local
-        // sidebar graph too so both agree on what's shown
-        await buildGraphFilters(container, async () => {
+        // toggling a type/folder re-renders the expanded graph in place, and the
+        // local sidebar graph too so both agree on what's shown
+        const onFilterChange = async () => {
           await rerenderExpanded()
           await renderLocalGraph()
-        })
+        }
+        await buildGraphFilters(container, onFilterChange)
+        await buildFolderTree(container, onFilterChange)
       }
     }
   }
