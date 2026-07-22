@@ -1,0 +1,21 @@
+---
+id: A-59
+type: argument
+statement: "Folding the ~1e28 lunar Fe-Fe collisions at AGS-equivalent energies with a strangelet stopping-survival model (geometric dissociation cross-section, ionization stopping) gives an effective exposure of ~1e22 x p even with a punishing 1e-6 rapidity-suppression factor, so the Moon's survival bounds the per-collision dangerous-strangelet probability at p < 2e-11 for the physically favored case (Fe-Fe, AGS energies, power-law rapidity distribution) — a bound destroyed only by assuming production occurs solely in gold-gold collisions, only at RHIC energies and above, and only exactly at rest in the CM, assumptions the authors consider physically unmotivated."
+source: "[[S-3 - Busza, Jaffe, Sandweiss, Wilczek- Review of Speculative Disaster Scenarios at RHIC]]"
+locator: "§V.D, eqs. (13)-(16), cases I-IV"
+affects_observations: ["[[O-39 - Cosmic-ray data imply 1e28 iron-iron collisions at AGS-equivalent energies on the Moon and 1e47 in our past light cone]]", "[[O-23 - The Moon, unshielded by any atmosphere, has endured billions of years of cosmic-ray heavy-ion bombardment and remains ordinary matter]]"]
+affects_hypotheses: ["[[H-29 - A metastable negatively charged strangelet stopped in matter would grow exponentially by alternating nuclear absorption and electron capture]]"]
+status: approved
+reason_if_not_false: checked
+---
+Reasoning:
+
+1. Survival modeling: a strangelet of rapidity y in the lunar frame survives stopping with P = exp[-4.85(1 + A^(1/3)/3)^2 (cosh y - 1) A/Z^2] (geometric dissociation cross-section, ionization-only stopping in silicon); for A=20, Z=-1 this is exp[-350(cosh y - 1)] — only near-rest strangelets survive, the same physics that limits what RHIC itself could stop (RHIC-side survival probabilities ~1e-2).
+2. With the physically motivated rapidity form dPi/dy ∝ y^a exp(-by) near the kinematic limit (inclusive hadronic processes fall as powers of rapidity at phase-space edges; exponential suppression at central rapidity would violate the emergence of a rapidity plateau), the net lunar-vs-RHIC suppression ranges from an enhancement of 3 (a=1) to 3e-6 (a=4). Adopting 1e-6: exposures of 1e22 p (Fe-Fe AGS), 2e16 p (Fe-Fe RHIC), 1e17 p (Au-Fe AGS), 2e11 p (Au-Fe RHIC) → bounds p < 2e-11, 1e-5, 2e-6, 1 for cases I-IV.
+3. Case selection: because production physics favors lower energies and iron is a perfectly good heavy nucleus, case I is the one to take seriously → p < 2e-11, where p (= 2e11 x the per-collision, survival-weighted probability) is already the total probability over RHIC's whole lifetime. Only by insisting on exact RHIC circumstances plus the delta-function-at-central-rapidity model of Dar-De Rujula-Heinz (for which no theoretical motivation exists and against which heavy-ion phenomenology argues) does the lunar limit evaporate — and those same assumptions do nothing to make production at RHIC more likely.
+4. Metastability does not reopen this loophole: a strangelet made in the lunar rest frame has exactly as long to react as one made at RHIC. The paper's honest bottom line: with worst-case assumptions that bend if not break the laws of physics, no totally satisfactory purely empirical limit exists — which is why the theoretical production/charge/stability arguments, not the cosmic-ray bounds, are called the central case for safety.
+
+## Step 6 verdict
+
+Verdict: approved (checked). Load-bearing step: the lunar exposure only bounds p if produced strangelets survive stopping, and the survival exponential exp[-350(cosh y - 1)] plus a power-law (not exponentially suppressed) tail near central rapidity leaves effective exposure ~1e22 x p even after a punishing 1e-6 suppression factor - hence p < 2e-11 for case I. The single surviving escape (production only in Au-Au, only at RHIC energies, only exactly at CM rest - the DDH conjunction) is internalized in the statement and correctly marked physically unmotivated, so it does not undercut the stated conditional conclusion. Case-I selection follows from the A-58 energy-scaling premise. Anthropic selection does not bite (a Moon-converting strangelet leaves Earth observers). The metastability loophole is correctly shown closed for this particular bound (equal reaction time in lunar and RHIC rest frames). Valid conditional on the stopping/survival model.

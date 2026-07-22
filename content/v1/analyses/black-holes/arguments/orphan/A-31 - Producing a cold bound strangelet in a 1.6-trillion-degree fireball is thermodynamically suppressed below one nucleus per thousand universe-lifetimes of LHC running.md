@@ -1,0 +1,15 @@
+---
+id: A-31
+type: argument
+statement: "A strangelet is bound by O(1-10) MeV while heavy-ion collisions make heat baths of T ≈ 165 MeV, so condensation is fought by the second law — an ice cube in a furnace; quantitatively, the measured thermal penalty factor exp(-(m_N - mu_B)/T) suppresses production of even a normal A=10 nucleus by ~3e-25 per nucleon rate (A=20: ~1e-49), giving probability ~1e-13 over the LHC's ~1e10 relevant heavy-ion collisions, with strangelets suppressed further still; and because the LHC runs at least as hot as RHIC with lower net baryon density, strangelet production is less likely at the LHC than at RHIC, which was less likely than the 1980s-90s machines."
+source: "[[S-1 - LSAG report- Review of the Safety of LHC Collisions]]"
+locator: "§5; Appendix, eq. (1) and 'Summary of the safety argument'"
+quote: "the likelihood of strangelet production in relativistic heavy-ion collisions can be compared to the likelihood of producing an icecube in a furnace"
+affects_observations: ["[[O-24 - RHIC particle abundances including multi-strange baryons match a thermal model at T about 165 MeV with baryon chemical potential falling as collision energy rises]]", "[[O-25 - RHIC fireballs expand explosively and die within 1e-23 s with no strange-antistrange asymmetry - the conditions strangeness distillation needs are absent]]"]
+---
+Reasoning:
+
+1. Binding vs temperature: quantum mechanics requires constituents to assemble with relative kinetic energies below the binding energy (~MeV, i.e. tens of billions of K); the fireball exceeds 1e12 K. Basic thermodynamics melts (dissociates) any nascent strangelet into ordinary strange hadrons that decay in ~1 ns.
+2. Quantitative anchor, empirically calibrated: the grand-canonical penalty factor per added baryon, PF ≈ exp(-(m_N - mu_B)/T), is measured to describe light-nucleus and antinucleus yields at AGS/SPS/RHIC. At T = 165 MeV, mu_B << m_N: A=10 → 3e-25 relative to nucleons; A=20 → 1e-49. With ~1e10 sufficiently central LHC Pb+Pb collisions (1e27 cm-2 s-1 luminosity, 8 barn, 10 years, 10% central) and nucleon rates in the hundreds, the whole LHC programme yields ~1e-13 normal A=10 nuclei via thermal production — i.e. odds ~1/1000 even if the LHC ran for the lifetime of the universe. Strangelet production is bounded above by normal-nucleus production (extra strangeness costs more), and canonical baryon-number conservation suppresses large A further.
+3. Energy scaling: T saturates while mu_B falls with collision energy (measured trend, extrapolated to 5.5 TeV), and strangelets need baryon number; so the LHC is a strictly worse strangelet factory than RHIC, which was worse than AGS/SPS. All observed production mechanisms (thermal, coalescence — quantitatively similar; distillation — empirically dead, see the fireball-dynamics observation) obey this.
+4. Self-monitoring: ~1000 LHC heavy-ion collisions suffice to re-test the thermal ("particle furnace") description at LHC energies, so the safety argument's basis is checked from day one of heavy-ion running.
