@@ -2,6 +2,10 @@
 type: main-report
 ---
 
+> [!info]+ Interactive model graph — added after the FLF submission deadline
+> See this case as a navigable Bayesian graph — evidence-links as edges, correlation-groups as joint-witness nodes, priors → posteriors on the hypotheses: **[open the model view →](/static/model/eggs1/)**.
+> *(Coded after the competition deadline; not part of the frozen submission.)*
+
 # Is habitual egg consumption net beneficial, harmful, or neutral for human health — overall, for whom, and at what level of intake?
 
 ## 1. The answer

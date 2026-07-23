@@ -2,6 +2,10 @@
 type: main-report
 ---
 
+> [!info]+ Interactive model graph — added after the FLF submission deadline
+> See this case as a navigable Bayesian graph — evidence-links as edges, correlation-groups as joint-witness nodes, priors → posteriors on the hypotheses: **[open the model view →](/static/model/covid1/)**.
+> *(Coded after the competition deadline; not part of the frozen submission.)*
+
 # Did SARS-CoV-2 first infect humans through natural zoonotic spillover (e.g. via the wildlife trade / Huanan Seafood Market) or through a research-related incident (a lab leak)?
 
 ## 1. The answer

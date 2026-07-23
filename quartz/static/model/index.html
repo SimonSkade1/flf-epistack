@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EpiStack — model graph</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header id="topbar">
+        <div class="brand">
+          <span class="dot"></span>
+          <div>
+            <div id="title">EpiStack model graph</div>
+            <div id="subtitle">loading…</div>
+          </div>
+          <span id="post-deadline" title="This interactive view is not part of the frozen FLF competition submission."
+            >added after the submission deadline</span
+          >
+        </div>
+        <div class="controls">
+          <label class="seg" title="Layout direction">
+            direction
+            <select id="rankdir">
+              <option value="TB" selected>top → bottom</option>
+              <option value="LR">left → right</option>
+            </select>
+          </label>
+          <button id="fit" title="Fit graph to view">fit</button>
+          <button id="reset" title="Reset highlight / selection">reset</button>
+          <a id="opendir" href="#" target="_blank" rel="noopener" title="Open the analysis folder">open notes ↗</a>
+        </div>
+      </header>
+
+      <main id="stage">
+        <div id="cy"></div>
+
+        <section id="legend" class="panel">
+          <div class="panel-h">Node types <span class="hint">click to toggle</span></div>
+          <ul id="legend-list"></ul>
+          <div class="panel-h">Evidence edges</div>
+          <ul id="edge-key">
+            <li><span class="ekey" data-k="update"></span>likelihood update (thicker = more discriminating)</li>
+            <li><span class="ekey" data-k="prior"></span>informs the prior (base rate)</li>
+            <li><span class="ekey" data-k="ingroup"></span>joins a correlation-group (joint witness)</li>
+          </ul>
+          <div class="legend-note">
+            An <b>evidence-link</b> is an <b>edge</b> from an observation to a
+            hypothesis-cluster. Correlated observations first merge into a
+            <b>correlation-group</b> node (one joint witness, counted once), which
+            then updates the cluster. Click an edge to open its note; select it for
+            the full likelihood vector.
+          </div>
+        </section>
+
+        <aside id="details" class="panel hidden">
+          <button id="details-close" aria-label="close">×</button>
+          <div id="details-body"></div>
+        </aside>
+
+        <div id="tooltip" class="hidden"></div>
+      </main>
+    </div>
+
+    <script src="vendor/cytoscape.min.js"></script>
+    <script src="vendor/dagre.min.js"></script>
+    <script src="vendor/cytoscape-dagre.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

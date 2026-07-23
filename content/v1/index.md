@@ -11,10 +11,10 @@ This site is the reading surface. The [runnable pipeline](https://github.com/Sim
 ## Start here
 
 1. [[submission|The submission document]] — the written core of the FLF entry: principles, pipeline, ontology, Bayesian logic, cases, limitations.
-2. **The three end-to-end runs**, each a real pipeline output you can read top-to-bottom and then follow down into the graph:
-	1. [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|COVID origins]]
-	2. [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|LHC black holes]]
-	3. [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|Eggs and health]]
+2. **The three end-to-end runs**, each a real pipeline output you can read top-to-bottom and then follow down into the graph. Each also opens as an **interactive model graph** — a navigable Bayesian view added *after* the submission deadline (evidence-links as edges, correlation-groups as joint-witness nodes, priors → posteriors):
+	1. [[main report - Did SARS-CoV-2 first infect humans through natural zoonotic spillover or through a research-related incident|COVID origins]] · [model graph →](/static/model/covid1/)
+	2. [[main report - Was the risk that LHC collisions destroy the Earth truly put to rest and what does that conclusion hinge on|LHC black holes]] · [model graph →](/static/model/black-holes1/)
+	3. [[main report - Is habitual egg consumption net beneficial, harmful, or neutral for human health|Eggs and health]] · [model graph →](/static/model/eggs1/)
 3. [[APPENDIX - known failure modes|Known failure modes]] — 3 BLOCKERs and 33 MAJORs, each logged by an agent inside the run that hit it, including one defect claim the run then retracted.
 4. [[v1/pipeline/index|The pipeline itself]] — the 10-step specification the runs were produced by, browsable step by step.
 5. [[v1/docs/index|Documentation]] — what the pipeline does, and how to read the node types.

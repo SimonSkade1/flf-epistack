@@ -1,0 +1,1164 @@
+{
+  "analysis": {
+    "id": "black-holes1",
+    "dir": "content/v1/analysis-tests/black-holes1",
+    "main": "MAIN"
+  },
+  "nodeColors": {
+    "source": {
+      "light": "#1d4ed8",
+      "dark": "#7aa2f7"
+    },
+    "data-basis": {
+      "light": "#0e7490",
+      "dark": "#22d3ee"
+    },
+    "observation": {
+      "light": "#15803d",
+      "dark": "#4ade80"
+    },
+    "hypothesis": {
+      "light": "#6d28d9",
+      "dark": "#b39dfa"
+    },
+    "hypothesis-cluster": {
+      "light": "#a21caf",
+      "dark": "#e879f9"
+    },
+    "evidence-link": {
+      "light": "#b45309",
+      "dark": "#fbbf24"
+    },
+    "correlation-group": {
+      "light": "#78350f",
+      "dark": "#fdba74"
+    },
+    "argument": {
+      "light": "#be123c",
+      "dark": "#fb7185"
+    },
+    "cluster-review": {
+      "light": "#475569",
+      "dark": "#94a3b8"
+    },
+    "main-report": {
+      "light": "#0f172a",
+      "dark": "#e2e8f0"
+    }
+  },
+  "nodes": [
+    {
+      "id": "A-1",
+      "type": "argument",
+      "label": "A-1 - Relativistic-escape loophole in the Earth cosmic-ray argument is closed by white-dwarf and neutron-star stopping power",
+      "title": "Earth's survival alone cannot bound neutral stable black holes (cosmic-ray-produced ones are relativistic and escape), but white dwarfs and neutron stars are dense enough to stop them, so the survival of those bodies substitutes as the empirical bound for the slow, trapped case.",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-1---Relativistic-escape-loophole-in-the-Earth-cosmic-ray-argument-is-closed-by-white-dwarf-and-neutron-star-stopping-power"
+    },
+    {
+      "id": "A-2",
+      "type": "argument",
+      "label": "A-2 - Every fast-accretion scenario is excluded by white-dwarf and neutron-star survival",
+      "title": "Bracketing all TeV-gravity scenarios by Earth-accretion rate: scenarios where accretion is macroscopically irrelevant within the solar lifetime are harmless by construction, and every scenario with faster accretion implies white dwarfs and neutron stars would already have been destroyed by cosmic-ray-produced black holes - contradicting their observed Gyr survival.",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-2---Every-fast-accretion-scenario-is-excluded-by-white-dwarf-and-neutron-star-survival"
+    },
+    {
+      "id": "A-3",
+      "type": "argument",
+      "label": "A-3 - Charged or EM-interacting stable black holes are excluded directly by Earth and Sun survival",
+      "title": "If stable black holes retain electric charge (or otherwise interact electromagnetically), ordinary ionization stopping traps even relativistic cosmic-ray-produced ones inside Earth and the Sun, so 4.5 Gyr of Earth/Sun survival under the measured cosmic-ray flux is direct evidence against danger for this branch without any white-dwarf step — subject to an observer-selection correction, since Earth/Sun survival is conditioned on our existence.",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-3---Charged-or-EM-interacting-stable-black-holes-are-excluded-directly-by-Earth-and-Sun-survival"
+    },
+    {
+      "id": "A-4",
+      "type": "argument",
+      "label": "A-4 - Gauss-law dilution of gravity in large extra dimensions reproduces weak 4D gravity from a TeV fundamental scale",
+      "title": "A ~TeV fundamental gravity scale is consistent with the observed weakness of 4D gravity if n>=2 extra compact dimensions dilute the gravitational flux, relocating (not fully solving) the hierarchy problem to radius stabilization.",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-4---Gauss-law-dilution-of-gravity-in-large-extra-dimensions-reproduces-weak-4D-gravity-from-a-TeV-fundamental-scale"
+    },
+    {
+      "id": "A-5",
+      "type": "argument",
+      "label": "A-5 - Semiclassical QFT in curved spacetime derives thermal emission with accelerating evaporation",
+      "title": "Quantum field theory on the curved background of gravitational collapse implies a late-time thermal particle flux at T proportional to 1/M, hence mass loss dM/dt proportional to -1/M^2 and lifetime proportional to M^3 — so microscopic holes evaporate essentially instantly.",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-5---Semiclassical-QFT-in-curved-spacetime-derives-thermal-emission-with-accelerating-evaporation"
+    },
+    {
+      "id": "A-6",
+      "type": "argument",
+      "label": "A-6 - Observer selection makes naive survival-based risk bounds uninformative",
+      "title": "That a body whose survival is a precondition for our existence (Earth, Sun) has survived past exposure cannot by itself bound the true catastrophe rate, because observers necessarily find themselves where catastrophe has not yet occurred; for independently observed distant bodies (white dwarfs, neutron stars) the selection bias is only partial and their survival retains most of its evidential force.",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-6---Observer-selection-makes-naive-survival-based-risk-bounds-uninformative"
+    },
+    {
+      "id": "A-7",
+      "type": "argument",
+      "label": "A-7 - Earth's unremarkably late formation time yields a selection-bias-free catastrophe-rate bound near 1 per Gyr",
+      "title": "If the exogenous catastrophe rate were high, surviving observers would overwhelmingly find themselves on anomalously early-formed planets; Earth's typical formation date therefore bounds the rate at ~1/Gyr (99.9% c.l.).",
+      "url": "/v1/analysis-tests/black-holes1/arguments/A-7---Earth's-unremarkably-late-formation-time-yields-a-selection-bias-free-catastrophe-rate-bound-near-1-per-Gyr"
+    },
+    {
+      "id": "CG-1",
+      "type": "correlation-group",
+      "label": "CG-1",
+      "title": "CG-1 - HC-1 joint over O-2+O-3+O-4",
+      "url": "/v1/analysis-tests/black-holes1/correlation-groups/CG-1---HC-1-joint-over-O-2+O-3+O-4",
+      "to": "HC-1",
+      "members": [
+        "E-2",
+        "E-3",
+        "E-4"
+      ]
+    },
+    {
+      "id": "CG-2",
+      "type": "correlation-group",
+      "label": "CG-2",
+      "title": "CG-2 - HC-2 joint over O-2+O-4",
+      "url": "/v1/analysis-tests/black-holes1/correlation-groups/CG-2---HC-2-joint-over-O-2+O-4",
+      "to": "HC-2",
+      "members": [
+        "E-8",
+        "E-9"
+      ]
+    },
+    {
+      "id": "D-1",
+      "type": "data-basis",
+      "label": "D-1 - Cosmic-ray survival premise - high-energy cosmic rays have bombarded astronomical bodies over Gyr without catastrophe",
+      "title": "D-1 - Cosmic-ray survival premise - high-energy cosmic rays have bombarded astronomical bodies over Gyr without catastrophe",
+      "url": "/v1/analysis-tests/black-holes1/data-bases/D-1---Cosmic-ray-survival-premise---high-energy-cosmic-rays-have-bombarded-astronomical-bodies-over-Gyr-without-catastrophe"
+    },
+    {
+      "id": "D-2",
+      "type": "data-basis",
+      "label": "D-2 - Planet-formation-time distribution across the observable universe",
+      "title": "D-2 - Planet-formation-time distribution across the observable universe",
+      "url": "/v1/analysis-tests/black-holes1/data-bases/D-2---Planet-formation-time-distribution-across-the-observable-universe"
+    },
+    {
+      "id": "H-1",
+      "type": "hypothesis",
+      "label": "H-1 - Stable LHC black holes trapped in Earth would accrete it catastrophically within the solar lifetime",
+      "title": "If stable (non-evaporating) TeV-scale black holes are produced at the LHC, some would be slow enough to be trapped in Earth and would accrete it, causing macroscopic damage on a timescale short compared with the Sun's remaining ~5 Gyr lifetime.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-1---Stable-LHC-black-holes-trapped-in-Earth-would-accrete-it-catastrophically-within-the-solar-lifetime",
+      "cluster": "HC-1",
+      "prior": 0.3097,
+      "posterior": 0.0354
+    },
+    {
+      "id": "H-10",
+      "type": "hypothesis",
+      "label": "H-10 - The exogenous terminal-catastrophe rate is not bounded below 1 per Gyr",
+      "title": "The exogenous terminal-catastrophe rate is not bounded below ~1 per Gyr at high confidence — the Tegmark-Bostrom bound fails, e.g. because its planet-formation-time modeling assumptions are wrong.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-10---The-exogenous-terminal-catastrophe-rate-is-not-bounded-below-1-per-Gyr",
+      "cluster": "HC-4",
+      "prior": 0.496,
+      "posterior": 0.2385
+    },
+    {
+      "id": "H-2",
+      "type": "hypothesis",
+      "label": "H-2 - Stable LHC black holes pose no macroscopic risk to Earth within the solar lifetime",
+      "title": "Even if stable TeV-scale black holes exist and are produced at the LHC, in every viable TeV-gravity scenario their accretion of Earth is either far too slow to matter within the solar lifetime, or the scenario is excluded by observed white-dwarf/neutron-star survival - no risk of any significance.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-2---Stable-LHC-black-holes-pose-no-macroscopic-risk-to-Earth-within-the-solar-lifetime",
+      "cluster": "HC-1",
+      "prior": 0.5752,
+      "posterior": 0.8882
+    },
+    {
+      "id": "H-3",
+      "type": "hypothesis",
+      "label": "H-3 - Two or more large compact extra dimensions lower the fundamental gravity scale to about a TeV",
+      "title": "Gravity (but not Standard Model fields) propagates in n>=2 large compact extra dimensions, so the fundamental Planck scale is as low as ~1 TeV and the observed 10^19 GeV 4D Planck scale is an artifact of geometric dilution.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-3---Two-or-more-large-compact-extra-dimensions-lower-the-fundamental-gravity-scale-to-about-a-TeV",
+      "cluster": "HC-3",
+      "prior": 0.03,
+      "posterior": 0.03
+    },
+    {
+      "id": "H-4",
+      "type": "hypothesis",
+      "label": "H-4 - Black holes radiate thermally and evaporate, so a TeV-mass black hole would decay near-instantly",
+      "title": "Black holes emit thermal radiation at temperature T = hbar c^3/(8 pi G M k_B), i.e. T proportional to 1/M, and evaporate at an accelerating rate as they shrink; if the mechanism holds at the TeV scale, any LHC-produced micro black hole decays in ~10^-27 s, long before it could interact with or accrete surrounding matter.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-4---Black-holes-radiate-thermally-and-evaporate,-so-a-TeV-mass-black-hole-would-decay-near-instantly",
+      "cluster": "HC-2",
+      "prior": 0.891,
+      "posterior": 0.9561
+    },
+    {
+      "id": "H-5",
+      "type": "hypothesis",
+      "label": "H-5 - The exogenous terminal-catastrophe rate is below about 1 per Gyr at 99.9 percent confidence",
+      "title": "The rate of exogenous terminal catastrophes (not caused by human activity — e.g. cosmic-event-triggered vacuum decay) is below ~1 per 10^9 years at 99.9% confidence.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-5---The-exogenous-terminal-catastrophe-rate-is-below-about-1-per-Gyr-at-99.9-percent-confidence",
+      "cluster": "HC-4",
+      "prior": 0.504,
+      "posterior": 0.7615
+    },
+    {
+      "id": "H-6",
+      "type": "hypothesis",
+      "label": "H-6 - Stable LHC black holes have some fate or impact not listed here",
+      "title": "The answer is something not listed here — e.g. stable LHC black holes cause significant but sub-catastrophic harm, or fall into a trapping/accretion regime outside those analyzed in this literature.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-6---Stable-LHC-black-holes-have-some-fate-or-impact-not-listed-here",
+      "cluster": "HC-1",
+      "prior": 0.115,
+      "posterior": 0.0764
+    },
+    {
+      "id": "H-7",
+      "type": "hypothesis",
+      "label": "H-7 - Hawking evaporation fails and TeV-mass black holes are long-lived",
+      "title": "Hawking evaporation does not operate (or fails at the TeV/near-Planck scale where the semiclassical derivation is weakest), so a TeV-mass black hole produced at the LHC is stable or long-lived rather than decaying near-instantly.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-7---Hawking-evaporation-fails-and-TeV-mass-black-holes-are-long-lived",
+      "cluster": "HC-2",
+      "prior": 0.109,
+      "posterior": 0.0439
+    },
+    {
+      "id": "H-8",
+      "type": "hypothesis",
+      "label": "H-8 - The fundamental gravity scale is far above LHC energies so no black holes form",
+      "title": "The fundamental scale of gravity is far above LHC collision energies (up to the conventional ~10^19 GeV Planck scale), so LHC collisions cannot produce black holes of any kind.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-8---The-fundamental-gravity-scale-is-far-above-LHC-energies-so-no-black-holes-form",
+      "cluster": "HC-3",
+      "prior": 0.94,
+      "posterior": 0.94
+    },
+    {
+      "id": "H-9",
+      "type": "hypothesis",
+      "label": "H-9 - TeV-scale gravity arises via some mechanism not listed here",
+      "title": "The answer is something not listed here — the fundamental gravity scale is near a TeV via a mechanism other than n>=2 large flat extra dimensions (e.g. warped geometry), still enabling LHC black-hole production.",
+      "url": "/v1/analysis-tests/black-holes1/hypotheses/H-9---TeV-scale-gravity-arises-via-some-mechanism-not-listed-here",
+      "cluster": "HC-3",
+      "prior": 0.03,
+      "posterior": 0.03
+    },
+    {
+      "id": "review-HC-1",
+      "type": "cluster-review",
+      "label": "Analysis of HC-1 - Fate of a stable LHC black hole trapped in Earth",
+      "title": "Analysis of HC-1 - Fate of a stable LHC black hole trapped in Earth",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/Analysis-of-HC-1---Fate-of-a-stable-LHC-black-hole-trapped-in-Earth"
+    },
+    {
+      "id": "review-HC-2",
+      "type": "cluster-review",
+      "label": "Analysis of HC-2 - Evaporation of TeV-scale black holes",
+      "title": "Analysis of HC-2 - Evaporation of TeV-scale black holes",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/Analysis-of-HC-2---Evaporation-of-TeV-scale-black-holes"
+    },
+    {
+      "id": "review-HC-3",
+      "type": "cluster-review",
+      "label": "Analysis of HC-3 - Accessibility of the fundamental gravity scale at LHC energies",
+      "title": "Analysis of HC-3 - Accessibility of the fundamental gravity scale at LHC energies",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/Analysis-of-HC-3---Accessibility-of-the-fundamental-gravity-scale-at-LHC-energies"
+    },
+    {
+      "id": "review-HC-4",
+      "type": "cluster-review",
+      "label": "Analysis of HC-4 - Bound on the exogenous terminal-catastrophe rate",
+      "title": "Analysis of HC-4 - Bound on the exogenous terminal-catastrophe rate",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/Analysis-of-HC-4---Bound-on-the-exogenous-terminal-catastrophe-rate"
+    },
+    {
+      "id": "HC-1",
+      "type": "hypothesis-cluster",
+      "label": "HC-1 - Fate of a stable LHC black hole trapped in Earth",
+      "title": "HC-1 - Fate of a stable LHC black hole trapped in Earth",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/HC-1---Fate-of-a-stable-LHC-black-hole-trapped-in-Earth",
+      "members": [
+        "H-1",
+        "H-2",
+        "H-6"
+      ],
+      "priors": [
+        0.3097,
+        0.5752,
+        0.115
+      ],
+      "posteriors": [
+        0.0354,
+        0.8882,
+        0.0764
+      ],
+      "nEvidence": 2
+    },
+    {
+      "id": "HC-2",
+      "type": "hypothesis-cluster",
+      "label": "HC-2 - Evaporation of TeV-scale black holes",
+      "title": "HC-2 - Evaporation of TeV-scale black holes",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/HC-2---Evaporation-of-TeV-scale-black-holes",
+      "members": [
+        "H-4",
+        "H-7"
+      ],
+      "priors": [
+        0.891,
+        0.109
+      ],
+      "posteriors": [
+        0.9561,
+        0.0439
+      ],
+      "nEvidence": 2
+    },
+    {
+      "id": "HC-3",
+      "type": "hypothesis-cluster",
+      "label": "HC-3 - Accessibility of the fundamental gravity scale at LHC energies",
+      "title": "HC-3 - Accessibility of the fundamental gravity scale at LHC energies",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/HC-3---Accessibility-of-the-fundamental-gravity-scale-at-LHC-energies",
+      "members": [
+        "H-3",
+        "H-8",
+        "H-9"
+      ],
+      "priors": [
+        0.03,
+        0.94,
+        0.03
+      ],
+      "posteriors": [
+        0.03,
+        0.94,
+        0.03
+      ],
+      "nEvidence": 0
+    },
+    {
+      "id": "HC-4",
+      "type": "hypothesis-cluster",
+      "label": "HC-4 - Bound on the exogenous terminal-catastrophe rate",
+      "title": "HC-4 - Bound on the exogenous terminal-catastrophe rate",
+      "url": "/v1/analysis-tests/black-holes1/hypothesis-clusters/HC-4---Bound-on-the-exogenous-terminal-catastrophe-rate",
+      "members": [
+        "H-5",
+        "H-10"
+      ],
+      "priors": [
+        0.504,
+        0.496
+      ],
+      "posteriors": [
+        0.7615,
+        0.2385
+      ],
+      "nEvidence": 1
+    },
+    {
+      "id": "MAIN",
+      "type": "main-report",
+      "label": "Main question",
+      "title": "Main report — Was the risk that LHC collisions destroy the Earth truly put to rest, and what does that conclusion hinge on?",
+      "url": "/v1/analysis-tests/black-holes1/main-report---Was-the-risk-that-LHC-collisions-destroy-the-Earth-truly-put-to-rest-and-what-does-that-conclusion-hinge-on"
+    },
+    {
+      "id": "O-1",
+      "type": "observation",
+      "label": "O-1 - White dwarfs of about one solar mass with Gyr ages and low magnetic fields are observed intact",
+      "title": "Surveys catalogue white dwarfs of roughly one solar mass with cooling ages of order 1 Gyr and magnetic fields low enough that ultra-high-energy cosmic-ray protons reach their surfaces; these specific stars are observed intact today.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/O-1---White-dwarfs-of-about-one-solar-mass-with-Gyr-ages-and-low-magnetic-fields-are-observed-intact"
+    },
+    {
+      "id": "O-10",
+      "type": "observation",
+      "label": "O-10 - Habitable-planet formation times span many Gyr and Earth's formation date is unremarkably late",
+      "title": "Planet formation times in the observable universe span many Gyr, and Earth's formation date (~9.1 Gyr after the Big Bang) is typical — not anomalously early — within the habitable-planet formation-time distribution.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/O-10---Habitable-planet-formation-times-span-many-Gyr-and-Earth's-formation-date-is-unremarkably-late"
+    },
+    {
+      "id": "O-2",
+      "type": "observation",
+      "label": "O-2 - Neutron stars with ages of 100 Myr to Gyr are observed intact",
+      "title": "Neutron stars with inferred ages of 10^8-10^9 yr or more are observed intact.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/O-2---Neutron-stars-with-ages-of-100-Myr-to-Gyr-are-observed-intact"
+    },
+    {
+      "id": "O-3",
+      "type": "observation",
+      "label": "O-3 - Cosmic rays far above LHC-equivalent energy continuously bombard Earth, white dwarfs and neutron stars",
+      "title": "The measured cosmic-ray flux extends beyond 10^20 eV - nucleon-nucleon sqrt(s) of order 400 TeV versus 14 TeV at the LHC - so over Gyr timescales Earth, white dwarfs and neutron stars have each hosted vastly more collisions at or above LHC energy than the LHC will ever produce.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/O-3---Cosmic-rays-far-above-LHC-equivalent-energy-continuously-bombard-Earth,-white-dwarfs-and-neutron-stars"
+    },
+    {
+      "id": "O-4",
+      "type": "observation",
+      "label": "O-4 - Earth and Sun have survived about 4.5 Gyr of ultra-high-energy cosmic-ray bombardment",
+      "title": "Earth and the Sun have survived ~4.5 Gyr of continuous bombardment by cosmic rays at and far above LHC-equivalent energies.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/O-4---Earth-and-Sun-have-survived-about-4.5-Gyr-of-ultra-high-energy-cosmic-ray-bombardment"
+    },
+    {
+      "id": "O-8",
+      "type": "observation",
+      "label": "O-8 - Electroweak scale lies about 16 orders of magnitude below the observed 4D Planck scale",
+      "title": "The observed 4D Planck scale (~10^19 GeV) lies ~16 orders of magnitude above the electroweak scale (~10^3 GeV); collider energies (~10 TeV) are therefore ~10^15-fold below the scale at which 4D gravity becomes strong, so under standard 4D gravity no black-hole production at colliders is conceivable.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/O-8---Electroweak-scale-lies-about-16-orders-of-magnitude-below-the-observed-4D-Planck-scale"
+    },
+    {
+      "id": "O-5",
+      "type": "observation",
+      "label": "O-5 - Auger recorded 215,030 events above 2.5x10^18 eV with flux extending beyond 10^20 eV",
+      "title": "The Pierre Auger surface-detector array recorded 215,030 air-shower events (zenith < 60 deg) above 2.5x10^18 eV over ~14 years, measuring a cosmic-ray flux that extends to and beyond 10^20 eV.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/orphan/O-5---Auger-recorded-215,030-events-above-2.5x10^18-eV-with-flux-extending-beyond-10^20-eV"
+    },
+    {
+      "id": "O-6",
+      "type": "observation",
+      "label": "O-6 - Auger spectrum shows ankle, instep, and suppression above 5x10^19 eV with nonzero flux beyond 10^20 eV",
+      "title": "The spectrum shows the ankle at ~5x10^18 eV, a new instep break at ~1.3x10^19 eV, and strong suppression above ~5x10^19 eV where the spectral index steepens from 3.05 +/- 0.05 to 5.1 +/- 0.3; the flux is suppressed but remains nonzero beyond 10^20 eV.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/orphan/O-6---Auger-spectrum-shows-ankle,-instep,-and-suppression-above-5x10^19-eV-with-nonzero-flux-beyond-10^20-eV"
+    },
+    {
+      "id": "O-7",
+      "type": "observation",
+      "label": "O-7 - Auger energy scale is calorimetric and hadronic-model independent with about 14 percent systematic",
+      "title": "The energy scale is set calorimetrically from fluorescence-detector measurements, independent of hadronic-interaction models and primary-composition assumptions, with an overall systematic uncertainty of ~14% on the energy scale.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/orphan/O-7---Auger-energy-scale-is-calorimetric-and-hadronic-model-independent-with-about-14-percent-systematic"
+    },
+    {
+      "id": "O-9",
+      "type": "observation",
+      "label": "O-9 - Hawking radiation has never been experimentally observed from any black hole",
+      "title": "No experiment has ever detected Hawking radiation from any real black hole (astrophysical temperatures are far below detectability, and no primordial-BH evaporation signal has been seen); the evaporation mechanism therefore rests on theory alone.",
+      "url": "/v1/analysis-tests/black-holes1/observations-and-facts/orphan/O-9---Hawking-radiation-has-never-been-experimentally-observed-from-any-black-hole"
+    },
+    {
+      "id": "S-1",
+      "type": "source",
+      "label": "S-1 - Astrophysical implications of hypothetical stable TeV-scale black holes",
+      "title": "S-1 - Astrophysical implications of hypothetical stable TeV-scale black holes",
+      "url": "/v1/analysis-tests/black-holes1/sources/S-1---Astrophysical-implications-of-hypothetical-stable-TeV-scale-black-holes",
+      "trust": 0.74
+    },
+    {
+      "id": "S-13",
+      "type": "source",
+      "label": "S-13 - Arkani-Hamed, Dimopoulos and Dvali 1998 - The hierarchy problem and new dimensions at a millimeter",
+      "title": "S-13 - Arkani-Hamed, Dimopoulos and Dvali 1998 - The hierarchy problem and new dimensions at a millimeter",
+      "url": "/v1/analysis-tests/black-holes1/sources/S-13---Arkani-Hamed,-Dimopoulos-and-Dvali-1998---The-hierarchy-problem-and-new-dimensions-at-a-millimeter",
+      "trust": 0.85
+    },
+    {
+      "id": "S-14",
+      "type": "source",
+      "label": "S-14 - Hawking 1975 - Particle creation by black holes",
+      "title": "S-14 - Hawking 1975 - Particle creation by black holes",
+      "url": "/v1/analysis-tests/black-holes1/sources/S-14---Hawking-1975---Particle-creation-by-black-holes",
+      "trust": 0.85
+    },
+    {
+      "id": "S-23",
+      "type": "source",
+      "label": "S-23 - Is a doomsday catastrophe likely - the observer-selection bound (Tegmark and Bostrom 2005)",
+      "title": "S-23 - Is a doomsday catastrophe likely - the observer-selection bound (Tegmark and Bostrom 2005)",
+      "url": "/v1/analysis-tests/black-holes1/sources/S-23---Is-a-doomsday-catastrophe-likely---the-observer-selection-bound-(Tegmark-and-Bostrom-2005)",
+      "trust": 0.8
+    },
+    {
+      "id": "S-5",
+      "type": "source",
+      "label": "S-5 - Measurement of the cosmic-ray energy spectrum using the Pierre Auger Observatory",
+      "title": "S-5 - Measurement of the cosmic-ray energy spectrum using the Pierre Auger Observatory",
+      "url": "/v1/analysis-tests/black-holes1/sources/S-5---Measurement-of-the-cosmic-ray-energy-spectrum-using-the-Pierre-Auger-Observatory",
+      "trust": 0.9
+    },
+    {
+      "id": "S-10",
+      "type": "source",
+      "label": "S-10 - Spectropolarimetric survey of hydrogen-rich white dwarf stars",
+      "title": "S-10 - Spectropolarimetric survey of hydrogen-rich white dwarf stars",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-10---Spectropolarimetric-survey-of-hydrogen-rich-white-dwarf-stars",
+      "trust": 0.82
+    },
+    {
+      "id": "S-11",
+      "type": "source",
+      "label": "S-11 - Dimopoulos and Landsberg 2001 - Black Holes at the LHC",
+      "title": "S-11 - Dimopoulos and Landsberg 2001 - Black Holes at the LHC",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-11---Dimopoulos-and-Landsberg-2001---Black-Holes-at-the-LHC",
+      "trust": 0.75
+    },
+    {
+      "id": "S-12",
+      "type": "source",
+      "label": "S-12 - Giddings and Thomas 2002 - High-energy colliders as black hole factories",
+      "title": "S-12 - Giddings and Thomas 2002 - High-energy colliders as black hole factories",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-12---Giddings-and-Thomas-2002---High-energy-colliders-as-black-hole-factories",
+      "trust": 0.75
+    },
+    {
+      "id": "S-15",
+      "type": "source",
+      "label": "S-15 - Meade and Randall 2008 - Black holes and quantum gravity at the LHC",
+      "title": "S-15 - Meade and Randall 2008 - Black holes and quantum gravity at the LHC",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-15---Meade-and-Randall-2008---Black-holes-and-quantum-gravity-at-the-LHC",
+      "trust": 0.82
+    },
+    {
+      "id": "S-16",
+      "type": "source",
+      "label": "S-16 - Potential catastrophic risk from metastable quantum black holes (Plaga 2008)",
+      "title": "S-16 - Potential catastrophic risk from metastable quantum black holes (Plaga 2008)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-16---Potential-catastrophic-risk-from-metastable-quantum-black-holes-(Plaga-2008)",
+      "trust": 0.4
+    },
+    {
+      "id": "S-17",
+      "type": "source",
+      "label": "S-17 - Comments on claimed risk from metastable black holes (Giddings-Mangano reply to Plaga)",
+      "title": "S-17 - Comments on claimed risk from metastable black holes (Giddings-Mangano reply to Plaga)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-17---Comments-on-claimed-risk-from-metastable-black-holes-(Giddings-Mangano-reply-to-Plaga)",
+      "trust": 0.6
+    },
+    {
+      "id": "S-18",
+      "type": "source",
+      "label": "S-18 - Rössler's Abraham-solution critique of LHC black-hole safety (2008)",
+      "title": "S-18 - Rössler's Abraham-solution critique of LHC black-hole safety (2008)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-18---Rössler's-Abraham-solution-critique-of-LHC-black-hole-safety-(2008)",
+      "trust": 0.12
+    },
+    {
+      "id": "S-19",
+      "type": "source",
+      "label": "S-19 - Sancho v. U.S. Department of Energy - the Wagner-Sancho LHC lawsuit (D. Haw. 2008)",
+      "title": "S-19 - Sancho v. U.S. Department of Energy - the Wagner-Sancho LHC lawsuit (D. Haw. 2008)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-19---Sancho-v.-U.S.-Department-of-Energy---the-Wagner-Sancho-LHC-lawsuit-(D.-Haw.-2008)",
+      "trust": 0.88
+    },
+    {
+      "id": "S-2",
+      "type": "source",
+      "label": "S-2 - How stable is our vacuum (Hut and Rees 1983)",
+      "title": "S-2 - How stable is our vacuum (Hut and Rees 1983)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-2---How-stable-is-our-vacuum-(Hut-and-Rees-1983)",
+      "trust": 0.76
+    },
+    {
+      "id": "S-20",
+      "type": "source",
+      "label": "S-20 - LA-602 (1946) - Ignition of the Atmosphere with Nuclear Bombs",
+      "title": "S-20 - LA-602 (1946) - Ignition of the Atmosphere with Nuclear Bombs",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-20---LA-602-(1946)---Ignition-of-the-Atmosphere-with-Nuclear-Bombs",
+      "trust": 0.85
+    },
+    {
+      "id": "S-21",
+      "type": "source",
+      "label": "S-21 - Probing the Improbable - risk-argument flaw ceiling (Ord, Hillerbrand, Sandberg 2010)",
+      "title": "S-21 - Probing the Improbable - risk-argument flaw ceiling (Ord, Hillerbrand, Sandberg 2010)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-21---Probing-the-Improbable---risk-argument-flaw-ceiling-(Ord,-Hillerbrand,-Sandberg-2010)",
+      "trust": 0.8
+    },
+    {
+      "id": "S-22",
+      "type": "source",
+      "label": "S-22 - A critical look at risk assessments for global catastrophes (Kent 2004)",
+      "title": "S-22 - A critical look at risk assessments for global catastrophes (Kent 2004)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-22---A-critical-look-at-risk-assessments-for-global-catastrophes-(Kent-2004)",
+      "trust": 0.72
+    },
+    {
+      "id": "S-3",
+      "type": "source",
+      "label": "S-3 - Review of speculative disaster scenarios at RHIC",
+      "title": "S-3 - Review of speculative disaster scenarios at RHIC",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-3---Review-of-speculative-disaster-scenarios-at-RHIC",
+      "trust": 0.79
+    },
+    {
+      "id": "S-4",
+      "type": "source",
+      "label": "S-4 - Will relativistic heavy-ion colliders destroy our planet (Dar, De Rujula, Heinz 1999)",
+      "title": "S-4 - Will relativistic heavy-ion colliders destroy our planet (Dar, De Rujula, Heinz 1999)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-4---Will-relativistic-heavy-ion-colliders-destroy-our-planet-(Dar,-De-Rujula,-Heinz-1999)",
+      "trust": 0.74
+    },
+    {
+      "id": "S-6",
+      "type": "source",
+      "label": "S-6 - CERN FAQ - Will CERN generate a black hole",
+      "title": "S-6 - CERN FAQ - Will CERN generate a black hole",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-6---CERN-FAQ---Will-CERN-generate-a-black-hole",
+      "trust": 0.4
+    },
+    {
+      "id": "S-7",
+      "type": "source",
+      "label": "S-7 - LSAG 2008 - Review of the Safety of LHC Collisions",
+      "title": "S-7 - LSAG 2008 - Review of the Safety of LHC Collisions",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-7---LSAG-2008---Review-of-the-Safety-of-LHC-Collisions",
+      "trust": 0.63
+    },
+    {
+      "id": "S-8",
+      "type": "source",
+      "label": "S-8 - Search for stable strange quark matter in lunar soil",
+      "title": "S-8 - Search for stable strange quark matter in lunar soil",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-8---Search-for-stable-strange-quark-matter-in-lunar-soil",
+      "trust": 0.8
+    },
+    {
+      "id": "S-9",
+      "type": "source",
+      "label": "S-9 - Blaizot et al. 2003 - Study of Potentially Dangerous Events During Heavy-Ion Collisions at the LHC (CERN-2003-001)",
+      "title": "S-9 - Blaizot et al. 2003 - Study of Potentially Dangerous Events During Heavy-Ion Collisions at the LHC (CERN-2003-001)",
+      "url": "/v1/analysis-tests/black-holes1/sources/non-curated/S-9---Blaizot-et-al.-2003---Study-of-Potentially-Dangerous-Events-During-Heavy-Ion-Collisions-at-the-LHC-(CERN-2003-001)",
+      "trust": 0.55
+    }
+  ],
+  "edges": [
+    {
+      "kind": "argument",
+      "source": "A-1",
+      "target": "O-1"
+    },
+    {
+      "kind": "argument",
+      "source": "A-1",
+      "target": "O-2"
+    },
+    {
+      "kind": "argument",
+      "source": "A-1",
+      "target": "O-3"
+    },
+    {
+      "kind": "cites",
+      "source": "A-1",
+      "target": "S-1"
+    },
+    {
+      "kind": "argument",
+      "source": "A-2",
+      "target": "O-1"
+    },
+    {
+      "kind": "argument",
+      "source": "A-2",
+      "target": "O-2"
+    },
+    {
+      "kind": "argument",
+      "source": "A-2",
+      "target": "O-3"
+    },
+    {
+      "kind": "cites",
+      "source": "A-2",
+      "target": "S-1"
+    },
+    {
+      "kind": "argument",
+      "source": "A-3",
+      "target": "O-4"
+    },
+    {
+      "kind": "cites",
+      "source": "A-3",
+      "target": "S-1"
+    },
+    {
+      "kind": "cites",
+      "source": "A-4",
+      "target": "S-13"
+    },
+    {
+      "kind": "cites",
+      "source": "A-5",
+      "target": "S-14"
+    },
+    {
+      "kind": "cites",
+      "source": "A-6",
+      "target": "S-23"
+    },
+    {
+      "kind": "argument",
+      "source": "A-7",
+      "target": "O-10"
+    },
+    {
+      "kind": "cites",
+      "source": "A-7",
+      "target": "S-23"
+    },
+    {
+      "kind": "evidence",
+      "source": "CG-1",
+      "target": "HC-1",
+      "id": "CG-1",
+      "url": "/v1/analysis-tests/black-holes1/correlation-groups/CG-1---HC-1-joint-over-O-2+O-3+O-4",
+      "label": "CG-1",
+      "group": "CG-1",
+      "prior": false,
+      "members": [
+        "E-2",
+        "E-3",
+        "E-4"
+      ],
+      "likelihood": {
+        "members": [
+          "H-1",
+          "H-2",
+          "H-6"
+        ],
+        "lr": [
+          0.1,
+          1.0,
+          0.55
+        ],
+        "trust": 0.74,
+        "favors": "H-2",
+        "discrimination": 2.303
+      }
+    },
+    {
+      "kind": "evidence",
+      "source": "CG-2",
+      "target": "HC-2",
+      "id": "CG-2",
+      "url": "/v1/analysis-tests/black-holes1/correlation-groups/CG-2---HC-2-joint-over-O-2+O-4",
+      "label": "CG-2",
+      "group": "CG-2",
+      "prior": false,
+      "members": [
+        "E-8",
+        "E-9"
+      ],
+      "likelihood": {
+        "members": [
+          "H-4",
+          "H-7"
+        ],
+        "lr": [
+          1.0,
+          0.468
+        ],
+        "trust": 0.74,
+        "favors": "H-4",
+        "discrimination": 0.759
+      }
+    },
+    {
+      "kind": "evidence",
+      "source": "O-1",
+      "target": "HC-1",
+      "id": "E-1",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-1---O-1-×-HC-1-—-old-low-field-white-dwarfs-observed-intact",
+      "label": "E-1",
+      "arguments": [
+        "A-1",
+        "A-2"
+      ],
+      "group": null,
+      "prior": false,
+      "likelihood": {
+        "members": [
+          "H-1",
+          "H-2",
+          "H-6"
+        ],
+        "lr": [
+          0.1,
+          1.0,
+          0.6
+        ],
+        "trust": 0.74,
+        "favors": "H-2",
+        "discrimination": 2.303
+      }
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-2",
+      "target": "CG-1",
+      "id": "E-2",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-2---O-2-×-HC-1-—-Gyr-old-neutron-stars-observed-intact",
+      "label": "E-2",
+      "arguments": [
+        "A-1",
+        "A-2"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-3",
+      "target": "CG-1",
+      "id": "E-3",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-3---O-3-×-HC-1-—-super-LHC-cosmic-ray-exposure-of-Earth,-WDs-and-NSs",
+      "label": "E-3",
+      "arguments": [
+        "A-1",
+        "A-2"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-4",
+      "target": "CG-1",
+      "id": "E-4",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-4---O-4-×-HC-1-—-Earth-and-Sun-survived-4.5-Gyr-of-UHECR-bombardment",
+      "label": "E-4",
+      "arguments": [
+        "A-3"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "evidence",
+      "source": "O-8",
+      "target": "HC-3",
+      "id": "E-5",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-5---O-8-×-HC-3-—-the-observed-hierarchy-is-what-large-extra-dimensions-are-built-to-explain",
+      "label": "E-5",
+      "arguments": [],
+      "group": null,
+      "prior": true
+    },
+    {
+      "kind": "evidence",
+      "source": "O-10",
+      "target": "HC-4",
+      "id": "E-6",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-6---O-10-×-HC-4-—-Earth's-formation-date-is-typical,-not-early",
+      "label": "E-6",
+      "arguments": [
+        "A-7"
+      ],
+      "group": null,
+      "prior": false,
+      "likelihood": {
+        "members": [
+          "H-5",
+          "H-10"
+        ],
+        "lr": [
+          0.7,
+          0.15
+        ],
+        "trust": 0.8,
+        "favors": "H-5",
+        "discrimination": 1.897
+      }
+    },
+    {
+      "kind": "evidence",
+      "source": "O-1",
+      "target": "HC-2",
+      "id": "E-7",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-7---O-1-×-HC-2-—-intact-old-white-dwarfs-bound-non-evaporating-black-holes",
+      "label": "E-7",
+      "arguments": [
+        "A-1",
+        "A-2"
+      ],
+      "group": null,
+      "prior": false,
+      "likelihood": {
+        "members": [
+          "H-4",
+          "H-7"
+        ],
+        "lr": [
+          1.0,
+          0.5
+        ],
+        "trust": 0.74,
+        "favors": "H-4",
+        "discrimination": 0.693
+      }
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-2",
+      "target": "CG-2",
+      "id": "E-8",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-8---O-2-×-HC-2-—-intact-old-neutron-stars-bound-non-evaporating-black-holes",
+      "label": "E-8",
+      "arguments": [
+        "A-1",
+        "A-2"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-4",
+      "target": "CG-2",
+      "id": "E-9",
+      "url": "/v1/analysis-tests/black-holes1/evidence-links/E-9---O-4-×-HC-2-—-Earth-Sun-survival-bounds-stopped-non-evaporating-black-holes",
+      "label": "E-9",
+      "arguments": [
+        "A-3"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "cites",
+      "source": "H-1",
+      "target": "S-1"
+    },
+    {
+      "kind": "cites",
+      "source": "H-2",
+      "target": "S-1"
+    },
+    {
+      "kind": "cites",
+      "source": "H-3",
+      "target": "S-13"
+    },
+    {
+      "kind": "cites",
+      "source": "H-4",
+      "target": "S-14"
+    },
+    {
+      "kind": "cites",
+      "source": "H-5",
+      "target": "S-23"
+    },
+    {
+      "kind": "review",
+      "source": "review-HC-1",
+      "target": "HC-1"
+    },
+    {
+      "kind": "review",
+      "source": "review-HC-2",
+      "target": "HC-2"
+    },
+    {
+      "kind": "review",
+      "source": "review-HC-3",
+      "target": "HC-3"
+    },
+    {
+      "kind": "review",
+      "source": "review-HC-4",
+      "target": "HC-4"
+    },
+    {
+      "kind": "cites",
+      "source": "O-1",
+      "target": "S-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-1",
+      "target": "S-10"
+    },
+    {
+      "kind": "cites",
+      "source": "O-10",
+      "target": "S-23"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-10",
+      "target": "D-2"
+    },
+    {
+      "kind": "cites",
+      "source": "O-2",
+      "target": "S-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-2",
+      "target": "D-1"
+    },
+    {
+      "kind": "cites",
+      "source": "O-3",
+      "target": "S-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-3",
+      "target": "S-5"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-3",
+      "target": "D-1"
+    },
+    {
+      "kind": "cites",
+      "source": "O-4",
+      "target": "S-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-4",
+      "target": "D-1"
+    },
+    {
+      "kind": "cites",
+      "source": "O-8",
+      "target": "S-13"
+    },
+    {
+      "kind": "cites",
+      "source": "O-5",
+      "target": "S-5"
+    },
+    {
+      "kind": "cites",
+      "source": "O-6",
+      "target": "S-5"
+    },
+    {
+      "kind": "cites",
+      "source": "O-7",
+      "target": "S-5"
+    },
+    {
+      "kind": "cites",
+      "source": "O-9",
+      "target": "S-14"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-1",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-1",
+      "target": "S-5"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-1",
+      "target": "S-10"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-17",
+      "target": "S-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-2",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-3",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-4",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-6",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-6",
+      "target": "S-7"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-7",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-7",
+      "target": "S-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-7",
+      "target": "S-14"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-9",
+      "target": "D-1"
+    },
+    {
+      "kind": "member",
+      "source": "HC-1",
+      "target": "H-1"
+    },
+    {
+      "kind": "member",
+      "source": "HC-1",
+      "target": "H-2"
+    },
+    {
+      "kind": "member",
+      "source": "HC-1",
+      "target": "H-6"
+    },
+    {
+      "kind": "aggregate",
+      "source": "HC-1",
+      "target": "MAIN"
+    },
+    {
+      "kind": "member",
+      "source": "HC-2",
+      "target": "H-4"
+    },
+    {
+      "kind": "member",
+      "source": "HC-2",
+      "target": "H-7"
+    },
+    {
+      "kind": "aggregate",
+      "source": "HC-2",
+      "target": "MAIN"
+    },
+    {
+      "kind": "member",
+      "source": "HC-3",
+      "target": "H-3"
+    },
+    {
+      "kind": "member",
+      "source": "HC-3",
+      "target": "H-8"
+    },
+    {
+      "kind": "member",
+      "source": "HC-3",
+      "target": "H-9"
+    },
+    {
+      "kind": "aggregate",
+      "source": "HC-3",
+      "target": "MAIN"
+    },
+    {
+      "kind": "member",
+      "source": "HC-4",
+      "target": "H-5"
+    },
+    {
+      "kind": "member",
+      "source": "HC-4",
+      "target": "H-10"
+    },
+    {
+      "kind": "aggregate",
+      "source": "HC-4",
+      "target": "MAIN"
+    }
+  ]
+}

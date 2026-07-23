@@ -1,0 +1,956 @@
+{
+  "analysis": {
+    "id": "covid1",
+    "dir": "content/v1/analysis-tests/covid1",
+    "main": "MAIN"
+  },
+  "nodeColors": {
+    "source": {
+      "light": "#1d4ed8",
+      "dark": "#7aa2f7"
+    },
+    "data-basis": {
+      "light": "#0e7490",
+      "dark": "#22d3ee"
+    },
+    "observation": {
+      "light": "#15803d",
+      "dark": "#4ade80"
+    },
+    "hypothesis": {
+      "light": "#6d28d9",
+      "dark": "#b39dfa"
+    },
+    "hypothesis-cluster": {
+      "light": "#a21caf",
+      "dark": "#e879f9"
+    },
+    "evidence-link": {
+      "light": "#b45309",
+      "dark": "#fbbf24"
+    },
+    "correlation-group": {
+      "light": "#78350f",
+      "dark": "#fdba74"
+    },
+    "argument": {
+      "light": "#be123c",
+      "dark": "#fb7185"
+    },
+    "cluster-review": {
+      "light": "#475569",
+      "dark": "#94a3b8"
+    },
+    "main-report": {
+      "light": "#0f172a",
+      "dark": "#e2e8f0"
+    }
+  },
+  "nodes": [
+    {
+      "id": "A-1",
+      "type": "argument",
+      "label": "A-1 - Post-disinfection late animal sampling means the animal-negative result cannot exclude infected animals",
+      "title": "The all-negative animal-sample result is much weaker evidence against an infected market animal than a timely sample would be, because sampling occurred after closure/disinfection and removal of live animals; it does not by itself exclude an infected animal, but it is not wholly uninformative either.",
+      "url": "/v1/analysis-tests/covid1/arguments/A-1---Post-disinfection-late-animal-sampling-means-the-animal-negative-result-cannot-exclude-infected-animals"
+    },
+    {
+      "id": "A-2",
+      "type": "argument",
+      "label": "A-2 - Absence of bats and pangolins on sale weakens those specific vectors but not a raccoon-dog-type intermediate host route",
+      "title": "Finding no bats or pangolins on sale lowers the likelihood of a direct bat- or pangolin-to-human market route, but leaves a susceptible-mammal (e.g. raccoon dog) intermediate-host route unaffected.",
+      "url": "/v1/analysis-tests/covid1/arguments/A-2---Absence-of-bats-and-pangolins-on-sale-weakens-those-specific-vectors-but-not-a-raccoon-dog-type-intermediate-host-route"
+    },
+    {
+      "id": "A-4",
+      "type": "argument",
+      "label": "A-4 - A wild bat virus binding human ACE2 and infecting human cells shows the human-infection precondition exists without any lab",
+      "title": "Demonstrating a wild-caught bat virus that binds human ACE2 and replicates in human cells shows that human-cell-infectious SARS-CoV-2-like viruses arise naturally, removing 'no natural human-infectious analogue exists' as a reason to favour a lab origin.",
+      "url": "/v1/analysis-tests/covid1/arguments/A-4---A-wild-bat-virus-binding-human-ACE2-and-infecting-human-cells-shows-the-human-infection-precondition-exists-without-any-lab"
+    },
+    {
+      "id": "A-5",
+      "type": "argument",
+      "label": "A-5 - DEFUSE documents intent and capability to engineer exactly the furin site SARS-CoV-2 has but absent from relatives, raising lab-origin probability",
+      "title": "A 2018 proposal by the implicated institutions to insert furin cleavage sites into SARS-related bat coronavirus spikes raises the probability of a lab origin, because SARS-CoV-2 possesses exactly such a site that is absent from all its known close natural relatives; the proposal's rejection and the lack of evidence it was executed bound how much.",
+      "url": "/v1/analysis-tests/covid1/arguments/A-5---DEFUSE-documents-intent-and-capability-to-engineer-exactly-the-furin-site-SARS-CoV-2-has-but-absent-from-relatives,-raising-lab-origin-probability"
+    },
+    {
+      "id": "A-3",
+      "type": "argument",
+      "label": "A-3 - RaTG13's 96.2% identity implies decades of divergence, so it is not a direct progenitor and leaves a gap both hypotheses must explain",
+      "title": "At 96.2% genome identity, RaTG13 is separated from SARS-CoV-2 by an estimated multiple decades of evolution, so it is not itself a direct progenitor and is a smoking gun for neither hypothesis.",
+      "url": "/v1/analysis-tests/covid1/arguments/orphan/A-3---RaTG13's-96.2-percent-identity-implies-decades-of-divergence,-so-it-is-not-a-direct-progenitor-and-leaves-a-gap-both-hypotheses-must-explain"
+    },
+    {
+      "id": "CG-1",
+      "type": "correlation-group",
+      "label": "CG-1",
+      "title": "CG-1 - HC-1 joint over O-1+O-2",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-1---HC-1-joint-over-O-1+O-2",
+      "to": "HC-1",
+      "members": [
+        "E-1",
+        "E-2"
+      ]
+    },
+    {
+      "id": "CG-2",
+      "type": "correlation-group",
+      "label": "CG-2",
+      "title": "CG-2 - HC-1 joint over O-4+O-5",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-2---HC-1-joint-over-O-4+O-5",
+      "to": "HC-1",
+      "members": [
+        "E-3",
+        "E-4"
+      ]
+    },
+    {
+      "id": "CG-3",
+      "type": "correlation-group",
+      "label": "CG-3",
+      "title": "CG-3 - HC-1 joint over O-8+O-9+O-10",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-3---HC-1-joint-over-O-8+O-9+O-10",
+      "to": "HC-1",
+      "members": [
+        "E-5",
+        "E-6",
+        "E-7"
+      ]
+    },
+    {
+      "id": "CG-4",
+      "type": "correlation-group",
+      "label": "CG-4",
+      "title": "CG-4 - HC-1 joint over O-11+O-12",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-4---HC-1-joint-over-O-11+O-12",
+      "to": "HC-1",
+      "members": [
+        "E-8",
+        "E-9"
+      ]
+    },
+    {
+      "id": "D-1",
+      "type": "data-basis",
+      "label": "D-1 - SARS-CoV-2 reference genome - early-outbreak GISAID sequence collection",
+      "title": "D-1 - SARS-CoV-2 reference genome - early-outbreak GISAID sequence collection",
+      "url": "/v1/analysis-tests/covid1/data-bases/D-1---SARS-CoV-2-reference-genome---early-outbreak-GISAID-sequence-collection"
+    },
+    {
+      "id": "D-2",
+      "type": "data-basis",
+      "label": "D-2 - Huanan market China CDC environmental and animal swab raw metagenomic dataset",
+      "title": "D-2 - Huanan market China CDC environmental and animal swab raw metagenomic dataset",
+      "url": "/v1/analysis-tests/covid1/data-bases/D-2---Huanan-market-China-CDC-environmental-and-animal-swab-raw-metagenomic-dataset"
+    },
+    {
+      "id": "D-3",
+      "type": "data-basis",
+      "label": "D-3 - Worobey 2022 compiled Dec-2019 Huanan-area COVID-19 case-geolocation dataset",
+      "title": "D-3 - Worobey 2022 compiled Dec-2019 Huanan-area COVID-19 case-geolocation dataset",
+      "url": "/v1/analysis-tests/covid1/data-bases/D-3---Worobey-2022-compiled-Dec-2019-Huanan-area-COVID-19-case-geolocation-dataset"
+    },
+    {
+      "id": "D-4",
+      "type": "data-basis",
+      "label": "D-4 - SARS-CoV-2 reference genome and early GISAID sequence collection (with then-known relatives)",
+      "title": "D-4 - SARS-CoV-2 reference genome and early GISAID sequence collection (with then-known relatives)",
+      "url": "/v1/analysis-tests/covid1/data-bases/merged/D-4---SARS-CoV-2-reference-genome-and-early-GISAID-sequence-collection-(with-then-known-relatives)"
+    },
+    {
+      "id": "H-1",
+      "type": "hypothesis",
+      "label": "H-1 - SARS-CoV-2 first infected humans via zoonotic spillover at the Huanan market",
+      "title": "SARS-CoV-2 first crossed into humans via natural zoonotic spillover at the Huanan Seafood Market through the live wildlife trade, with susceptible intermediate hosts (e.g. raccoon dogs) sold live in the market's western section, where environmental positivity clusters.",
+      "url": "/v1/analysis-tests/covid1/hypotheses/H-1---SARS-CoV-2-first-infected-humans-via-zoonotic-spillover-at-the-Huanan-market",
+      "cluster": "HC-1",
+      "prior": 0.3695,
+      "posterior": 0.4952
+    },
+    {
+      "id": "H-5",
+      "type": "hypothesis",
+      "label": "H-5 - SARS-CoV-2 first infected humans through a research-related incident at the WIV",
+      "title": "SARS-CoV-2 first infected humans through a research-related incident (lab leak) at the Wuhan Institute of Virology, potentially involving an engineered furin cleavage site of the kind proposed in DEFUSE.",
+      "url": "/v1/analysis-tests/covid1/hypotheses/H-5---SARS-CoV-2-first-infected-humans-through-a-research-related-incident-at-the-WIV",
+      "cluster": "HC-1",
+      "prior": 0.1132,
+      "posterior": 0.0809
+    },
+    {
+      "id": "H-6",
+      "type": "hypothesis",
+      "label": "H-6 - The first human infection arose by neither route listed here",
+      "title": "The first human SARS-CoV-2 infection happened by neither of the routes listed in this cluster — for example a natural spillover somewhere else in the wildlife supply chain (a fur/game farm, a trader, or a Wuhan market other than Huanan), a spillover in southern China or Laos followed by silent travel-borne introduction into Wuhan, or a research-related incident at an institution other than the WIV (e.g. the Wuhan CDC laboratory).",
+      "url": "/v1/analysis-tests/covid1/hypotheses/H-6---The-first-human-infection-arose-by-neither-route-listed-here",
+      "cluster": "HC-1",
+      "prior": 0.5173,
+      "posterior": 0.4238
+    },
+    {
+      "id": "H-3",
+      "type": "hypothesis",
+      "label": "H-3 - SARS-CoV-2 originated by natural evolution in a bat sarbecovirus reservoir",
+      "title": "SARS-CoV-2 arose by natural evolution and recombination within the wild bat (Rhinolophus) sarbecovirus reservoir — of which RaTG13 and the BANAL viruses are known members, the latter already binding human ACE2 — before spilling into humans.",
+      "url": "/v1/analysis-tests/covid1/hypotheses/dropped/H-3---SARS-CoV-2-originated-by-natural-evolution-in-a-bat-sarbecovirus-reservoir",
+      "cluster": null
+    },
+    {
+      "id": "H-4",
+      "type": "hypothesis",
+      "label": "H-4 - SARS-CoV-2 originated by natural evolution in a wild bat reservoir capable of infecting human cells",
+      "title": "SARS-CoV-2 arose by natural recombination/evolution in wild Rhinolophus bats, a reservoir already harbouring human-ACE2-binding, human-cell-infectious SARS-CoV-2-like viruses (BANAL clade).",
+      "url": "/v1/analysis-tests/covid1/hypotheses/dropped/H-4---SARS-CoV-2-originated-by-natural-evolution-in-a-wild-bat-reservoir-capable-of-infecting-human-cells",
+      "cluster": null
+    },
+    {
+      "id": "H-2",
+      "type": "hypothesis",
+      "label": "H-2 - SARS-CoV-2 first infected humans via the live wildlife trade at the Huanan market",
+      "title": "SARS-CoV-2 first infected humans through the live wildlife trade, with susceptible intermediate hosts (e.g. raccoon dogs) sold live at the Huanan market providing the spillover route.",
+      "url": "/v1/analysis-tests/covid1/hypotheses/merged/H-2---SARS-CoV-2-first-infected-humans-via-the-live-wildlife-trade-at-the-Huanan-market",
+      "cluster": null
+    },
+    {
+      "id": "review-HC-1",
+      "type": "cluster-review",
+      "label": "Analysis of HC-1 - Route of the first human SARS-CoV-2 infection",
+      "title": "Analysis of HC-1 - Route of the first human SARS-CoV-2 infection",
+      "url": "/v1/analysis-tests/covid1/hypothesis-clusters/Analysis-of-HC-1---Route-of-the-first-human-SARS-CoV-2-infection"
+    },
+    {
+      "id": "HC-1",
+      "type": "hypothesis-cluster",
+      "label": "HC-1 - Route of the first human SARS-CoV-2 infection",
+      "title": "HC-1 - Route of the first human SARS-CoV-2 infection",
+      "url": "/v1/analysis-tests/covid1/hypothesis-clusters/HC-1---Route-of-the-first-human-SARS-CoV-2-infection",
+      "members": [
+        "H-1",
+        "H-5",
+        "H-6"
+      ],
+      "priors": [
+        0.3695,
+        0.1132,
+        0.5173
+      ],
+      "posteriors": [
+        0.4952,
+        0.0809,
+        0.4238
+      ],
+      "nEvidence": 4
+    },
+    {
+      "id": "MAIN",
+      "type": "main-report",
+      "label": "Main question",
+      "title": "Did SARS-CoV-2 first infect humans through natural zoonotic spillover (e.g. via the wildlife trade / Huanan Seafood Market) or through a research-related incident (a lab leak)?",
+      "url": "/v1/analysis-tests/covid1/main-report---Did-SARS-CoV-2-first-infect-humans-through-natural-zoonotic-spillover-or-through-a-research-related-incident"
+    },
+    {
+      "id": "O-1",
+      "type": "observation",
+      "label": "O-1 - 74 of 923 Huanan environmental swabs SARS-CoV-2-positive, concentrated in the live-wildlife section",
+      "title": "Of 923 environmental swabs collected at the Huanan market, 74 tested SARS-CoV-2-positive, spatially concentrated in the western section that sold live wildlife; one positive swab yielded a lineage-A genome.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-1---74-of-923-Huanan-environmental-swabs-SARS-CoV-2-positive,-concentrated-in-the-live-wildlife-section"
+    },
+    {
+      "id": "O-10",
+      "type": "observation",
+      "label": "O-10 - None of the three BANAL viruses carries a furin cleavage site",
+      "title": "None of BANAL-52, -103, or -236 carries a furin cleavage site at the spike S1/S2 junction.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-10---None-of-the-three-BANAL-viruses-carries-a-furin-cleavage-site"
+    },
+    {
+      "id": "O-11",
+      "type": "observation",
+      "label": "O-11 - 2018 EcoHealth-WIV DEFUSE proposal sought to insert furin cleavage sites into SARS-related bat coronavirus spikes",
+      "title": "The 2018 DEFUSE proposal (~$14.2M, EcoHealth Alliance to DARPA PREEMPT, with WIV, Duke-NUS, UNC and others) proposed synthesizing full-length infectious clones of SARS-related bat coronaviruses and inserting novel/human-adapted proteolytic (furin) cleavage sites into their spikes, then testing growth/infectivity in humanized mice and human airway cultures.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-11---2018-EcoHealth-WIV-DEFUSE-proposal-sought-to-insert-furin-cleavage-sites-into-SARS-related-bat-coronavirus-spikes"
+    },
+    {
+      "id": "O-12",
+      "type": "observation",
+      "label": "O-12 - DARPA rejected the DEFUSE proposal in 2018 citing gain-of-function biosafety concerns",
+      "title": "DARPA rejected the DEFUSE proposal in 2018, reportedly citing gain-of-function and biosafety concerns.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-12---DARPA-rejected-the-DEFUSE-proposal-in-2018-citing-gain-of-function-biosafety-concerns"
+    },
+    {
+      "id": "O-2",
+      "type": "observation",
+      "label": "O-2 - No Huanan animal-origin sample (457 samples, 18 species) tested SARS-CoV-2-positive",
+      "title": "None of 457 animal-origin samples (unsold refrigerator/freezer stock, strays, a fish tank; 18 species) collected at the Huanan market tested SARS-CoV-2-positive.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-2---No-Huanan-animal-origin-sample-(457-samples,-18-species)-tested-SARS-CoV-2-positive"
+    },
+    {
+      "id": "O-4",
+      "type": "observation",
+      "label": "O-4 - 47,381 live animals of 38 species sold at Wuhan markets 2017-2019 including SARS-CoV-2-susceptible raccoon dogs at Huanan",
+      "title": "Field surveys of Wuhan live-animal markets (May 2017-Nov 2019, pre-pandemic) recorded 47,381 individual animals across 38 species sold live for meat, including SARS-CoV-2-susceptible species such as raccoon dogs and hog badgers at the Huanan market specifically.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-4---47,381-live-animals-of-38-species-sold-at-Wuhan-markets-2017-2019-including-SARS-CoV-2-susceptible-raccoon-dogs-at-Huanan"
+    },
+    {
+      "id": "O-5",
+      "type": "observation",
+      "label": "O-5 - No bats or pangolins recorded on sale at any surveyed Wuhan market",
+      "title": "No pangolins and no bats were recorded on sale at any of the surveyed Wuhan markets across the 2017-2019 census.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-5---No-bats-or-pangolins-recorded-on-sale-at-any-surveyed-Wuhan-market"
+    },
+    {
+      "id": "O-8",
+      "type": "observation",
+      "label": "O-8 - BANAL-52 bat sarbecovirus from Laos is 96.8% identical to SARS-CoV-2, closer than RaTG13",
+      "title": "BANAL-52, one of three sarbecoviruses (with BANAL-103, -236) sampled from Rhinolophus bats in northern Laos, is 96.8% identical to SARS-CoV-2 across the genome, closer than RaTG13's 96.2%; different BANAL genomes are each closest to SARS-CoV-2 across different spike sub-regions (mosaic spike).",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-8---BANAL-52-bat-sarbecovirus-from-Laos-is-96.8-percent-identical-to-SARS-CoV-2,-closer-than-RaTG13"
+    },
+    {
+      "id": "O-9",
+      "type": "observation",
+      "label": "O-9 - BANAL-236 RBD binds human ACE2 like SARS-CoV-2 and the virus replicates in human cells in vitro",
+      "title": "BANAL-236's receptor-binding domain binds human ACE2 with affinity similar to SARS-CoV-2's, and the virus replicates in human cells in vitro.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/O-9---BANAL-236-RBD-binds-human-ACE2-like-SARS-CoV-2-and-the-virus-replicates-in-human-cells-in-vitro"
+    },
+    {
+      "id": "O-3",
+      "type": "observation",
+      "label": "O-3 - Huanan market closed and disinfected from 1 Jan 2020 with animal sampling only from 18 Jan",
+      "title": "The Huanan market was closed and disinfection begun on 1 Jan 2020 with CDC environmental swabbing starting the same day; animal-material sampling began only on 18 Jan 2020, over two weeks later.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/orphan/O-3---Huanan-market-closed-and-disinfected-from-1-Jan-2020-with-animal-sampling-only-from-18-Jan"
+    },
+    {
+      "id": "O-6",
+      "type": "observation",
+      "label": "O-6 - RaTG13 bat sarbecovirus from Yunnan is 96.2% identical to SARS-CoV-2 across the genome",
+      "title": "RaTG13, a sarbecovirus sequenced from a Rhinolophus affinis bat in Yunnan, is 96.2% identical to SARS-CoV-2 across the whole genome, the closest known relative at the time of publication.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/orphan/O-6---RaTG13-bat-sarbecovirus-from-Yunnan-is-96.2-percent-identical-to-SARS-CoV-2-across-the-genome"
+    },
+    {
+      "id": "O-7",
+      "type": "observation",
+      "label": "O-7 - Early Wuhan patient genomes place SARS-CoV-2 within the bat sarbecovirus clade",
+      "title": "Full-length SARS-CoV-2 genomes from early Wuhan patients phylogenetically nest within the bat sarbecovirus clade.",
+      "url": "/v1/analysis-tests/covid1/observations-and-facts/orphan/O-7---Early-Wuhan-patient-genomes-place-SARS-CoV-2-within-the-bat-sarbecovirus-clade"
+    },
+    {
+      "id": "S-11",
+      "type": "source",
+      "label": "S-11 - Zhou 2020 Nature - first report of RaTG13, SARS-CoV-2's closest known bat-coronavirus relative at the time",
+      "title": "S-11 - Zhou 2020 Nature - first report of RaTG13, SARS-CoV-2's closest known bat-coronavirus relative at the time",
+      "url": "/v1/analysis-tests/covid1/sources/S-11---Zhou-2020-Nature---first-report-of-RaTG13,-SARS-CoV-2's-closest-known-bat-coronavirus-relative-at-the-time",
+      "trust": 0.85
+    },
+    {
+      "id": "S-12",
+      "type": "source",
+      "label": "S-12 - Temmam 2022 Nature - BANAL bat coronaviruses from Laos are SARS-CoV-2's closest known relatives and infect human cells",
+      "title": "S-12 - Temmam 2022 Nature - BANAL bat coronaviruses from Laos are SARS-CoV-2's closest known relatives and infect human cells",
+      "url": "/v1/analysis-tests/covid1/sources/S-12---Temmam-2022-Nature---BANAL-bat-coronaviruses-from-Laos-are-SARS-CoV-2's-closest-known-relatives-and-infect-human-cells",
+      "trust": 0.8
+    },
+    {
+      "id": "S-15",
+      "type": "source",
+      "label": "S-15 - DEFUSE proposal 2018 - leaked EcoHealth Alliance-WIV DARPA grant application proposing furin cleavage site insertion into bat coronaviruses",
+      "title": "S-15 - DEFUSE proposal 2018 - leaked EcoHealth Alliance-WIV DARPA grant application proposing furin cleavage site insertion into bat coronaviruses",
+      "url": "/v1/analysis-tests/covid1/sources/S-15---DEFUSE-proposal-2018---leaked-EcoHealth-Alliance-WIV-DARPA-grant-application-proposing-furin-cleavage-site-insertion-into-bat-coronaviruses",
+      "trust": 0.8
+    },
+    {
+      "id": "S-2",
+      "type": "source",
+      "label": "S-2 - Liu 2023 Nature - China CDC environmental and animal surveillance at the Huanan market",
+      "title": "S-2 - Liu 2023 Nature - China CDC environmental and animal surveillance at the Huanan market",
+      "url": "/v1/analysis-tests/covid1/sources/S-2---Liu-2023-Nature---China-CDC-environmental-and-animal-surveillance-at-the-Huanan-market",
+      "trust": 0.72
+    },
+    {
+      "id": "S-4",
+      "type": "source",
+      "label": "S-4 - Xiao et al. 2021 Scientific Reports - Wildlife species sold live at Wuhan markets 2017-2019",
+      "title": "S-4 - Xiao et al. 2021 Scientific Reports - Wildlife species sold live at Wuhan markets 2017-2019",
+      "url": "/v1/analysis-tests/covid1/sources/S-4---Xiao-et-al.-2021-Scientific-Reports---Wildlife-species-sold-live-at-Wuhan-markets-2017-2019",
+      "trust": 0.8
+    },
+    {
+      "id": "S-1",
+      "type": "source",
+      "label": "S-1 - Worobey 2022 Science - Huanan market case geolocation identifies it as the COVID-19 pandemic's early epicenter",
+      "title": "S-1 - Worobey 2022 Science - Huanan market case geolocation identifies it as the COVID-19 pandemic's early epicenter",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-1---Worobey-2022-Science---Huanan-market-case-geolocation-identifies-it-as-the-COVID-19-pandemic's-early-epicenter",
+      "trust": 0.58
+    },
+    {
+      "id": "S-10",
+      "type": "source",
+      "label": "S-10 - Segreto & Deigin 2021 BioEssays - argues SARS-CoV-2's chimeric structure and furin site do not rule out a laboratory origin",
+      "title": "S-10 - Segreto & Deigin 2021 BioEssays - argues SARS-CoV-2's chimeric structure and furin site do not rule out a laboratory origin",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-10---Segreto--and--Deigin-2021-BioEssays---argues-SARS-CoV-2's-chimeric-structure-and-furin-site-do-not-rule-out-a-laboratory-origin",
+      "trust": 0.3
+    },
+    {
+      "id": "S-13",
+      "type": "source",
+      "label": "S-13 - Pekar, Worobey, Wertheim et al. 2022 Science - lineage A and B imply at least two independent zoonotic spillovers",
+      "title": "S-13 - Pekar, Worobey, Wertheim et al. 2022 Science - lineage A and B imply at least two independent zoonotic spillovers",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-13---Pekar,-Worobey,-Wertheim-et-al.-2022-Science---lineage-A-and-B-imply-at-least-two-independent-zoonotic-spillovers",
+      "trust": 0.6
+    },
+    {
+      "id": "S-14",
+      "type": "source",
+      "label": "S-14 - Bruttel, Washburne & VanDongen 2022 bioRxiv preprint - restriction-site pattern argued to be a synthetic-assembly fingerprint",
+      "title": "S-14 - Bruttel, Washburne & VanDongen 2022 bioRxiv preprint - restriction-site pattern argued to be a synthetic-assembly fingerprint",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-14---Bruttel,-Washburne--and--VanDongen-2022-bioRxiv-preprint---restriction-site-pattern-argued-to-be-a-synthetic-assembly-fingerprint",
+      "trust": 0.2
+    },
+    {
+      "id": "S-16",
+      "type": "source",
+      "label": "S-16 - US House Select Subcommittee on the Coronavirus Pandemic final report, Dec. 2024 - concludes COVID-19 most likely emerged from a WIV lab",
+      "title": "S-16 - US House Select Subcommittee on the Coronavirus Pandemic final report, Dec. 2024 - concludes COVID-19 most likely emerged from a WIV lab",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-16---US-House-Select-Subcommittee-on-the-Coronavirus-Pandemic-final-report,-Dec.-2024---concludes-COVID-19-most-likely-emerged-from-a-WIV-lab",
+      "trust": 0.45
+    },
+    {
+      "id": "S-17",
+      "type": "source",
+      "label": "S-17 - Bostickson & Demaneuf (DRASTIC) 2021 - investigation into WIV virus databases taken offline in 2019",
+      "title": "S-17 - Bostickson & Demaneuf (DRASTIC) 2021 - investigation into WIV virus databases taken offline in 2019",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-17---Bostickson--and--Demaneuf-(DRASTIC)-2021---investigation-into-WIV-virus-databases-taken-offline-in-2019",
+      "trust": 0.4
+    },
+    {
+      "id": "S-3",
+      "type": "source",
+      "label": "S-3 - Crits-Christoph, Débarre, Worobey et al. 2024 Cell - Susceptible wildlife DNA co-located with SARS-CoV-2 in Huanan market samples",
+      "title": "S-3 - Crits-Christoph, Débarre, Worobey et al. 2024 Cell - Susceptible wildlife DNA co-located with SARS-CoV-2 in Huanan market samples",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-3---Crits-Christoph,-Débarre,-Worobey-et-al.-2024-Cell---Susceptible-wildlife-DNA-co-located-with-SARS-CoV-2-in-Huanan-market-samples",
+      "trust": 0.6
+    },
+    {
+      "id": "S-5",
+      "type": "source",
+      "label": "S-5 - Bloom 2021 MBE - Recovered deleted early-Wuhan sequences suggest ascertainment bias toward market-linked viruses",
+      "title": "S-5 - Bloom 2021 MBE - Recovered deleted early-Wuhan sequences suggest ascertainment bias toward market-linked viruses",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-5---Bloom-2021-MBE---Recovered-deleted-early-Wuhan-sequences-suggest-ascertainment-bias-toward-market-linked-viruses",
+      "trust": 0.68
+    },
+    {
+      "id": "S-6",
+      "type": "source",
+      "label": "S-6 - WHO-China Joint Report 2021 - Field mission epi-curve and market investigation into the origins of SARS-CoV-2",
+      "title": "S-6 - WHO-China Joint Report 2021 - Field mission epi-curve and market investigation into the origins of SARS-CoV-2",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-6---WHO-China-Joint-Report-2021---Field-mission-epi-curve-and-market-investigation-into-the-origins-of-SARS-CoV-2",
+      "trust": 0.5
+    },
+    {
+      "id": "S-7",
+      "type": "source",
+      "label": "S-7 - Stoyan & Chiu 2024 JRSS-A - Statistical critique of Worobey 2022's market-epicenter proof",
+      "title": "S-7 - Stoyan & Chiu 2024 JRSS-A - Statistical critique of Worobey 2022's market-epicenter proof",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-7---Stoyan--and--Chiu-2024-JRSS-A---Statistical-critique-of-Worobey-2022's-market-epicenter-proof",
+      "trust": 0.65
+    },
+    {
+      "id": "S-8",
+      "type": "source",
+      "label": "S-8 - Reuters 2021 (Dwyer) - China gave WHO team only summary data, not raw line lists, on the 174 earliest COVID-19 cases",
+      "title": "S-8 - Reuters 2021 (Dwyer) - China gave WHO team only summary data, not raw line lists, on the 174 earliest COVID-19 cases",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-8---Reuters-2021-(Dwyer)---China-gave-WHO-team-only-summary-data,-not-raw-line-lists,-on-the-174-earliest-COVID-19-cases",
+      "trust": 0.55
+    },
+    {
+      "id": "S-9",
+      "type": "source",
+      "label": "S-9 - Andersen 2020 Nature Medicine - Proximal Origin argues the furin cleavage site is explicable by natural evolution",
+      "title": "S-9 - Andersen 2020 Nature Medicine - Proximal Origin argues the furin cleavage site is explicable by natural evolution",
+      "url": "/v1/analysis-tests/covid1/sources/non-curated/S-9---Andersen-2020-Nature-Medicine---Proximal-Origin-argues-the-furin-cleavage-site-is-explicable-by-natural-evolution",
+      "trust": 0.6
+    }
+  ],
+  "edges": [
+    {
+      "kind": "argument",
+      "source": "A-1",
+      "target": "O-2"
+    },
+    {
+      "kind": "cites",
+      "source": "A-1",
+      "target": "S-2"
+    },
+    {
+      "kind": "argument",
+      "source": "A-2",
+      "target": "O-5"
+    },
+    {
+      "kind": "cites",
+      "source": "A-2",
+      "target": "S-4"
+    },
+    {
+      "kind": "argument",
+      "source": "A-4",
+      "target": "O-9"
+    },
+    {
+      "kind": "cites",
+      "source": "A-4",
+      "target": "S-12"
+    },
+    {
+      "kind": "argument",
+      "source": "A-5",
+      "target": "O-11"
+    },
+    {
+      "kind": "cites",
+      "source": "A-5",
+      "target": "S-15"
+    },
+    {
+      "kind": "argument",
+      "source": "A-3",
+      "target": "O-6"
+    },
+    {
+      "kind": "cites",
+      "source": "A-3",
+      "target": "S-11"
+    },
+    {
+      "kind": "evidence",
+      "source": "CG-1",
+      "target": "HC-1",
+      "id": "CG-1",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-1---HC-1-joint-over-O-1+O-2",
+      "label": "CG-1",
+      "group": "CG-1",
+      "prior": false,
+      "members": [
+        "E-1",
+        "E-2"
+      ],
+      "likelihood": {
+        "members": [
+          "H-1",
+          "H-5",
+          "H-6"
+        ],
+        "lr": [
+          1.0,
+          0.3,
+          0.55
+        ],
+        "trust": 0.62,
+        "favors": "H-1",
+        "discrimination": 1.204
+      }
+    },
+    {
+      "kind": "evidence",
+      "source": "CG-2",
+      "target": "HC-1",
+      "id": "CG-2",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-2---HC-1-joint-over-O-4+O-5",
+      "label": "CG-2",
+      "group": "CG-2",
+      "prior": false,
+      "members": [
+        "E-3",
+        "E-4"
+      ],
+      "likelihood": {
+        "members": [
+          "H-1",
+          "H-5",
+          "H-6"
+        ],
+        "lr": [
+          1.0,
+          0.6,
+          0.85
+        ],
+        "trust": 0.7,
+        "favors": "H-1",
+        "discrimination": 0.511
+      }
+    },
+    {
+      "kind": "evidence",
+      "source": "CG-3",
+      "target": "HC-1",
+      "id": "CG-3",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-3---HC-1-joint-over-O-8+O-9+O-10",
+      "label": "CG-3",
+      "group": "CG-3",
+      "prior": false,
+      "members": [
+        "E-5",
+        "E-6",
+        "E-7"
+      ],
+      "likelihood": {
+        "members": [
+          "H-1",
+          "H-5",
+          "H-6"
+        ],
+        "lr": [
+          1.0,
+          0.65,
+          0.9
+        ],
+        "trust": 0.7,
+        "favors": "H-1",
+        "discrimination": 0.431
+      }
+    },
+    {
+      "kind": "evidence",
+      "source": "CG-4",
+      "target": "HC-1",
+      "id": "CG-4",
+      "url": "/v1/analysis-tests/covid1/correlation-groups/CG-4---HC-1-joint-over-O-11+O-12",
+      "label": "CG-4",
+      "group": "CG-4",
+      "prior": false,
+      "members": [
+        "E-8",
+        "E-9"
+      ],
+      "likelihood": {
+        "members": [
+          "H-1",
+          "H-5",
+          "H-6"
+        ],
+        "lr": [
+          0.4,
+          1.0,
+          0.45
+        ],
+        "trust": 0.7,
+        "favors": "H-5",
+        "discrimination": 0.916
+      }
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-1",
+      "target": "CG-1",
+      "id": "E-1",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-1---O-1-×-HC-1-—-environmental-positives-cluster-in-the-live-wildlife-section",
+      "label": "E-1",
+      "arguments": [],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-2",
+      "target": "CG-1",
+      "id": "E-2",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-2---O-2-×-HC-1-—-no-animal-origin-sample-at-Huanan-tested-positive",
+      "label": "E-2",
+      "arguments": [
+        "A-1"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-4",
+      "target": "CG-2",
+      "id": "E-3",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-3---O-4-×-HC-1-—-susceptible-live-wildlife-routinely-sold-at-Huanan",
+      "label": "E-3",
+      "arguments": [],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-5",
+      "target": "CG-2",
+      "id": "E-4",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-4---O-5-×-HC-1-—-no-bats-or-pangolins-on-sale-at-Wuhan-markets",
+      "label": "E-4",
+      "arguments": [
+        "A-2"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-8",
+      "target": "CG-3",
+      "id": "E-5",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-5---O-8-×-HC-1-—-closest-natural-relatives-from-Laos-with-a-recombinant-mosaic-spike",
+      "label": "E-5",
+      "arguments": [],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-9",
+      "target": "CG-3",
+      "id": "E-6",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-6---O-9-×-HC-1-—-a-wild-bat-sarbecovirus-already-binds-human-ACE2",
+      "label": "E-6",
+      "arguments": [
+        "A-4"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-10",
+      "target": "CG-3",
+      "id": "E-7",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-7---O-10-×-HC-1-—-closest-natural-relatives-lack-the-furin-cleavage-site",
+      "label": "E-7",
+      "arguments": [],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-11",
+      "target": "CG-4",
+      "id": "E-8",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-8---O-11-×-HC-1-—-DEFUSE-proposed-inserting-furin-cleavage-sites-at-the-WIV",
+      "label": "E-8",
+      "arguments": [
+        "A-5"
+      ],
+      "prior": false
+    },
+    {
+      "kind": "ingroup",
+      "source": "O-12",
+      "target": "CG-4",
+      "id": "E-9",
+      "url": "/v1/analysis-tests/covid1/evidence-links/E-9---O-12-×-HC-1-—-DARPA-rejected-the-DEFUSE-proposal",
+      "label": "E-9",
+      "arguments": [],
+      "prior": false
+    },
+    {
+      "kind": "cites",
+      "source": "H-1",
+      "target": "S-2"
+    },
+    {
+      "kind": "cites",
+      "source": "H-5",
+      "target": "S-15"
+    },
+    {
+      "kind": "cites",
+      "source": "H-3",
+      "target": "S-11"
+    },
+    {
+      "kind": "cites",
+      "source": "H-4",
+      "target": "S-12"
+    },
+    {
+      "kind": "cites",
+      "source": "H-2",
+      "target": "S-4"
+    },
+    {
+      "kind": "review",
+      "source": "review-HC-1",
+      "target": "HC-1"
+    },
+    {
+      "kind": "cites",
+      "source": "O-1",
+      "target": "S-2"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-1",
+      "target": "D-2"
+    },
+    {
+      "kind": "cites",
+      "source": "O-10",
+      "target": "S-12"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-10",
+      "target": "S-12"
+    },
+    {
+      "kind": "cites",
+      "source": "O-11",
+      "target": "S-15"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-11",
+      "target": "S-15"
+    },
+    {
+      "kind": "cites",
+      "source": "O-12",
+      "target": "S-15"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-12",
+      "target": "S-15"
+    },
+    {
+      "kind": "cites",
+      "source": "O-2",
+      "target": "S-2"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-2",
+      "target": "D-2"
+    },
+    {
+      "kind": "cites",
+      "source": "O-4",
+      "target": "S-4"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-4",
+      "target": "S-4"
+    },
+    {
+      "kind": "cites",
+      "source": "O-5",
+      "target": "S-4"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-5",
+      "target": "S-4"
+    },
+    {
+      "kind": "cites",
+      "source": "O-8",
+      "target": "S-12"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-8",
+      "target": "S-12"
+    },
+    {
+      "kind": "cites",
+      "source": "O-9",
+      "target": "S-12"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-9",
+      "target": "S-12"
+    },
+    {
+      "kind": "cites",
+      "source": "O-3",
+      "target": "S-2"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-3",
+      "target": "D-2"
+    },
+    {
+      "kind": "cites",
+      "source": "O-6",
+      "target": "S-11"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-6",
+      "target": "S-11"
+    },
+    {
+      "kind": "cites",
+      "source": "O-7",
+      "target": "S-11"
+    },
+    {
+      "kind": "data-basis",
+      "source": "O-7",
+      "target": "S-11"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-2",
+      "target": "D-2"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-1",
+      "target": "D-3"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-1",
+      "target": "D-2"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-10",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-13",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-14",
+      "target": "D-1"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-3",
+      "target": "D-2"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-7",
+      "target": "D-3"
+    },
+    {
+      "kind": "data-basis",
+      "source": "S-9",
+      "target": "D-1"
+    },
+    {
+      "kind": "member",
+      "source": "HC-1",
+      "target": "H-1"
+    },
+    {
+      "kind": "member",
+      "source": "HC-1",
+      "target": "H-5"
+    },
+    {
+      "kind": "member",
+      "source": "HC-1",
+      "target": "H-6"
+    },
+    {
+      "kind": "aggregate",
+      "source": "HC-1",
+      "target": "MAIN"
+    }
+  ]
+}
