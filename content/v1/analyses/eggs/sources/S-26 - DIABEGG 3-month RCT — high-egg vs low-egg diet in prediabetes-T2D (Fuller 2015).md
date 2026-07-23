@@ -22,7 +22,32 @@ data_basis: ["[[D-3]]"]
 combined_score: 0
 curated: true
 curation_reason: "Coverage-include (combined=0, trust 0.70): DIABEGG RCT, high-egg safe in prediabetes/T2D; sole interventional egg-in-diabetics anchor. Position: egg RCT in diabetics."
+extracted: ["[[O-4 - 3-month high-egg vs low-egg RCT in prediabetes-T2D found no HDL-C difference (mean diff +0.02 mmol-L, P=0.38)]]", "[[O-5 - No between-group difference in total cholesterol, LDL-C, or triglycerides in the 3-month egg RCT]]", "[[O-6 - No between-group difference in glycemic control in the 3-month egg RCT in prediabetes-T2D]]", "[[O-7 - High-egg group reported greater postbreakfast satiety and less hunger despite matched protein]]", "[[H-4 - High egg intake does not harm blood lipids or glycemic control in people with prediabetes-T2D]]", "[[H-5 - Eggs increase satiety and reduce hunger beyond their protein content]]", "[[A-2 - A registered RCT null in the exact at-risk population causally counterweights the cohort harm signal (with a background-diet-match caveat)]]"]
 ---
 **Summary:** Randomized controlled trial in 140 overweight/obese adults with prediabetes or type 2 diabetes, assigned to a high-egg diet (2 eggs/day, 6 days/week, ~12 eggs/week) or a low-egg diet (<2 eggs/week) for 3 months, with matched macronutrient advice (increased MUFA/PUFA). No between-group difference in the primary outcome (change in HDL-C) or in total cholesterol, LDL-C, triglycerides, or glycemic control; the high-egg group reported greater postbreakfast satiety and less hunger despite matched protein intake. This is the first phase of the DIABEGG study (continued to 12 months in the companion follow-up paper).
 
 **Relevance_note:** Direct RCT test, in a T2D/prediabetes population, of the "eggs harm diabetics" hypothesis that observational cohorts raise — the PRO-egg/null anchor for this slice.
+
+## Methodology
+
+Registered RCT (ACTRN12612001266853): 140 overweight/obese adults with prediabetes or type 2 diabetes randomised to a high-egg diet (2 eggs/day, 6 days/week; ~12 eggs/week) or a low-egg diet (<2 eggs/week) for 3 months, embedded in a weight-maintenance program. Both arms received matched macronutrient advice, with a counselled increase in MUFA/PUFA, so the background diet was equalised across arms (a design choice that can blunt a true egg effect). Unblinded, single-site/single-team (Boden Institute, Sydney). Primary outcome: change in HDL-C from screening to 3 months; secondaries: total cholesterol, LDL-C, triglycerides, glycemic control, and appetite ratings. Funding: Australian Egg Corporation (egg-industry funder — a conflict of interest not captured in the step-1 motivatedness note). Depth-limited: exact per-arm secondary values were not recoverable from the accessible abstract/text.
+
+## Results
+
+![[O-4 - 3-month high-egg vs low-egg RCT in prediabetes-T2D found no HDL-C difference (mean diff +0.02 mmol-L, P=0.38)]]
+
+![[O-5 - No between-group difference in total cholesterol, LDL-C, or triglycerides in the 3-month egg RCT]]
+
+![[O-6 - No between-group difference in glycemic control in the 3-month egg RCT in prediabetes-T2D]]
+
+![[O-7 - High-egg group reported greater postbreakfast satiety and less hunger despite matched protein]]
+
+## Interpretation
+
+![[H-4 - High egg intake does not harm blood lipids or glycemic control in people with prediabetes-T2D]]
+
+![[H-5 - Eggs increase satiety and reduce hunger beyond their protein content]]
+
+## Arguments
+
+![[A-2 - A registered RCT null in the exact at-risk population causally counterweights the cohort harm signal (with a background-diet-match caveat)]]

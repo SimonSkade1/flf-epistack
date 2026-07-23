@@ -22,7 +22,23 @@ data_basis: [[S-62]]
 combined_score: -0.32
 curated: true
 curation_reason: "Coverage-include (combined<=0, trust 0.60): Weggemans ApoE-genotype null (largest pool, n=395); the 'for whom (genotype)' disagreement. Position: ApoE genotype."
+extracted: ["[[O-82 - LDL-C response to saturated fat was slightly larger in APOE E3-4 or E4-4 carriers than E3-3]]", "[[O-83 - LDL-C response to cafestol was smaller in APOE E4 carriers (opposite-direction genotype effect)]]", "[[O-81 - APOE genotype did not modify the LDL-C response to dietary cholesterol (or trans-fat) in a pooled n=395 feeding dataset]]", "[[H-36 - APOE genotype by itself does not identify dietary-cholesterol hyper-responders]]", "[[A-28 - Small, CI-crossing genotype effects for fat and cafestol and none for dietary cholesterol imply APOE genotyping has little practical value for identifying diet-responders]]"]
 ---
 Pooled reanalysis of 395 mostly normolipidemic subjects drawn from several earlier controlled-feeding trials, with new APOE genotyping added to the existing phenotype data. LDL-C response to saturated fat was larger (+0.08 mmol/L) in APOE3/4 or E4/4 carriers than in E3/3 carriers; response to the coffee diterpene cafestol was smaller (-0.11 mmol/L) in E4 carriers — an opposite-direction genotype effect. Critically, responses to dietary cholesterol itself and to trans-fat did NOT differ significantly between APOE genotypes in this pooled dataset.
 
 relevance_note: The largest pooled-genotype dataset in this literature directly contradicts the common "ApoE4 carriers hyper-respond to dietary cholesterol" claim for the cholesterol challenge specifically (genotype effects were seen only for fat and cafestol) — a key qualifier/tension for the ApoE thread.
+
+## Methodology
+Pooled reanalysis of 395 mostly normolipidemic subjects drawn from several earlier controlled-feeding trials, with new APOE genotyping added retrospectively to the existing phenotype/response data. Serum-cholesterol/LDL-C responses to four dietary challenges (saturated fat, trans fat, dietary cholesterol, cafestol) were compared between APOE genotype groups (E3/3 vs E3/4 or E4/4). (Depth-limited: full text paywalled; extracted from the complete abstract with effect sizes and 95% CIs plus the step-2 summary.)
+
+## Results
+![[O-82 - LDL-C response to saturated fat was slightly larger in APOE E3-4 or E4-4 carriers than E3-3]]
+
+![[O-83 - LDL-C response to cafestol was smaller in APOE E4 carriers (opposite-direction genotype effect)]]
+
+![[O-81 - APOE genotype did not modify the LDL-C response to dietary cholesterol (or trans-fat) in a pooled n=395 feeding dataset]]
+
+## Discussion
+![[H-36 - APOE genotype by itself does not identify dietary-cholesterol hyper-responders]]
+
+![[A-28 - Small, CI-crossing genotype effects for fat and cafestol and none for dietary cholesterol imply APOE genotyping has little practical value for identifying diet-responders]]

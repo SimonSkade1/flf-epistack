@@ -1,0 +1,9 @@
+---
+id: A-9
+type: argument
+statement: "The least-squares relation ΔSerum-cholesterol = 1.5·(√C2 − √C1), with C in mg cholesterol/1000 kcal, makes serum-cholesterol response a square-root (concave) function of intake, so each additional unit of dietary cholesterol raises serum cholesterol less at higher baseline intakes; at habitual intakes the marginal effect is therefore small."
+source: "[[S-49 - Keys, Anderson & Grande 1965 Metabolism — foundational metabolic-ward dietary-cholesterol dose-response equation]]"
+locator: "Part II, least-squares solution across 19 comparisons"
+affects_observations: ["[[O-28 - Serum cholesterol rises with dietary cholesterol intake in controlled metabolic-ward feeding]]"]
+---
+The fitted model is ΔChol = 1.5·(Z2 − Z1) where Z = √C and C is dietary cholesterol in mg/1000 kcal (corroborated verbatim form; the same term enters the combined Keys equation ΔChol = 1.2·(2ΔS − ΔP) + 1.5·ΔZ). Treating serum cholesterol as f(C) = 1.5·√C, the marginal effect is df/dC = 1.5/(2·√C) = 0.75/√C, which strictly decreases as C rises — this is the mathematical content of "diminishing returns / concavity." Worked illustration: raising C from 100 to 200 mg/1000 kcal gives Δ = 1.5·(√200 − √100) = 1.5·(14.14 − 10.0) = 6.2 units, whereas raising C from 400 to 500 gives Δ = 1.5·(√500 − √400) = 1.5·(22.36 − 20.0) = 3.5 units — a smaller rise for the same 100-unit increment at higher baseline. The inference bears on the feeding observation (O-28): the same data that show cholesterol rising with intake, read through this concave fit, imply that at habitual dietary-cholesterol intakes an extra egg's worth of cholesterol moves serum cholesterol only modestly. The relation is a fitted mathematical form; its validity as a description is what steps 6/8 assess, but the concavity → small-marginal-effect implication is arithmetic given the form.

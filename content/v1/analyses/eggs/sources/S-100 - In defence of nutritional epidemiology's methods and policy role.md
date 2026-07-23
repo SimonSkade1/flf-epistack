@@ -22,7 +22,34 @@ data_basis: []
 combined_score: -0.216
 curated: true
 curation_reason: "Coverage-include (combined<=0, trust 0.62): Satija defence of nutritional-epi methods; balances the critique cluster. Position: methodology defence."
+extracted: ["[[O-100 - Non-differential dietary measurement error attenuates diet-disease associations toward the null]]", "[[O-101 - FFQ nutrient validity coefficients (~0.4-0.7; energy vs DLW r~0.25-0.32) allow measurement-error correction of estimates]]", "[[A-35 - Non-differential, calibratable dietary error biases against not toward positive findings, so measurement error is correctable rather than fatal]]", "[[A-36 - Replication across cohorts with different confounding structures plus sensitivity analysis makes residual confounding an unlikely and bounded explanation]]", "[[A-38 - Reverse causation from subclinical disease is removable by prospective design plus early-follow-up exclusion and lag analyses]]", "[[O-102 - Small relative risks carry large absolute burden- trans fat's +29% IHD risk implies 6,480-12,960 US IHD deaths per year]]", "[[A-37 - Triangulating cohorts with mechanism and intermediate-endpoint trials supports causal inference for policy given hard-endpoint diet RCTs are often infeasible]]", "[[H-41 - The standard critiques of nutritional-cohort epidemiology are manageable, so well-conducted cohorts can support policy-relevant causal dietary inference]]"]
 ---
 A perspective by long-time Harvard cohort investigators responding point-by-point to the standard critiques of nutritional epidemiology (residual confounding, dietary-measurement error, small effect sizes, reverse causation): argues these are manageable design/analysis problems rather than fatal ones, citing replication across multiple large independent cohorts, biomarker-calibration methods that correct for measurement error, and triangulation with mechanistic and trial evidence as together supporting policy-relevant causal inference from well-conducted cohort studies, while granting that RCTs remain preferable where feasible.
 
 relevance_note: The explicit defence-of-cohort-validity counterweight the brief requires against the Ioannidis/Archer critique cluster.
+
+## Extracted (structured summary)
+
+### Measurement error: non-differential attenuation
+![[O-100 - Non-differential dietary measurement error attenuates diet-disease associations toward the null]]
+
+### Measurement error: validity coefficients and calibration
+![[O-101 - FFQ nutrient validity coefficients (~0.4-0.7; energy vs DLW r~0.25-0.32) allow measurement-error correction of estimates]]
+
+### Rebuttal — measurement error is correctable
+![[A-35 - Non-differential, calibratable dietary error biases against not toward positive findings, so measurement error is correctable rather than fatal]]
+
+### Rebuttal — replication across cohorts bounds confounding
+![[A-36 - Replication across cohorts with different confounding structures plus sensitivity analysis makes residual confounding an unlikely and bounded explanation]]
+
+### Rebuttal — reverse causation is removable
+![[A-38 - Reverse causation from subclinical disease is removable by prospective design plus early-follow-up exclusion and lag analyses]]
+
+### Small relative risks, large absolute burden
+![[O-102 - Small relative risks carry large absolute burden- trans fat's +29% IHD risk implies 6,480-12,960 US IHD deaths per year]]
+
+### Rebuttal / thesis — triangulation supports causal inference for policy
+![[A-37 - Triangulating cohorts with mechanism and intermediate-endpoint trials supports causal inference for policy given hard-endpoint diet RCTs are often infeasible]]
+
+### Central defence position
+![[H-41 - The standard critiques of nutritional-cohort epidemiology are manageable, so well-conducted cohorts can support policy-relevant causal dietary inference]]

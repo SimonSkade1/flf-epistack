@@ -1,0 +1,10 @@
+---
+id: A-27
+type: argument
+statement: "Because apolipoprotein B rose ~10% in step with the LDL/total-cholesterol increase, the added egg cholesterol raised the number of circulating apoB-lipoprotein particles, not merely the cholesterol carried per particle — making the lipid shift atherogenically meaningful rather than cosmetic."
+source: "[[S-42 - Ginsberg 1994 Arterioscler Thromb — dose-response of dietary cholesterol-egg feeding on lipoproteins in healthy young men]]"
+locator: "Results; Discussion"
+affects_observations: ["[[O-76 - Fasting LDL cholesterol rose 1.38 mg-dL per 100 mg dietary cholesterol (P-0.001)]]", "[[O-78 - Fasting apolipoprotein B rose ~10% between 0- and 4-egg diets, correlated with total-LDL cholesterol changes]]"]
+affects_hypotheses: ["[[H-34 - Egg-derived dietary cholesterol raises fasting LDL-total cholesterol linearly, roughly +1.4-1.5 mg-dL per 100 mg]]"]
+---
+Each LDL (and VLDL/IDL) particle carries exactly one apolipoprotein B molecule, so plasma apoB concentration is a direct count of atherogenic particle number, whereas LDL-cholesterol can rise either because there are more particles or because each particle is more cholesterol-enriched. Those two routes differ in atherogenicity: particle number (apoB) is the more consistent predictor of cardiovascular risk, since it is the particle count entering and being retained in the arterial wall that drives atherogenesis. In this trial LDL-cholesterol and apoB rose together (apoB +~10% from 0 to 4 eggs, correlated with the cholesterol changes), so the dietary-cholesterol effect is carried by an increase in particle number, not by cholesterol-enrichment of a fixed particle pool. This upgrades the bare LDL-cholesterol slope into a claim that egg cholesterol adds genuinely atherogenic particles, strengthening the dose-response hypothesis's clinical relevance. The step is not automatic — LDL-C can move without apoB — which is exactly why the observed apoB co-movement is informative rather than trivial.

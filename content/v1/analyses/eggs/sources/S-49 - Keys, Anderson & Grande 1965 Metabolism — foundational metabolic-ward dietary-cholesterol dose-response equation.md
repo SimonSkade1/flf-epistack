@@ -22,6 +22,16 @@ data_basis: ["[[S-49]]"]
 combined_score: 0.48
 curated: true
 curation_reason: "Core (rank): Keys metabolic-ward dietary-cholesterol->LDL equation; foundational LDL-up mechanism."
+extracted: ["[[O-28 - Serum cholesterol rises with dietary cholesterol intake in controlled metabolic-ward feeding]]", "[[A-9 - Keys square-root dose-response equation makes the dietary-cholesterol effect concave (diminishing returns)]]"]
 ---
 Part II of Keys, Anderson & Grande's classic metabolic-ward series: controlled feeding experiments in groups of healthy men (22 per arm) across dietary cholesterol intakes of 50-1450 mg/day, combined with comparable data pooled from four other institutions. Least-squares fit across 19 dietary-cholesterol comparisons gave the founding dose-response equation ΔSerum-Cholesterol = 1.5·(√C2 − √C1), where C is dietary cholesterol (mg/1000 kcal) — a square-root (concave, diminishing-returns) relationship, not a linear one. This equation, later folded into the combined Keys and Hegsted equations, is the quantitative backbone the whole feeding-trial tradition builds on.
 relevance_note: The foundational metabolic-ward dose-response equation for dietary cholesterol → serum cholesterol, establishing both that cholesterol raises cholesterol and that the effect is concave/diminishing at higher intake.
+
+## Methodology
+Part II of the Keys/Anderson/Grande metabolic-ward series: controlled feeding in healthy men (~22 per arm at Minnesota) across dietary-cholesterol intakes of ~50-1450 mg/day, pooled with comparable data from four other institutions; the founding dose-response equation is a least-squares fit over 19 dietary-cholesterol comparisons. (Full text not retrieved — 1965, paywalled; extracted from the step-2 summary plus the corroborated equation form.)
+
+## Results
+![[O-28 - Serum cholesterol rises with dietary cholesterol intake in controlled metabolic-ward feeding]]
+
+## Dose-response model
+![[A-9 - Keys square-root dose-response equation makes the dietary-cholesterol effect concave (diminishing returns)]]

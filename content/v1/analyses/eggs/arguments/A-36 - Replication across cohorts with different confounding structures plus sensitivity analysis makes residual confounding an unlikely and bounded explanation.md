@@ -1,0 +1,11 @@
+---
+type: argument
+id: A-36
+statement: "A diet–disease association that replicates across independent cohorts whose confounding structures differ is unlikely to be produced by a single shared unmeasured confounder, and sensitivity analysis bounds how strong such a confounder would have to be — so residual confounding is a quantifiable and often implausible explanation rather than an automatic disqualifier."
+source: "[[S-100 - In defence of nutritional epidemiology's methods and policy role]]"
+locator: "Residual/unmeasured confounding section"
+affects_observations: []
+affects_hypotheses: ["[[H-41 - The standard critiques of nutritional-cohort epidemiology are manageable, so well-conducted cohorts can support policy-relevant causal dietary inference]]"]
+---
+## Reasoning
+A spurious association driven by confounding requires a confounder that is associated with both the exposure and the outcome in the study population. Different populations (e.g. US health professionals vs European or Asian cohorts) have different distributions of, and correlations among, potential confounders — different diets, behaviors, socioeconomic patterns. For the SAME spurious association to appear in all of them, a confounder with the same exposure–outcome structure would have to be present in each, which becomes progressively less plausible as the association replicates across structurally different cohorts. Multivariable adjustment for the major known confounders additionally makes a well-designed cohort approximate a randomized comparison on those measured factors. Finally, sensitivity analysis quantifies the minimum strength an unmeasured confounder would need (with both exposure and outcome) to null the effect, converting the worry into a testable number. The argument bears directly on the meta-hypothesis (confounding manageable) rather than on any single observation. Its valid core: replication across differing confounding structures lowers the posterior on a shared-confounder explanation. Caveat Satija concedes: 'no unmeasured confounding' is not empirically verifiable, so this bounds and reduces but never eliminates the concern — and it fails against a confounder shared across ALL the cohorts (e.g. a common healthy-user bias), which is exactly the residual worry for eggs.

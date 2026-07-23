@@ -22,7 +22,24 @@ data_basis: [[D-14]]
 combined_score: -0.38
 curated: true
 curation_reason: "Coverage-include (combined<=0, trust 0.60): China Kadoorie protective egg->CVD signal; the protective verdict-direction is otherwise unrepresented. Position: Asian protective."
+extracted: ["[[O-8 - China Kadoorie egg intake calibrated to 0.29-0.76 eggs per day across categories]]", "[[O-9 - Daily egg intake associated with 11% lower total CVD incidence in China Kadoorie Biobank]]", "[[O-10 - Daily egg intake associated with lower ischaemic heart disease and major coronary event incidence in China Kadoorie]]", "[[O-11 - Daily egg intake associated with 26% lower haemorrhagic stroke incidence in China Kadoorie, strongest endpoint]]", "[[O-12 - Daily egg intake associated with 10% lower ischaemic stroke incidence in China Kadoorie]]", "[[O-13 - Daily egg intake associated with 18% lower CVD mortality in China Kadoorie]]", "[[H-6 - Moderate egg consumption causally lowers CVD risk in Chinese adults]]", "[[A-3 - Haemorrhagic-stroke-driven benefit limits transfer of China Kadoorie protective signal to Western populations]]", "[[H-7 - Inverse egg-CVD association in China Kadoorie reflects healthy-user confounding not causation]]"]
 ---
-Prospective cohort of 461,213 Chinese adults (China Kadoorie Biobank, ~0.5M total enrolled across 10 regions, recruited 2004-2008), free of prior cancer/CVD/diabetes, median follow-up 8.9 years. Egg consumption assessed via a non-validated qualitative food-frequency questionnaire; daily consumers averaged ~0.76 egg/day. Compared with never/rare consumers, daily egg consumption was associated with lower risk of overall CVD (HR 0.89, 95% CI 0.87-0.92), ischemic heart disease (HR 0.88), major coronary events (HR 0.86), hemorrhagic stroke (HR 0.74), ischemic stroke (HR 0.90), and CVD mortality (HR 0.82), with significant dose-response trends. Authors note Chinese CVD epidemiology (proportionally more hemorrhagic stroke) differs from Western populations, and flag the non-validated dietary instrument, single baseline assessment, absence of >1 egg/day category, and residual confounding as limitations.
+Prospective cohort of 461,213 Chinese adults (China Kadoorie Biobank, ~0.5M total enrolled across 10 regions, recruited 2004-2008), free of prior cancer/CVD/diabetes, median follow-up 8.9 years. Egg consumption assessed via a non-validated qualitative food-frequency questionnaire; daily consumers averaged ~0.76 egg/day. Compared with never/rare consumers, daily egg consumption was associated with lower risk of overall CVD, ischemic heart disease, major coronary events, hemorrhagic stroke, ischemic stroke, and CVD mortality, with significant dose-response trends.
+
+## Methodology
+Prospective cohort of 512,891 adults aged 30-79 from 10 regions (5 urban, 5 rural) of China, recruited 2004-2008; 461,213 eligible after excluding prior cancer/heart disease/stroke/diabetes and missing BMI. Median follow-up 8.9 y (3.9M person-years to 31 Dec 2015). Egg intake by a laptop-based single-baseline qualitative FFQ (categories never/rarely, 1-3 days/month, 1-3 days/week, 4-6 days/week, daily) covering the prior 12 months; usual amounts calibrated from a 2013-14 resurvey. Outcomes (CVD I00-I99, IHD I20-I25, haemorrhagic stroke I61, ischaemic stroke I63, major coronary events = fatal IHD or non-fatal MI) ascertained via disease/death registries, national health-insurance linkage, and active follow-up. Stratified Cox models (strata: survey site, 5-year birth cohort; attained age as timescale); fully-adjusted Model 3 covariates: age, sex, education, household income, marital status, alcohol, smoking, physical activity, BMI, waist-hip ratio, prevalent hypertension, aspirin use, family CVD history, multivitamin use, dietary pattern. Linear trend by category midpoints. Prespecified stratified analyses by sex, age, area, education, income, alcohol, smoking, physical activity, dietary pattern, BMI, hypertension.
+
+## Results
+![[O-8 - China Kadoorie egg intake calibrated to 0.29-0.76 eggs per day across categories]]
+![[O-9 - Daily egg intake associated with 11% lower total CVD incidence in China Kadoorie Biobank]]
+![[O-10 - Daily egg intake associated with lower ischaemic heart disease and major coronary event incidence in China Kadoorie]]
+![[O-11 - Daily egg intake associated with 26% lower haemorrhagic stroke incidence in China Kadoorie, strongest endpoint]]
+![[O-12 - Daily egg intake associated with 10% lower ischaemic stroke incidence in China Kadoorie]]
+![[O-13 - Daily egg intake associated with 18% lower CVD mortality in China Kadoorie]]
+
+## Interpretation
+![[H-6 - Moderate egg consumption causally lowers CVD risk in Chinese adults]]
+![[A-3 - Haemorrhagic-stroke-driven benefit limits transfer of China Kadoorie protective signal to Western populations]]
+![[H-7 - Inverse egg-CVD association in China Kadoorie reflects healthy-user confounding not causation]]
 
 relevance_note: The headline protective/null anchor for Asian populations — the paper the "eggs are fine (or good) in Asia" reading of the literature rests on; directly named in the FLF brief.

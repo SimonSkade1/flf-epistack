@@ -1,0 +1,11 @@
+---
+type: argument
+id: A-35
+statement: "Because dietary under-reporting is largely non-differential (attenuating associations toward the null) and its magnitude is estimable from biomarker-validation studies, energy adjustment and regression/biomarker calibration can recover de-attenuated estimates — so measurement error generally weakens rather than manufactures positive diet–disease associations and is a correctable, not fatal, problem."
+source: "[[S-100 - In defence of nutritional epidemiology's methods and policy role]]"
+locator: "Dietary measurement-error section"
+affects_observations: ["[[O-100 - Non-differential dietary measurement error attenuates diet-disease associations toward the null]]", "[[O-101 - FFQ nutrient validity coefficients (~0.4-0.7; energy vs DLW r~0.25-0.32) allow measurement-error correction of estimates]]"]
+affects_hypotheses: ["[[H-41 - The standard critiques of nutritional-cohort epidemiology are manageable, so well-conducted cohorts can support policy-relevant causal dietary inference]]"]
+---
+## Reasoning
+The critique says FFQ error invalidates cohort diet–disease findings. Satija's rebuttal has two steps. (1) Direction: if the error is non-differential (unrelated to the outcome), classical measurement-error theory guarantees it biases the relative risk toward 1.0, so an observed positive association is if anything an underestimate — the error cannot by itself create a spurious positive. Random within-person day-to-day variation likewise only adds noise/attenuation. (2) Correctability: the error magnitude is not unknown — validation substudies give validity coefficients (~0.4–0.7 for nutrients), and energy adjustment further removes extraneous between-person variation and part of the systematic over/under-reporting; these coefficients feed regression/biomarker calibration to de-attenuate the estimate toward its true value. Hence measurement error is a quantified, correctable design/analysis problem. The argument is valid CONDITIONAL on the error being (approximately) non-differential and describable by a validity coefficient; Satija grants this is an assumption, and it is exactly the assumption that a person-specific, outcome-correlated error component would break — so the argument's force is bounded by how non-differential the real error is.

@@ -1,0 +1,11 @@
+---
+type: argument
+id: A-25
+statement: "Because the meta-analyzed cohort estimates imply individually implausible and jointly incompatible life-expectancy effects — a picture made worse, not rescued, by the attenuation defense — they most parsimoniously reflect cumulative bias rather than causal effects."
+source: "[[S-95 - The case that nutritional-epidemiology cohort methods need radical reform]]"
+locator: "Viewpoint, paragraphs 3-4"
+affects_observations: ["[[O-70 - Taken as lifelong causal, meta-analyzed cohort estimates imply implausible life-expectancy effects including minus 6 years for one egg per day]]", "[[O-69 - Updated cohort meta-analyses find almost all food groups statistically significantly associated with all-cause mortality]]"]
+affects_hypotheses: ["[[H-31 - Nutritional-cohort diet-disease associations reflect cumulative bias and cannot support causal dietary claims]]"]
+---
+## Reasoning
+Take the meta-analyzed cohort hazard ratios at face value as lifelong causal effects. Each then implies a specific life-expectancy change: roughly +1 year per hazelnut (12/day → +12 y), +12 y for 3 cups of coffee, +5 y for a daily mandarin, −6 y for a daily egg, −10 y for two bacon slices. Two problems compound. (i) Individual implausibility: single small daily food increments do not plausibly move survival by 5–12 years, and a −10-year effect "worse than smoking" for two rashers of bacon is biologically incredible. (ii) Joint incompatibility: against a fixed ~80-year baseline these gains and losses cannot all be simultaneously true — the positive effects alone would sum to implausibly long lifespans. A defender might invoke attenuation from non-differential misclassification (true effects even larger); but that makes the estimates MORE implausible (12 hazelnuts → +20–30 y), and there is no guarantee the self-report error is non-differential. Given that almost every food shows a "significant" association, the parsimonious explanation of a body of implausible-yet-ubiquitous associations is that they are dominated by cumulative bias (residual confounding + selective reporting), not causal signal. This is an inference to the best explanation with a valid internal step: if the estimates were causal they would have to be jointly consistent and biologically plausible, and they are neither.

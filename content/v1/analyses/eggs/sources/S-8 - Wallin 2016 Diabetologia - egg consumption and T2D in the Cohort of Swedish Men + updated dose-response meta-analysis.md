@@ -22,6 +22,20 @@ data_basis: [[D-9]]
 combined_score: 0.175
 curated: true
 curation_reason: "Core (rank): Cohort of Swedish Men egg->T2D null/inverse; European null pole, register outcomes."
+extracted: ["[[O-29 - Cohort of Swedish Men - egg intake and T2D functionally null (p-trend 0.06) with register-based outcomes]]", "[[O-30 - Wallin 12-cohort meta-analysis - overall egg-T2D HR 1.03 per 3 servings per week, non-significant, no nonlinearity]]", "[[O-31 - Wallin meta-analysis US-vs-non-US split - egg-T2D HR 1.18 (US, I2 0%) vs 0.97 (non-US)]]", "[[H-13 - Egg consumption is a marker of the Western dietary pattern that drives T2D, not a causal factor]]", "[[H-14 - Egg-T2D association is positive in US populations but null in non-US (European and Japanese) populations]]", "[[A-10 - US-only egg-T2D signal plus null after cholesterol-protein adjustment supports eggs marking a dietary pattern rather than causing T2D]]"]
 ---
 Primary data: Cohort of Swedish Men (COSM), 39,610 men aged 45-79, followed 1998-2012 (15y) for incident T2D via linked registers; 4,173 cases. Egg intake by FFQ. Compared to <1 egg/week, multivariable HRs were 0.98 (1-2/week), 1.11 (3-4/week), 1.11 (>=5/week), p-trend=0.06 - i.e. a weak, non-significant upward trend, functionally null. The paper also updates the dose-response meta-analysis to 12 prospective cohorts and reports the same US-vs-non-US split later reproduced by Drouin-Chartier 2020: HR per 3 eggs/week was 1.18 (95% CI 1.13-1.24) in 5 US studies (I2=0%) vs 0.97 (95% CI 0.90-1.05) in 7 non-US studies (mix of European + 1 Japanese). Functions as both a European primary (null-ish COSM result) and a second independent statement of the US/non-US heterogeneity.
 relevance_note: large null-to-weak-positive European primary; its meta-analysis is the second independent confirmation (after Tamez 2016) of the US vs non-US split.
+
+## Methodology
+Cohort of Swedish Men (COSM): 39,610 men aged 45-79, single baseline FFQ egg exposure, followed 1998-2012 (15y) for incident T2D captured via linked national registers (4,173 cases). Cox models adjusted for age, BMI, physical activity, education, smoking, total energy, alcohol, coffee, red/processed meat, fish, fruit, vegetables, white bread, fibre and CVD history; a further model added dietary cholesterol and protein. The paper also updates a dose-response meta-analysis to 12 prospective cohorts (287,963 participants, 16,264 cases), stratified into US vs non-US studies and tested for non-linearity.
+
+## Results
+![[O-29 - Cohort of Swedish Men - egg intake and T2D functionally null (p-trend 0.06) with register-based outcomes]]
+![[O-30 - Wallin 12-cohort meta-analysis - overall egg-T2D HR 1.03 per 3 servings per week, non-significant, no nonlinearity]]
+![[O-31 - Wallin meta-analysis US-vs-non-US split - egg-T2D HR 1.18 (US, I2 0%) vs 0.97 (non-US)]]
+
+## Discussion
+![[H-13 - Egg consumption is a marker of the Western dietary pattern that drives T2D, not a causal factor]]
+![[H-14 - Egg-T2D association is positive in US populations but null in non-US (European and Japanese) populations]]
+![[A-10 - US-only egg-T2D signal plus null after cholesterol-protein adjustment supports eggs marking a dietary pattern rather than causing T2D]]

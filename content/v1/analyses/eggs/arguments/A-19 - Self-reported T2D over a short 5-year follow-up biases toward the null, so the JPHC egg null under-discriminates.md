@@ -1,0 +1,10 @@
+---
+id: A-19
+type: argument
+statement: "Because incident T2D was self-reported over only ~5 years, outcome under-ascertainment and non-differential misclassification bias hazard estimates toward the null, so the observed egg-T2D null is consistent both with a true absence of effect and with a modest positive effect masked by low power and measurement error."
+source: "[[S-9 - Kurotani 2014 BJN - cholesterol and egg intakes and T2D risk, Japan Public Health Center-based Prospective Study]]"
+locator: "Methods/limitations (abstract-level extraction)"
+affects_observations: ["[[O-55 - JPHC (Japan) - no association between egg intake and incident T2D in either men or women]]"]
+affects_hypotheses: ["[[H-25 - In Japanese-Asian populations habitual egg consumption does not raise T2D risk]]"]
+---
+Reasoning (A-19): Two design features weaken how strongly this null bears on the Asian-null hypothesis. (1) Outcome ascertainment was self-reported, physician-diagnosed T2D captured over a short ~5-year window. Undiagnosed diabetes is common, and a 5-year window captures few incident cases relative to lifetime risk, so true cases are systematically missed. Non-differential outcome misclassification of this kind attenuates relative-risk estimates toward 1.0. (2) Egg exposure was measured by a single FFQ, adding non-differential exposure misclassification, which likewise biases associations toward the null. Consequently the null point estimate is not strong evidence of exactly zero effect: a modest true positive of the size seen in US cohorts (~14-18% per egg/day) could be diluted below detectability by these two attenuating mechanisms plus limited power (1,165 cases split across two sexes and intake categories). The null still discriminates against a large egg effect in this population, but it is weaker evidence for a precisely null effect than the point estimate alone suggests. This is a bias-direction argument (measurement error toward the null is a standard, near-certain direction), not a claim that a positive effect exists.

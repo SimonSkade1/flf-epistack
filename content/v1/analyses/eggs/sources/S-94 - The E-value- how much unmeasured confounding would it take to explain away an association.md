@@ -22,7 +22,16 @@ data_basis: []
 combined_score: 0.325
 curated: true
 curation_reason: "Core (rank): E-value confounding-quantification tool; methodology-critique (confounding)."
+extracted: ["[[O-57 - The E-value is the minimum RR-scale confounder strength needed to fully explain away an observed association]]", "[[A-20 - The closed-form E-value formula shows small cohort hazard ratios need only modest unmeasured confounding to be explained away]]"]
 ---
 Introduces the "E-value": the minimum risk-ratio-scale strength an unmeasured confounder would need with both exposure and outcome, given the measured covariates, to fully explain away an observed exposure-outcome association (or to shift its confidence interval to the null). Provides closed-form formulas and accessible software, proposed as a standard companion statistic for any observational effect estimate — including nutrition-cohort hazard ratios such as those reported for egg intake and CVD/T2D — to make residual/unmeasured confounding (e.g. healthy-user bias) quantitatively assessable rather than a purely qualitative worry.
 
 relevance_note: The general quantitative-bias-analysis tool for gauging how much unmeasured confounding could plausibly explain away any given egg-cohort association.
+
+## Extracted (structured summary)
+
+### The E-value definition
+![[O-57 - The E-value is the minimum RR-scale confounder strength needed to fully explain away an observed association]]
+
+### Closed-form formula and application to cohort magnitudes
+![[A-20 - The closed-form E-value formula shows small cohort hazard ratios need only modest unmeasured confounding to be explained away]]

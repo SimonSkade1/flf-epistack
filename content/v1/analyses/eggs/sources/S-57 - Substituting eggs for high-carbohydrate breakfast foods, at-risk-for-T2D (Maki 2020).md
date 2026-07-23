@@ -22,6 +22,30 @@ data_basis: ["[[S-57 - Substituting eggs for high-carbohydrate breakfast foods, 
 combined_score: -0.232
 curated: true
 curation_reason: "Coverage-include (combined<=0, trust 0.62): Maki adverse-LDL egg-substitution signal; the one counterweight to the null-to-beneficial egg-RCT slice. Position: adverse RCT counterweight."
+extracted: ["[[O-50 - Eggs lowered LDL-C less than an energy-matched high-carb breakfast in metabolic-syndrome-prediabetes adults]]", "[[O-51 - HDL-C, triglycerides, total-non-HDL cholesterol and hs-CRP did not differ between egg and high-carb breakfasts]]", "[[O-52 - HOMA-IR rose far less on the egg breakfast than the high-carb breakfast]]", "[[O-53 - The primary outcome, IVGTT-derived whole-body insulin sensitivity index, did not differ between egg and high-carb breakfasts]]", "[[O-54 - Systolic blood pressure fell more on the egg breakfast than the high-carb breakfast]]", "[[H-19 - Substituting eggs for high-carb breakfast foods improves or does not worsen glycemic-insulin outcomes in adults at risk for T2D]]", "[[H-20 - In dysglycemic adults, replacing high-carb breakfast foods with eggs modestly worsens LDL-C]]", "[[A-15 - Observed egg LDL-C change was far below the dietary-cholesterol dose-response prediction, consistent with yolk phospholipids blunting absorption]]"]
 ---
 **Summary:** Randomized 2-period crossover trial (>=4-week washout) in 30 completers with metabolic syndrome and/or prediabetes (63% with >=3 MetS components), comparing 2 whole eggs/day, 6 days/week (in a ~554-kcal breakfast) against an energy-matched, higher-carbohydrate/higher-sugar non-egg breakfast, each for 4 weeks. LDL-C fell more on the non-egg condition than the egg condition (-6.0% vs -2.9%, P=0.023) — an adverse-leaning signal for eggs on LDL. Conversely, HOMA-IR rose much less on the egg condition (+1.4% vs +24.4% on non-egg, P=0.028) and systolic BP fell more with eggs; HDL-C, triglycerides, and hs-CRP did not differ.
 **Relevance_note:** The clearest ANTI-egg counterweight this slice found: an egg-industry-funded RCT in a disease-defined (metabolic-syndrome/prediabetes) population that itself reports an adverse LDL-C signal for eggs, alongside favorable glycemic/BP signals — a genuinely mixed result rather than a clean pro- or anti-egg finding.
+
+## Methodology
+Randomized two-period crossover with >=4-week washout. 145 screened, 39 randomized, 30 completed both conditions (19 F / 11 M; mean age 54.1 y, BMI 31.9; 63% with >=3 metabolic-syndrome components). Each condition run 4 weeks. Egg condition: 2 whole eggs/day, 6 days/week (12 eggs/week) within a ~554 kcal breakfast (25.8% protein, 41.4% CHO). Non-egg condition: energy-matched (~555 kcal) higher-carbohydrate/higher-sugar breakfast (12.1% protein, 60.4% CHO; +25 g sugar vs egg). Breakfast ~25% of daily energy. No formal multiple-testing correction (authors note type-I-error risk).
+
+## Results — lipids
+![[O-50 - Eggs lowered LDL-C less than an energy-matched high-carb breakfast in metabolic-syndrome-prediabetes adults]]
+
+![[O-51 - HDL-C, triglycerides, total-non-HDL cholesterol and hs-CRP did not differ between egg and high-carb breakfasts]]
+
+## Results — glycemic
+![[O-52 - HOMA-IR rose far less on the egg breakfast than the high-carb breakfast]]
+
+![[O-53 - The primary outcome, IVGTT-derived whole-body insulin sensitivity index, did not differ between egg and high-carb breakfasts]]
+
+## Results — blood pressure
+![[O-54 - Systolic blood pressure fell more on the egg breakfast than the high-carb breakfast]]
+
+## Discussion
+![[H-19 - Substituting eggs for high-carb breakfast foods improves or does not worsen glycemic-insulin outcomes in adults at risk for T2D]]
+
+![[H-20 - In dysglycemic adults, replacing high-carb breakfast foods with eggs modestly worsens LDL-C]]
+
+![[A-15 - Observed egg LDL-C change was far below the dietary-cholesterol dose-response prediction, consistent with yolk phospholipids blunting absorption]]

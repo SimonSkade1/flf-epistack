@@ -22,7 +22,28 @@ data_basis: ["[[S-15]]"]
 combined_score: 0.4
 curated: true
 curation_reason: "Core (rank): PETIT DBRCT, early egg introduction prevents allergy; strongest allergy evidence."
+extracted:
+  - "[[O-20 - Early stepwise heated-egg introduction cut confirmed egg allergy at 12 months to 8% vs 38% placebo in eczema infants (PETIT RCT)]]"
+  - "[[O-21 - Early egg introduction raised hospital admissions (10% vs 0%) though acute-reaction rates were similar between arms (PETIT)]]"
+  - "[[H-10 - Early stepwise egg introduction causally prevents egg allergy in high-risk infants]]"
+  - "[[A-4 - Identical eczema treatment in both arms isolates the causal effect of egg introduction, not eczema management]]"
 ---
 Randomized, double-blind, placebo-controlled trial in 121 infants aged 4-5 months with eczema at two Japanese centers: stepwise introduction of heated whole-egg powder (from 6 months, low then higher dose) plus aggressive eczema treatment, versus placebo powder plus the same eczema treatment. At age 1 year, egg allergy (oral food challenge-confirmed) occurred in 8% of the egg-introduction group versus 38% of placebo — the largest effect size reported to date among egg-early-introduction trials, and (unlike the STAR trial) achieved with an escalating heated-egg protocol and close eczema management, without excess adverse reactions.
 
 relevance_note: The most robust primary RCT evidence that early, controlled egg introduction actively prevents egg allergy in a high-risk population (infants with eczema) rather than merely being safe — central to the allergy/early-introduction thread's benefit side.
+
+## Methodology
+
+Randomised, double-blind, placebo-controlled trial (preregistered UMIN000008673) at two Japanese centres. 121 infants aged 4-5 months with eczema were randomised 1:1 (block size 4, stratified by institution and sex, allocation concealed, participants and physicians masked) to early egg introduction versus placebo. The egg group consumed 50 mg/day heated whole-egg powder from 6-9 months, then 250 mg/day until 12 months; both groups received aggressive eczema treatment maintained without exacerbation throughout. Primary outcome: proportion with hen's-egg allergy confirmed by standardised, blinded open oral food challenge at 12 months, in all randomised participants who received the intervention. The trial was stopped early at a scheduled interim analysis of 100 participants.
+
+## Results
+
+![[O-20 - Early stepwise heated-egg introduction cut confirmed egg allergy at 12 months to 8% vs 38% placebo in eczema infants (PETIT RCT)]]
+
+![[O-21 - Early egg introduction raised hospital admissions (10% vs 0%) though acute-reaction rates were similar between arms (PETIT)]]
+
+## Interpretation
+
+![[H-10 - Early stepwise egg introduction causally prevents egg allergy in high-risk infants]]
+
+![[A-4 - Identical eczema treatment in both arms isolates the causal effect of egg introduction, not eczema management]]
