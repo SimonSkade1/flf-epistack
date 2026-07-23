@@ -44,6 +44,7 @@ export const defaultContentPageLayout: PageLayout = {
   ],
   right: [
     Component.Graph(),
+    Component.ModelGraphButton(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],
@@ -75,6 +76,7 @@ export const defaultListPageLayout: PageLayout = {
   // likely submission entry point) shows the graph view the site is selling.
   right: [
     Component.Graph(),
+    Component.ModelGraphButton(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],

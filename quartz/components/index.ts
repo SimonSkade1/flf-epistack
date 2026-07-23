@@ -24,8 +24,10 @@ import Breadcrumbs from "./Breadcrumbs"
 import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
+import ModelGraphButton from "./ModelGraphButton"
 
 export {
+  ModelGraphButton,
   ArticleTitle,
   Content,
   TagContent,

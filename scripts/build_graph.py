@@ -145,17 +145,49 @@ def run_model(analysis_dir):
     return m
 
 
-def build_slug_map(content_index_path, content_root):
-    """filePath (content-relative, no .md) -> '/'+slug, from contentIndex.json."""
+def sluggify(s):
+    """Replicates Quartz's sluggify (quartz/util/path.ts). Verified against a
+    full build's contentIndex: 0 mismatches over 1552 slugs. Computing slugs
+    here (instead of reading contentIndex) lets graphs be generated in one pass,
+    before the Quartz build, so a newly-added analysis needs no bootstrap build."""
+    segs = []
+    for seg in s.split("/"):
+        seg = re.sub(r"\s", "-", seg)
+        seg = seg.replace("&", "-and-").replace("%", "-percent")
+        seg = seg.replace("?", "").replace("#", "")
+        segs.append(seg)
+    return re.sub(r"/$", "", "/".join(segs))
+
+
+def slug_of(rel):
+    """Content-relative file path (e.g. 'v1/.../H-1 - x.md') -> '/' + Quartz slug."""
+    rel = rel.strip("/")
+    if rel.endswith(".md"):
+        rel = rel[:-3]
+    elif rel.endswith(".html"):
+        rel = rel[:-5]
+    slug = sluggify(rel)
+    if slug.endswith("_index"):
+        slug = slug[:-6] + "index"
+    return "/" + slug
+
+
+def verify_slugs(content_index_path, computed):
+    """Cross-check computed node urls against a built contentIndex, if present.
+    Returns list of (id, computed, actual) mismatches (empty = all good)."""
     idx = json.loads(pathlib.Path(content_index_path).read_text())
-    out = {}
+    by_fp = {}
     for slug, meta in idx.items():
         fp = meta.get("filePath")
-        if not fp:
-            continue
-        key = fp[:-3] if fp.endswith(".md") else fp
-        out[key] = "/" + slug
-    return out
+        if fp:
+            key = fp[:-3] if fp.endswith(".md") else fp
+            by_fp[key] = "/" + slug
+    bad = []
+    for rel_noext, url in computed.items():
+        actual = by_fp.get(rel_noext)
+        if actual is not None and actual != url:
+            bad.append((rel_noext, url, actual))
+    return bad
 
 
 def discrimination(lik):
@@ -178,7 +210,7 @@ def main(argv=None):
 
     analysis_dir = pathlib.Path(args.analysis_dir).resolve()
     content_root = (REPO / args.content_root).resolve()
-    slug_map = build_slug_map(REPO / args.content_index, content_root)
+    slug_computed = {}  # rel-noext -> url, for optional contentIndex cross-check
 
     # ---- 1. parse every note into a node -----------------------------------
     nodes = {}  # id -> node dict
@@ -207,7 +239,8 @@ def main(argv=None):
 
         rel = f.relative_to(content_root).as_posix()
         rel_noext = rel[:-3] if rel.endswith(".md") else rel
-        url = slug_map.get(rel_noext)
+        url = slug_of(rel)
+        slug_computed[rel_noext] = url
 
         title = fm.get("statement") or fm.get("title") or f.stem
         if ntype == "main-report":
@@ -372,7 +405,16 @@ def main(argv=None):
             a = [round(x, 4) for x in ref.posterior(hc)]
             b = nodes.get(hc, {}).get("posteriors")
             assert a == b, f"posterior mismatch {hc}: run.py={a} ours={b}"
-        print(f"self-check OK: {len(ref.clusters())} clusters match run.py", file=sys.stderr)
+        idxp = REPO / args.content_index
+        if idxp.exists():
+            bad = verify_slugs(idxp, slug_computed)
+            for r, c, a in bad[:5]:
+                print(f"  slug drift: {r}\n    computed {c}\n    index    {a}", file=sys.stderr)
+            assert not bad, f"{len(bad)} computed slugs disagree with contentIndex"
+            tail = "; slugs match contentIndex"
+        else:
+            tail = " (contentIndex absent; slugs unchecked)"
+        print(f"self-check OK: {len(ref.clusters())} clusters match run.py{tail}", file=sys.stderr)
 
     # ---- 5. write -----------------------------------------------------------
     graph = {
