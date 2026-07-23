@@ -32,7 +32,13 @@ const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined 
   if ("routerIgnore" in a.dataset) return
   const { href } = a
   if (!isLocalUrl(href)) return
-  return { url: new URL(href), scroll: "routerNoscroll" in a.dataset ? false : undefined }
+  const url = new URL(href)
+  // `/static/**` paths are copied assets, not Quartz pages (e.g. the standalone
+  // model-graph viewer and its per-case redirect entries). SPA-fetching them and
+  // morphing their <body> in swallows the redirect and shows a broken page, so
+  // let the browser navigate to them normally.
+  if (url.pathname.startsWith("/static/")) return
+  return { url, scroll: "routerNoscroll" in a.dataset ? false : undefined }
 }
 
 function notifyNav(url: FullSlug) {
