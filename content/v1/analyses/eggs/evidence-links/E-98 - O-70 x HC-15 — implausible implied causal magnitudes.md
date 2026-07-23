@@ -5,6 +5,7 @@ from: "[[O-70 - Taken as lifelong causal, meta-analyzed cohort estimates imply i
 to: "[[HC-15 - Whether nutritional-cohort associations can support causal egg-health claims]]"
 arguments:
   - "[[A-25 - Implausible, mutually incompatible implied effects mark the cohort estimates as bias-driven not causal]]"
+used_for_prior: true
 ---
 ![[O-70 - Taken as lifelong causal, meta-analyzed cohort estimates imply implausible life-expectancy effects including minus 6 years for one egg per day]]
 

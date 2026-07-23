@@ -3,6 +3,7 @@ id: E-99
 type: evidence-link
 from: "[[O-71 - Serum beta-carotene shows a strong protective mortality association in cohorts (RR 0.69) that randomized trials exclude]]"
 to: "[[HC-15 - Whether nutritional-cohort associations can support causal egg-health claims]]"
+used_for_prior: true
 ---
 ![[O-71 - Serum beta-carotene shows a strong protective mortality association in cohorts (RR 0.69) that randomized trials exclude]]
 

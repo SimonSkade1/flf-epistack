@@ -3,6 +3,7 @@ id: E-52
 type: evidence-link
 from: "[[O-70 - Taken as lifelong causal, meta-analyzed cohort estimates imply implausible life-expectancy effects including minus 6 years for one egg per day]]"
 to: "[[HC-1 - Overall net effect of moderate habitual egg intake on cardiovascular disease and mortality]]"
+used_for_prior: true
 arguments:
   - "[[A-25 - Implausible, mutually incompatible implied effects mark the cohort estimates as bias-driven not causal]]"
 ---

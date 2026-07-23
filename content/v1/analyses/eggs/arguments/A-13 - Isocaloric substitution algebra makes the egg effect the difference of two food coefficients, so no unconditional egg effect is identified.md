@@ -6,9 +6,19 @@ source: "[[S-89 - Substitution analysis- replacing eggs with other protein foods
 locator: "Methods (substitution model); Discussion"
 affects_observations: ["[[O-41 - Sign and size of the egg-removal effect depend on the comparator food; eggs rank near processed meat]]"]
 affects_hypotheses: ["[[H-18 - The egg-health effect is a property of the comparator not of eggs alone, so eggs good-or-bad is ill-posed]]"]
+status: approved
+reason_if_not_false: checked
 ---
 In the substitution model Y = a*F1 + b*F2 + covariates, with the total amount of protein foods held fixed, decreasing F1 by one unit while increasing F2 by one unit changes the linear predictor by (b - a). The reported substitution hazard ratio is therefore exp(b - a): the contrast between the two foods' coefficients, not an absolute coefficient for either food.
 
 Consequently the estimated "effect of removing eggs" equals (beta_comparator - beta_eggs) and takes a different value for every comparator - near-null when the comparator is itself unhealthy (processed meat, whose coefficient is close to eggs') and strongly protective when the comparator is healthy (nuts or whole grains, with much lower coefficients). The design never contrasts eggs against a fixed baseline (e.g. total calories or "no egg"), so it cannot estimate an unconditional egg coefficient at all. The authors make the same point concretely: substituting eggs with unprocessed red meat lowers risk yet is not a healthy choice, because red meat is itself harmful.
 
 This is an identity of the linear model, valid regardless of confounding or measurement error, and it converts the ill-posed question "are eggs good or bad" into the well-posed "eggs relative to what."
+
+## Validity (step 6)
+
+status: approved, reason_if_not_false: checked.
+
+Traced the algebra directly. In the constrained model with total protein-food amount held fixed, moving one unit from food F1 to F2 changes the linear predictor by (b − a), so the substitution HR is exp(b − a) — a contrast of two coefficients, not an absolute coefficient for either food. This is a genuine mathematical identity of the compositional/constrained linear model, so the "effect of removing eggs" is comparator-relative by construction, and the reported effect legitimately changes sign and size with the comparator (near-null vs processed meat, protective vs nuts/whole grains).
+
+The one place to check for over-reach is the leap to "this design identifies no *unconditional* egg effect." The statement is scoped to *this design*, and that scope is correct: a food-substitution model with total held fixed contains only among-food contrasts (all coefficients are relative to the omitted reference food), so no comparator-independent egg coefficient is estimable within it. The potential defeater — that a differently specified model (egg adjusted for total energy, i.e. egg vs equivalent energy from the rest of diet) *could* identify a quasi-unconditional effect — does not touch this argument, because the statement only claims non-identification for the substitution design, not in principle. So the step holds as stated. Approved.

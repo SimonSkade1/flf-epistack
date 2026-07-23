@@ -5,6 +5,7 @@ from: "[[O-28 - Serum cholesterol rises with dietary cholesterol intake in contr
 to: "[[HC-6 - Effect of egg-egg-cholesterol intake on the atherogenic blood-lipid profile]]"
 arguments:
   - "[[A-9 - Keys square-root dose-response equation makes the dietary-cholesterol effect concave (diminishing returns)]]"
+used_for_prior: true
 ---
 ![[O-28 - Serum cholesterol rises with dietary cholesterol intake in controlled metabolic-ward feeding]]
 

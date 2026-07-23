@@ -6,7 +6,15 @@ source: "[[S-81 - China-PAR project- U-shaped egg intake vs incident CVD and mor
 locator: "Results (U-shape); Discussion"
 affects_observations: ["[[O-108 - China-PAR U-shaped egg-CVD association lowest at 3 to under 6 eggs per week higher at both extremes]]", "[[O-109 - China-PAR U-shaped egg-mortality association lowest at 3 to under 6 eggs per week]]"]
 affects_hypotheses: ["[[H-44 - An intermediate egg intake of about 3 to 6 per week minimizes CVD and mortality risk with harm at both lower and higher intake]]"]
+status: approved
+reason_if_not_false: checked
 ---
 A monotone dose-response function is either non-increasing or non-decreasing across the whole intake range. The China-PAR estimates place minimum risk at the interior 3-<6 eggs/week category, with risk rising as intake falls to <1/week (CVD HR 1.22; mortality 1.29) and as it rises to >=10/week (CVD 1.39; mortality 1.13). A function that increases on both sides of an interior minimum is by definition non-monotone.
 
 Therefore neither a "more eggs, lower risk" nor a "more eggs, higher risk" linear model can fit these data; any adequate model must be U-shaped (or at least non-monotone). This is a purely logical consequence of the reported category hazard ratios and holds regardless of their causal interpretation - so if these associations are taken at face value, a single linear egg-CVD coefficient is mis-specified for this population.
+
+## Validity (step 6)
+
+status: approved | reason_if_not_false: checked
+
+Traced the load-bearing step directly. Monotone = non-increasing OR non-decreasing across the whole range. The reported category point estimates rise both as intake falls below the interior 3-<6/week minimum (CVD 1.22, mortality 1.29 at <1/week) and as it rises above it (CVD 1.39, mortality 1.13 at >=10/week). A function that increases on both sides of an interior minimum is non-monotone by definition, so no single monotone/linear dose-response can fit. This is a definitional/logical consequence, not a substantive claim. The only candidate undercutting defeater - that overlapping CIs could leave a monotone true function - is disarmed by the argument's explicit conditioning on the point estimates being "taken at face value"; conditional on the premise (the category HRs as reported), non-monotonicity is definitional. Holds as stated.

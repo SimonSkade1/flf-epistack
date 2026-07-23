@@ -6,6 +6,7 @@ to: "[[HC-15 - Whether nutritional-cohort associations can support causal egg-he
 arguments:
   - "[[A-25 - Implausible, mutually incompatible implied effects mark the cohort estimates as bias-driven not causal]]"
   - "[[A-26 - Universal correlation among dietary variables plus unmeasured behavioral confounding and flexible analysis make single-food effects non-identifiable in cohorts]]"
+used_for_prior: true
 ---
 ![[O-69 - Updated cohort meta-analyses find almost all food groups statistically significantly associated with all-cause mortality]]
 

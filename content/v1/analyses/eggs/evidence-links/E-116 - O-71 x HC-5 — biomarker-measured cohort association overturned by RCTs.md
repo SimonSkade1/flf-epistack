@@ -3,6 +3,7 @@ id: E-116
 type: evidence-link
 from: "[[O-71 - Serum beta-carotene shows a strong protective mortality association in cohorts (RR 0.69) that randomized trials exclude]]"
 to: "[[HC-5 - Operative exposure behind the egg-cardiovascular association]]"
+used_for_prior: true
 ---
 ![[O-71 - Serum beta-carotene shows a strong protective mortality association in cohorts (RR 0.69) that randomized trials exclude]]
 
