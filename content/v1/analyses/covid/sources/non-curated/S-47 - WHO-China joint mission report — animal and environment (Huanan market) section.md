@@ -3,7 +3,7 @@ id: S-47
 type: source
 source_type: report
 url: https://www.who.int/docs/default-source/coronaviruse/who-convened-global-study-of-origins-of-sars-cov-2-china-part-joint-report.pdf
-venue: World Health Organization / Chinese National Health Commission (WHO-convened Global Study of the Origins of SARS-CoV-2: China Part)
+venue: "World Health Organization / Chinese National Health Commission (WHO-convened Global Study of the Origins of SARS-CoV-2: China Part)"
 publication_date: 2021-03-30
 citation_count: unknown
 citation_count_asof: 2026-07-23
