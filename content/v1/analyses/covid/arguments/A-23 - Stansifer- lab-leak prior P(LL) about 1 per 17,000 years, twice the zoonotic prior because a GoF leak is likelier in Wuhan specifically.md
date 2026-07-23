@@ -1,0 +1,18 @@
+---
+id: A-23
+type: argument
+statement: "Stansifer estimates the lab-leak prior as P(LL) about 1/17000 from 1/50 (WIV runs DEFUSE-like GoF research; annualized 1/1.7) x 1/2 (a suitable starting virus exists/is found) x 1/2 (research succeeds) x 1/50 (a leak with an outbreak occurs) — about twice the zoonotic prior, because although GoF-leak pandemics are globally far rarer than zoonotic ones, they are concentrated in Wuhan."
+source: "[[S-70 - Judge Eric Stansifer's written decision]]"
+locator: "§7.2 Lab leak prior"
+affects_observations: []
+affects_hypotheses: ["[[H-41 - Natural zoonotic spillover with no research involvement]]"]
+status: approved
+reason_if_not_false: checked
+---
+## reasoning
+Lacking any analogous lab-leak precedent, Stansifer works P(LL) forward from first principles (error-prone, and unlikely to cancel errors in P(Z)). (1) WIV conducting the specific DEFUSE-like research needed: DEFUSE resembles SARS-CoV-2 in parts, but for LL the WIV would have had to execute it alone (losing collaborators who would then know), do the chimera work at WIV rather than UNC/US labs, abandon the SARS-1-related wild viruses DEFUSE specified, use wild-type backbones instead of the deliberately low-pandemic-potential backbones, insert an FCS (no known WIV precedent), and rush a 3.5-year project into far less time. He puts all this at most 1/50, annualized to 1/1.7 (Poisson first-leak over ~1.7 years). (2) A sufficiently dangerous starting virus must exist and be found: 1/2 (weakened from the zoonotic 1/8 because GoF lowers the needed starting danger). (3) Research succeeds: 1/2. (4) A leak that actually seeds an outbreak occurs: at most 1/50 — lab leaks (especially with secondary infections) are very rare; he notes catching covid from an infected colleague at a group dinner is plausibly likelier than from a vial in a fume hood, and Rootclaim itself treats a lab-origin outbreak cluster as too unlikely to note. Product: (1/50)(1/1.7)(1/2)(1/2)(1/50) = 1/17000. Since P(LL)=1/17000 is twice P(Z)=1/32000, the Wuhan-conditioned prior Bayes factor is ~1.88 favoring LL — reflecting that GoF-leak pandemics, though globally rare, disproportionately occur in Wuhan. He flags his own belief that this 2:1 prior is "grossly too high" for LL.
+
+## Validity assessment
+Reconstruction. Two chained inferential steps: (i) a chain-rule decomposition P(LL) = (1/50)(1/1.7)(1/2)(1/2)(1/50) of the annualized rate of a WIV GoF-leak pandemic; (ii) a comparison step P(LL)/P(Z) ≈ 2, interpreted as a Wuhan-conditioned prior Bayes factor favoring LL.
+
+Evaluation (checked). Arithmetic verified: 50 × 1.7 = 85; ×2 = 170; ×2 = 340; ×50 = 17000, so the product is 1/17000. Ratio verified: 32000/17000 = 1.88, i.e. "about twice." Structural check of the interpretation: both priors are annualized rates of a Wuhan-located event — P(Z) is HSM-specific (via A-22's 1/200 HSM factor) and P(LL) is inherently WIV/Wuhan-located — so dividing them yields a legitimate Wuhan-conditioned prior odds; the gloss that GoF-leak pandemics are globally far rarer yet concentrated in Wuhan is the correct reading of what a location-conditioned rate ratio means. Probed for an undercutting defeater: the comparison would fail only if the two rates were on different footings (one global, one local); under the charitable reading both are Wuhan-local rates, so no defeater survives. The 1/1.7 annualization factor is opaque as stated but does not bear on the validity of the multiply-and-compare step. Per Rule 1, the calibration of the individual factors (and Stansifer's own "grossly too high" caveat) is a step-7 magnitude question, not a validity one. Approved; arithmetic and the ratio interpretation traced directly, hence checked.

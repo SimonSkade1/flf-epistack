@@ -1,0 +1,19 @@
+---
+id: A-75
+type: argument
+statement: "The IC verdict is a low-confidence split — 2 agencies lab (moderate/low), 4 natural (low), the rest unresolved — which shows the community as a whole has not resolved the origin; and since the DOE's lab lean rests partly on the continued failure to find a host animal ('absence of evidence') rather than positive lab evidence, the institutional record is only a weak signal, and a weak one in both directions."
+source: "[[S-84 - FBI and DOE 2023 agency-confidence positions on a lab-associated origin]]"
+locator: "NPR interview (agency split; basis for DOE conclusion)"
+affects_observations: ["[[O-49 - The 2021 US IC origins investigation was a split verdict- FBI lab (moderate), four agencies natural (low confidence), DOE then agnostic]]","[[O-53 - The FBI-DOE lab-leaning assessments are classified and self-rated low-moderate confidence; DOE reportedly reached its view via reasoning distinct from the FBI's]]"]
+affects_hypotheses: ["[[H-43 - Research-related origin of a laboratory-manipulated virus (engineered lab leak)]]","[[H-41 - Natural zoonotic spillover with no research involvement]]"]
+status: approved
+reason_if_not_false: checked
+---
+## reasoning
+Three features jointly cap how much the IC record should move either hypothesis. (1) The verdict is genuinely split and self-rated low confidence across the board: the FBI is "moderate," DOE and the four natural-origin agencies are "low," and several agencies remain unresolved — a body with real access that still cannot converge is evidence that the available intelligence is not decisive. (2) The lab conclusion is explicitly "not conclusive": no triggering lab episode has been established and linked to the outbreak. (3) The DOE's reasoning, as reported, leans on the alternative theory's weakness — three years of searching having "never found a host animal" — plus the nature of Wuhan's research, i.e. an absence-of-evidence inference rather than positive evidence of a leak. Absence of a found intermediate host is itself contested (it can reflect limited/blocked sampling in China rather than true absence), so it is a fragile basis. Taken together, the institutional record neither strongly confirms nor refutes either hypothesis; it is a weak signal that modestly favors lab only via the competence-weighting and mildly-informative agency lean, and should not be read as authoritative resolution.
+
+## Validity (step 6)
+
+Reconstruction. Premises: the IC verdict is a self-rated low-confidence split (FBI moderate-lab, DOE low-lab, four low-natural, several unresolved); the lab conclusion is explicitly "not conclusive" (no triggering lab episode established); DOE's lean rests partly on the continued failure to find a host animal (absence-of-evidence) plus the nature of Wuhan research. Load-bearing step: a body with real intelligence access that still cannot converge and rates itself low confidence -> the institutional record has not resolved origin and is only a weak signal, and weak in both directions.
+
+Verdict: approved (checked). Conditional on the premises the inference holds: non-convergence under genuine access plus across-the-board low self-rated confidence is exactly the signature of non-decisive underlying evidence, so treating the record as weak/non-authoritative follows; and flagging DOE's absence-of-a-found-host reasoning as fragile (non-detection can reflect blocked/limited sampling rather than true absence) is a valid undercutter of that sub-basis. Probed defeater: the 4-natural vs 2-lab headcount could be read as a net tilt toward natural rather than symmetric "either way." The argument addresses this by netting the headcount against the competence-weighting of A-73, yielding an approximately weak-both-ways signal with a slight lab tilt — internally consistent and matching its attachment to both H-41 and H-43. No defeater breaks the modest conclusion.

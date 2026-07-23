@@ -1,0 +1,19 @@
+---
+id: A-74
+type: argument
+statement: "Because US intelligence assessments draw on a common pool of classified human/signals intelligence and are politically salient, the FBI's and DOE's lab-leaning positions are not fully independent corroboration (shared-sourcing and agency-groupthink risk); WSJ's report that the DOE reached its conclusion for different reasons than the FBI only partially offsets this, so the two positions should count as materially less than two independent lines of evidence for a lab origin."
+source: "[[S-84 - FBI and DOE 2023 agency-confidence positions on a lab-associated origin]]"
+locator: "NPR interview (shared IC sourcing; DOE's distinct reasoning)"
+affects_observations: ["[[O-47 - In Feb 2023 the DOE shifted to assessing with 'low confidence' that COVID-19 most likely came from a Wuhan lab leak]]","[[O-48 - The FBI has assessed with 'moderate confidence' that COVID-19 most likely came from a lab incident in Wuhan]]","[[O-53 - The FBI-DOE lab-leaning assessments are classified and self-rated low-moderate confidence; DOE reportedly reached its view via reasoning distinct from the FBI's]]"]
+affects_hypotheses: ["[[H-43 - Research-related origin of a laboratory-manipulated virus (engineered lab leak)]]"]
+status: approved
+reason_if_not_false: checked
+---
+## reasoning
+Treating "FBI says lab" and "DOE says lab" as two independent confirmations would double-count if both rest on the same underlying intelligence. The IC assessments share a classified evidence base (human and signals intelligence funneled through overlapping channels), are produced under common political pressure, and are known to move together — the correlated-sourcing / agency-groupthink risk flagged for the D-6 data basis. That common-cause structure means the joint probability of both agencies leaning lab, given a true natural origin, is higher than if they were independent, so the likelihood ratio from "two agencies agree" is smaller than naive independence would give. The one mitigating fact is the WSJ report that the DOE reached its lab lean via reasoning distinct from the FBI's (and, per the interview, partly on the continued absence of a found host animal plus the nature of Wuhan research). Genuinely independent reasoning would restore some corroborative weight — but since both still draw on the same classified pool and neither is public, the mitigation is partial. Net: count the FBI+DOE agreement as less than two independent lines. This is a correlation caveat that step 5 must respect when these positions co-occur with other US-government origin assertions resting on D-6.
+
+## Validity (step 6)
+
+Reconstruction. Premises: the FBI and DOE assessments draw on a shared classified human/signals-intelligence pool, are produced under common political pressure, and are known to move together (common-cause structure); DOE reportedly reached its lean via reasoning distinct from the FBI's. Load-bearing step: shared cause -> the two positions are not independent, so P(both lean lab | natural origin) exceeds the product of marginals, hence the joint likelihood ratio is smaller than naive-independence multiplication gives; the distinct-reasoning fact restores only partial corroborative weight.
+
+Verdict: approved (checked). This is a direct application of probability under a common-cause structure: positive dependence between two indicators shrinks the combined likelihood ratio below the independent product — elementary and traced. Probed defeater: if DOE's reasoning were fully independent of the shared pool, independence would be restored; the argument already concedes this as a partial offset ("materially less than two independent lines," not "one line"), so no defeater overturns the stated conclusion. Whether the sourcing is in fact shared is a truth question for step 8. Approved as stated.

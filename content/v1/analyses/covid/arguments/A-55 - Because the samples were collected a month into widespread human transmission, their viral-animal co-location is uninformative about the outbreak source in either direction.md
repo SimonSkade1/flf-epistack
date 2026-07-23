@@ -1,0 +1,21 @@
+---
+id: A-55
+type: argument
+statement: "The environmental samples were collected around a month after human-to-human SARS-CoV-2 transmission was already widespread in Wuhan, so co-mingling of viral RNA and animal mtDNA cannot reliably identify an infected intermediate host — and, symmetrically, the lack of viral-animal association does not disprove that infected animals were present; late sampling makes this metagenomic co-location a weak, non-decisive instrument about the source in both directions (rather than strictly zero information)."
+source: "[[S-39 - Bloom — Association between SARS-CoV-2 and metagenomic content of Huanan market samples]]"
+locator: "Sections 1 and 3 (Introduction and Discussion, concluding paragraphs)"
+affects_observations: ["[[O-50 - Across market samples SARS-CoV-2 abundance correlates most with fish and livestock mtDNA (bass, catfish, cow, carp, snakehead) and negatively with raccoon dog and bamboo rat]]", "[[O-51 - Of 14 samples dominated by raccoon-dog mtDNA only one contained any SARS-CoV-2 read (1 of ~2.1x10^8); all six bamboo-rat-dominated samples had zero]]"]
+status: corrected
+reason_if_not_false: checked
+---
+This is the meta-level caveat that bounds Bloom's own negative result. By the time the market was sampled (January-March 2020), the market had been an active human-transmission setting, so viral RNA on surfaces overwhelmingly reflects human deposition and post-hoc contamination rather than the original spillover event; a correlation (or its absence) between viral reads and a species' mtDNA in such samples is a weak instrument. Hence: (i) a positive co-location would not prove the co-located animal was the source (it could be human-deposited virus on animal-rich surfaces), and (ii) the observed absence of a raccoon-dog association does not prove raccoon dogs were uninfected — infected animals could have been removed before sampling, or their RNA could have decayed over the intervening weeks. The correct conclusion is symmetric agnosticism: this particular metagenomic co-location analysis does not settle whether an animal at the market was infected. This blocks the inference in S-35 from co-location to animal infection, while equally blocking any inference from Bloom's null to animal non-infection.
+
+## Verdict (step 6) — corrected, checked
+
+Reconstruction. Premise: sampling (Jan-Mar 2020) postdates widespread human transmission by ~a month, so surface viral RNA is dominated by human deposition and post-hoc contamination. Load-bearing step: therefore the viral–mtDNA co-location analysis is a confounded instrument in *both* directions — (i) a positive co-location need not indicate an infected animal (human-deposited virus can land on animal-rich surfaces), and (ii) a null association need not indicate uninfected animals (removal before sampling, RNA decay).
+
+Evaluation, conditional on the premise. Both directional legs are valid: human-deposition confounding genuinely severs co-location→animal-source, and artifact/decay/removal genuinely severs null→animal-non-infection. The symmetric-agnosticism structure holds. The surviving defeater is only against the *degree*: "uninformative in either direction" asserts a likelihood ratio of exactly 1, which is too strong — a sufficiently strong, spatially-resolved co-location (e.g. virus concentrated at specific susceptible-animal stalls, as Crits-Christoph argue) would still shift beliefs, so the instrument is weak, not null. The argument's own body says "weak instrument" and "does not settle," which is the immune form. Corrected the statement from "uninformative either way" to "weak, non-decisive instrument in both directions (rather than strictly zero information)"; the "cannot reliably identify" and "does not disprove" clauses were already valid and are retained. Traced directly — checked.
+
+## Original
+
+Because the samples were collected around a month after human-to-human SARS-CoV-2 transmission was already widespread in Wuhan, so co-mingling of viral RNA and animal mtDNA cannot reliably identify an infected intermediate host — and, symmetrically, the lack of viral-animal association does not disprove that infected animals were present; the data are uninformative about the source either way.

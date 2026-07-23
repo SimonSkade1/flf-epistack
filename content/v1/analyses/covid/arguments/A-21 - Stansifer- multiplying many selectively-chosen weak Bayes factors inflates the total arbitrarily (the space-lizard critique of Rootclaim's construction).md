@@ -1,0 +1,18 @@
+---
+id: A-21
+type: argument
+statement: "Stansifer shows that naively multiplying many weak Bayes factors (each ~2) drawn from selectively-noticed anomalies can produce an arbitrarily large total in favor of any predetermined conclusion — a transferable critique that Rootclaim's large lab-leak Bayes factors are likely inflated by this mechanism."
+source: "[[S-70 - Judge Eric Stansifer's written decision]]"
+locator: "§3 'Lies, damned lies, and how to get large numbers by taking powers of 2'"
+affects_observations: []
+affects_hypotheses: ["[[H-41 - Natural zoonotic spillover with no research involvement]]"]
+status: approved
+reason_if_not_false: checked
+---
+## reasoning
+Stansifer illustrates a systematic failure mode of decompose-and-multiply Bayesian analyses. Suppose you wish to prove a person is "secretly a lizard from space" and collect 100 pieces of evidence: even if each anomalous-looking item is only a ~2:1 coincidence, 50 such weak factors give a total Bayes factor of 2^50, overwhelming any prior. Because analysts tend to notice and include the items that look anomalous under their favored hypothesis (each contributing a Bayes factor >1) while discarding or overlooking the many mundane items (which should carry Bayes factors <1 and would cancel them out), a random walk of selectively-chosen weak factors drifts to near-certainty for whichever conclusion was sought. He formalizes this with a random-walk model: 100 random log-Bayes-factor steps give a final position of variance 100 sigma^2, and keeping only the ~10 most "interesting" (largest-magnitude) items while dropping the ~90 near-neutral ones biases the total toward the desired conclusion (e.g. e^46:1 for "lizardness"). The lesson: a long list of individually-weak, post-hoc, same-direction factors — the structure of Rootclaim's case — is exactly what this bias produces, so its large aggregate lab-leak Bayes factor should be heavily discounted. This is a validity critique of the reasoning supporting the lab-leak hypothesis, not new evidence.
+
+## Validity assessment
+Reconstruction. Premise 1 (general): selectively including anomalies that look surprising under a favored hypothesis (each BF>1) while dropping the mundane items that should carry BF<1 makes a random-walk of log-factors drift toward the sought conclusion regardless of truth. Premise 2 (hidden, charitably surfaced): Rootclaim's construction has that structure — a long list of individually-weak, same-direction, post-hoc factors. Conclusion: its aggregate lab-leak Bayes factor is likely inflated and should be discounted.
+
+Evaluation (checked). The general mechanism is mathematically sound: for i.i.d. log-factor steps the total variance grows ~n·sigma^2, and retaining only the largest-magnitude "interesting" terms is a biased estimator of the true summed log-likelihood-ratio — the selection is the fault, not the multiplication. The transfer step relies on Premise 2, but the statement is hedged to "likely inflated," so it does not require proving Rootclaim actually cherry-picked. Probed for an undercutting defeater: (a) if Rootclaim's factors were properly conditioned (mundane cancelling items included), the critique would not bite — but that denies Premise 2 rather than breaking the reason→conclusion link, and the hedge survives it; (b) tu quoque — the same critique applies to Stansifer's own decompose-and-multiply (A-22/A-23/A-24) — is a consistency complaint, not a defeater of the inference as applied to Rootclaim. No undercutting defeater survives. Approved; the arithmetic/random-walk core is elementary and traced directly, hence checked.
