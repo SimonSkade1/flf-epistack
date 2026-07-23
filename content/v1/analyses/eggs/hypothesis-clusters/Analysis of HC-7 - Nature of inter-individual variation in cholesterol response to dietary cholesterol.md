@@ -1,0 +1,24 @@
+---
+type: cluster-review
+cluster: "[[HC-7 - Nature of inter-individual variation in cholesterol response to dietary cholesterol]]"
+---
+
+#### What the analysis says
+
+The question is the structure of inter-individual variation in plasma-cholesterol response to dietary cholesterol, and whether it can be identified. Members: [[H-1 - Plasma-cholesterol response to dietary cholesterol is highly individualized (hypo- vs hyper-responders)]] (discrete ~31% hyper), [[H-2 - Feedback down-regulation of absorption and synthesis buffers dietary cholesterol in most people]] (mechanism), [[H-35 - Cholesterol responsiveness to dietary cholesterol is a continuous (normally distributed) trait, not a discrete responder-non-responder split]] (continuous), [[H-36 - APOE genotype by itself does not identify dietary-cholesterol hyper-responders]], and residual [[H-55 - Some other responder structure]].
+
+The prior `[0.164, 0.230, 0.328, 0.180, 0.098]` anchored on continuous H-35 (base rate: dose-response traits are continuously distributed, true bimodality rare). The posterior `[0.095, 0.306, 0.375, 0.188, 0.037]` keeps continuous H-35 first, mechanism H-2 close second, ApoE-null H-36 solid, discrete H-1 halved, residual crushed. Movers: O-80 (Ginsberg n=20, "appeared normally distributed"; `H35=1, H1=0.35`, trust 0.8) is what crushes discrete in favour of continuous; CG-23 (McNamara 69/31 split plus rise-tracks-failed-synthesis-suppression; `H2=1, H1=0.8, H35=0.55`, trust 0.65) lifts the mechanism; O-81 (pooled n=395 ApoE null; `H36=1`, trust 0.52) and O-98 (no difference by absorber phenotype; `H2=1`, trust 0.45) support H-36 and H-2. Every edge argues against the residual's noise sub-reading, so H-55 collapses to 0.037.
+
+#### What the model may not capture
+
+The primary discrete-vs-continuous axis is decided mostly by one n=20 study read qualitatively as "normally distributed" — no formal modality test, and n=20 cannot exclude subtle bimodality (the block itself docks trust and notes this). The discrete/continuous verdict rests on thin data. H-2 beats H-1 largely because O-2's synthesis-suppression coupling is priced as H-2's unique prediction, but A-1 (corrected) flags that O-1/O-2 are counted per diet-period, not per subject, so within-person state variation reproduces the same alignment — the mechanism-vs-stable-trait distinction is weaker than the numbers show.
+
+Is the answer on the list? The members mix axes — distributional form (H-1/H-35), mechanism (H-2), identifiability (H-36) — so they are not a clean mutually-exclusive set; the "single best characterization" resolution is a modelling convenience. The likely truth is *several at once*: a continuous trait (H-35) driven by feedback (H-2), untagged by ApoE (H-36), which forcing them to compete understates. An unlisted determinant (a different locus, or gut-microbiome/TMAO) sits in residual H-55 at 0.037, probably underweighted given how little of that space was tested.
+
+#### What would help
+
+Ordered by how much it would move the picture. (1) A large individual-level dataset (n in the hundreds) reporting the *full distribution* of the LDL/total-cholesterol response to a standardized cholesterol challenge, with a formal modality/mixture test — this would settle the discrete-vs-continuous axis (H-1 vs H-35) directly, which currently turns on one n=20 study read qualitatively. *exists, inaccessible* (feeding-trial raw data sit in labs; full response distributions are rarely published, and no single well-powered distributional analysis is curated here). (2) A per-subject (not per-diet-period) re-analysis with a test–retest design that repeats the challenge in the same people — this separates a stable responder *trait* from within-person *state* variation, the exact ambiguity A-1 (corrected) flags for the H-2-vs-H-1 verdict. *does not exist* (would require a purpose-built repeated-challenge study). (3) A modern polygenic-score / GWAS study of dietary-cholesterol responsiveness beyond APOE — NPC1L1, ABCG5/8, and absorption-vs-synthesis markers — bearing on H-36 and shrinking the residual. *unclear* (fragments exist, e.g. the ABCG5 signal in [[H-1 - Plasma-cholesterol response to dietary cholesterol is highly individualized (hypo- vs hyper-responders)]]'s supporting literature, but a comprehensive polygenic model was not located). (4) Whether an unlisted determinant such as the gut-microbiome/TMAO axis modulates the lipid response, which would populate residual H-55 — *does not exist* as tested evidence.
+
+#### Confusions and contradictions
+
+No irreducible conflict. The apparent clash between McNamara's 69/31 split and Ginsberg's normal spread is reconciled by "threshold cut of a continuum," which the model adopts rather than papers over; I will not manufacture a contradiction where the reconciliation is sound.
