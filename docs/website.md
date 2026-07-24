@@ -253,7 +253,7 @@ build-locally-then-rsync:
 ```bash
 cd external-projects/flf-epistack
 
-npm run graphs                          # regenerate model graphs (see below) — before build
+pnpm run graphs                          # regenerate model graphs (see below) — before build
 npx quartz build                        # → public/
 node scripts/check-internal-links.mjs public   # must report 0 broken
 
@@ -292,7 +292,7 @@ Pieces:
    posteriors and likelihood-ratio vectors (so the numbers can never drift from
    the pipeline), and computes Quartz slugs directly (a Python replica of
    `sluggify`, verified against a full build). `--self-check` asserts both.
-2. `scripts/build_all_graphs.py` (`npm run graphs`) — **the thing to run.**
+2. `scripts/build_all_graphs.py` (`pnpm run graphs`) — **the thing to run.**
    Discovers every folder under `content/v1/{analysis-tests,analyses}` that has
    a `main-report` note and (re)generates its `graph-<case>.json`, its viewer
    entry point `quartz/static/model/<case>/`, and `manifest.json`. Skips (with a
@@ -303,7 +303,7 @@ Pieces:
 4. `quartz/components/ModelGraphButton.tsx` — the right-sidebar button (under the
    graph), shown on any page inside an analysis folder that has a `main-report`.
 
-**Regeneration is not automatic on its own — run `npm run graphs` before
+**Regeneration is not automatic on its own — run `pnpm run graphs` before
 `npx quartz build`** (the deploy recipe above does). It needs no code change for
 a new analysis: finish its pipeline so it has a `main-report`, then run those two
 commands — a new `graph-<case>.json`, entry point, and sidebar button all appear.
